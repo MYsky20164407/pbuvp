@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Spatial;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace BasicUwp.DataService.Models {
+namespace BasicUwp.Models
+{
     /// <summary>
     /// 联系人类。
     /// </summary>
-    public class Contact {
+    public class Contact
+    {
         /// <summary>
         /// 主键。
         /// </summary>
