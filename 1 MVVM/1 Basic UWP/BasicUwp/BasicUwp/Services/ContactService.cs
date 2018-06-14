@@ -37,7 +37,8 @@ namespace BasicUwp.Services {
             using (var client = new HttpClient()) {
                 var json = JsonConvert.SerializeObject(contact);
                 await client.PutAsync(ServiceEndpoint + "/" + contact.Id,
-                    new StringContent(json));
+                    new StringContent(json, Encoding.UTF8,
+                        "application/json")); // 如为 new StringContent(json) 则不工作。
             }
         }
     }
