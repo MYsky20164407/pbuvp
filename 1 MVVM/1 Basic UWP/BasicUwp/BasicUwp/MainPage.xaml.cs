@@ -24,5 +24,36 @@ namespace BasicUwp {
         public MainPage() {
             this.InitializeComponent();
         }
+
+        private void RefreshButton_OnClick(object sender, RoutedEventArgs e) {
+            RefreshContainer.RequestRefresh();
+        }
+
+        private async void RefreshContainer_OnRefreshRequested(
+            RefreshContainer sender, RefreshRequestedEventArgs args) {
+            using (var refrechCompletionDeferral = args.GetDeferral()) {
+                var contactService = new ContactService();
+                var contactList = (await contactService.ListAsync()).ToList();
+                MasterListView.ItemsSource = contactList;
+            }
+        }
+
+        private void RefreshVisualizer_OnRefreshStateChanged(
+            RefreshVisualizer sender, RefreshStateChangedEventArgs args) {
+            if (args.NewState == RefreshVisualizerState.Refreshing) {
+                RefreshButton.IsEnabled = false;
+            } else {
+                RefreshButton.IsEnabled = true;
+            }
+        }
+
+        private void MasterListView_OnItemClick(object sender,
+            ItemClickEventArgs e) {
+            // throw new NotImplementedException();
+        }
+
+        private void AdaptiveStates_OnCurrentStateChanged(object sender, VisualStateChangedEventArgs e) {
+            // throw new NotImplementedException();
+        }
     }
 }
