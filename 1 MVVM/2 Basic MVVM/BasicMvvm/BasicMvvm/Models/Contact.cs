@@ -32,7 +32,7 @@ namespace BasicMvvm.Models {
                 }
 
                 _firstName = value;
-                RaisePropertyChanged("FirstName");
+                RaisePropertyChanged(nameof(FirstName));
             }
         }
 
@@ -50,7 +50,7 @@ namespace BasicMvvm.Models {
                 }
 
                 _lastName = value;
-                RaisePropertyChanged("LastName");
+                RaisePropertyChanged(nameof(LastName));
             }
         }
 
