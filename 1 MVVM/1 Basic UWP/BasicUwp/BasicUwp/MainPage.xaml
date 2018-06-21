@@ -1,107 +1,135 @@
-﻿<Page
-    x:Class="BasicUwp.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:BasicUwp"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+﻿<Page x:Class="BasicUwp.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:BasicUwp"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      NavigationCacheMode="Enabled">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary
-                    Source="Templates/ContactTemplate.xaml" />
+                <ResourceDictionary Source="Templates/ContactTemplate.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid>
+    <Grid Name="LayoutRoot"
+          Loaded="LayoutRoot_OnLoaded">
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup
-                x:Name="AdaptiveStates"
-                CurrentStateChanged="AdaptiveStates_OnCurrentStateChanged">
-                <VisualState
-                    x:Name="DefaultState">
+            <VisualStateGroup x:Name="AdaptiveStates"
+                              CurrentStateChanged="AdaptiveStates_OnCurrentStateChanged">
+                <VisualState x:Name="DefaultState">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger
-                            MinWindowWidth="720" />
+                        <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
                 </VisualState>
 
-                <VisualState
-                    x:Name="NarrowState">
+                <VisualState x:Name="NarrowState">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger
-                            MinWindowWidth="0" />
+                        <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
-                    
+
                     <VisualState.Setters>
-                        <Setter Target="MasterColumn.Width" Value="*"></Setter>
-                        <Setter Target="DetailColumn.Width" Value="0"></Setter>
-                        <Setter Target="MasterListView.SelectionMode" Value="None"></Setter>
+                        <Setter Target="MasterColumn.Width"
+                                Value="*" />
+                        <Setter Target="DetailColumn.Width"
+                                Value="0" />
+                        <Setter Target="MasterListView.SelectionMode"
+                                Value="None" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
         <Grid.RowDefinitions>
-            <RowDefinition
-                Height="Auto" />
-            <RowDefinition
-                Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition
-                x:Name="MasterColumn"
-                Width="320" />
-            <ColumnDefinition
-                x:Name="DetailColumn"
-                Width="*" />
+            <ColumnDefinition x:Name="MasterColumn"
+                              Width="320" />
+            <ColumnDefinition x:Name="DetailColumn"
+                              Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock
-            Grid.ColumnSpan="2"
-            Margin="12,8,8,8"
-            Style="{ThemeResource TitleTextBlockStyle}"
-            Text="Contacts" />
+        <TextBlock Grid.ColumnSpan="2"
+                   Margin="12,8,8,8"
+                   Style="{ThemeResource TitleTextBlockStyle}"
+                   Text="Contacts" />
 
-        <Grid
-            Grid.Row="1"
-            Grid.Column="0">
+        <Grid Grid.Row="1"
+              Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition
-                    Height="*" />
-                <RowDefinition
-                    Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <RefreshContainer
-                Name="RefreshContainer"
-                RefreshRequested="RefreshContainer_OnRefreshRequested">
+            <RefreshContainer Name="RefreshContainer"
+                              RefreshRequested="RefreshContainer_OnRefreshRequested">
                 <RefreshContainer.Visualizer>
-                    <RefreshVisualizer
-                        Name="RefreshVisualizer"
-                        RefreshStateChanged="RefreshVisualizer_OnRefreshStateChanged" />
+                    <RefreshVisualizer Name="RefreshVisualizer"
+                                       RefreshStateChanged="RefreshVisualizer_OnRefreshStateChanged" />
                 </RefreshContainer.Visualizer>
 
-                <ListView
-                    Name="MasterListView"
-                    IsItemClickEnabled="True"
-                    ItemClick="MasterListView_OnItemClick"
-                    ItemTemplate="{StaticResource ContactListTemplate}" />
+                <ListView Name="MasterListView"
+                          IsItemClickEnabled="True"
+                          ItemClick="MasterListView_OnItemClick"
+                          ItemTemplate="{StaticResource ContactListTemplate}" />
             </RefreshContainer>
 
-            <CommandBar
-                Grid.Row="1"
-                OverflowButtonVisibility="Collapsed">
-                <AppBarButton
-                    Name="RefreshButton"
-                    Icon="Refresh"
-                    Label="Refresh"
-                    Click="RefreshButton_OnClick" />
+            <CommandBar Grid.Row="1"
+                        OverflowButtonVisibility="Collapsed"
+                        DefaultLabelPosition="Right">
+                <AppBarButton Name="RefreshButton"
+                              Icon="Refresh"
+                              Label="Refresh"
+                              Click="RefreshButton_OnClick" />
             </CommandBar>
         </Grid>
+
+        <StackPanel Name="DetailStackPanel"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    BorderThickness="1,0,0,0"
+                    Padding="24,0"
+                    BorderBrush="{StaticResource SystemControlForegroundBaseLowBrush}">
+            <CommandBar Background="Transparent"
+                        OverflowButtonVisibility="Collapsed"
+                        DefaultLabelPosition="Right">
+                <AppBarButton Name="SaveButton"
+                              Icon="Save"
+                              Label="Save"
+                              Click="SaveButton_OnClick" />
+            </CommandBar>
+
+            <TextBlock Text="First Name"
+                       Margin="0,0,0,4"
+                       Style="{StaticResource CaptionTextBlockStyle}" />
+
+            <TextBox Name="FirstNameTextBox"
+                     TextChanged="FirstNameTextBox_OnTextChanged" />
+
+            <TextBlock Text="Last Name"
+                       Margin="0,12,0,4"
+                       Style="{StaticResource CaptionTextBlockStyle}" />
+
+            <TextBox Name="LastNameTextBox"
+                     TextChanged="LastNameTextBox_OnTextChanged" />
+
+            <TextBlock Text="Preview"
+                       Margin="0,12,0,4"
+                       Style="{StaticResource CaptionTextBlockStyle}" />
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Name="PreviewFirstNameTextBlock"
+                           Style="{StaticResource BaseTextBlockStyle}" />
+                <TextBlock Name="PreviewLastNameTextBlock"
+                           Style="{StaticResource BaseTextBlockStyle}"
+                           Margin="4,0,0,0" />
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>
