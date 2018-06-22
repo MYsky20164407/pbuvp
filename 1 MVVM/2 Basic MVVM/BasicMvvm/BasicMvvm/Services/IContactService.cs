@@ -22,3 +22,4 @@ namespace BasicMvvm.Services {
         /// <param name="contact">要更新的联系人。</param>
         Task UpdateAsync(Contact contact);
     }
+}

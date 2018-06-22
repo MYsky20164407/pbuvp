@@ -10,16 +10,32 @@ using BasicMvvm.Models;
 using BasicMvvm.Services;
 
 namespace BasicMvvm.ViewModels {
+    /// <summary>
+    /// 主页ViewModel类。
+    /// </summary>
     public class MainPageViewModel : INotifyPropertyChanged {
+
+        /// <summary>
+        /// 联系人服务。
+        /// </summary>
         private IContactService _contactService;
 
+        /// <summary>
+        /// 联系人集合。
+        /// </summary>
         public ObservableCollection<Contact> ContactCollection {
             get;
             private set;
         }
 
+        /// <summary>
+        /// 选中的联系人。
+        /// </summary>
         private Contact _selectedContact;
 
+        /// <summary>
+        /// 选中的联系人。
+        /// </summary>
         public Contact SelectedContact {
             get => _selectedContact;
 
@@ -33,12 +49,21 @@ namespace BasicMvvm.ViewModels {
             }
         }
 
+        /// <summary>
+        /// 刷新命令。
+        /// </summary>
         private RelayCommand _listCommand;
 
+        /// <summary>
+        /// 刷新命令。
+        /// </summary>
         public RelayCommand ListCommand =>
             _listCommand ?? (_listCommand =
                 new RelayCommand(async () => { await List(); }));
 
+        /// <summary>
+        /// 执行刷新操作。
+        /// </summary>
         private async Task List() {
             ContactCollection.Clear();
 
@@ -48,8 +73,14 @@ namespace BasicMvvm.ViewModels {
             }
         }
 
+        /// <summary>
+        /// 保存命令。
+        /// </summary>
         private RelayCommand<Contact> _saveCommand;
 
+        /// <summary>
+        /// 保存命令。
+        /// </summary>
         public RelayCommand<Contact> SaveCommand =>
             _saveCommand ?? (_saveCommand = new RelayCommand<Contact>(
                 async contact => {
@@ -57,7 +88,21 @@ namespace BasicMvvm.ViewModels {
                     await service.UpdateAsync(contact);
                 }));
 
-        public MainPageViewModel(IContactService contactService) {
+        /// <summary>
+        /// 详细信息命令。
+        /// </summary>
+        private RelayCommand<Contact> _showDetailsCommand;
+
+        /// <summary>
+        /// 详细信息命令。
+        /// </summary>
+        public RelayCommand<Contact> ShowDetailsCommand =>
+            _showDetailsCommand ?? (_showDetailsCommand =
+                new RelayCommand<Contact>(contact => {
+                    SelectedContact = contact;
+                }));
+
+        public MainPageViewModel(IContactService contactService, INavigationService navigationService) {
             _contactService = contactService;
         }
 

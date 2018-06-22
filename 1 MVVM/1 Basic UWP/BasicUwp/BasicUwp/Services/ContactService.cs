@@ -12,11 +12,19 @@ namespace BasicUwp.Services {
     /// 联系人服务。
     /// </summary>
     public class ContactService : IContactService {
+        /******** 私有变量 ********/
+
         /// <summary>
         /// 服务端点。
         /// </summary>
         private const string ServiceEndpoint =
             "http://localhost:54652/api/Contacts";
+
+        /******** 公开属性 ********/
+
+        /******** 继承方法 ********/
+
+        /******** 公开方法 ********/
 
         /// <summary>
         /// 列出所有联系人。
@@ -41,5 +49,7 @@ namespace BasicUwp.Services {
                         "application/json")); // 如为 new StringContent(json) 则不工作。
             }
         }
+
+        /******** 私有方法 ********/
     }
 }
