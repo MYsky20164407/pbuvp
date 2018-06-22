@@ -14,11 +14,39 @@ namespace BasicMvvm.ViewModels {
     /// 主页ViewModel类。
     /// </summary>
     public class MainPageViewModel : INotifyPropertyChanged {
+        /******** 私有变量 ********/
 
         /// <summary>
         /// 联系人服务。
         /// </summary>
         private IContactService _contactService;
+
+        /// <summary>
+        /// 导航服务。
+        /// </summary>
+        private INavigationService _navigationService;
+
+        /// <summary>
+        /// 选中的联系人。
+        /// </summary>
+        private Contact _selectedContact;
+
+        /// <summary>
+        /// 刷新命令。
+        /// </summary>
+        private RelayCommand _listCommand;
+
+        /// <summary>
+        /// 保存命令。
+        /// </summary>
+        private RelayCommand<Contact> _saveCommand;
+
+        /// <summary>
+        /// 详细信息命令。
+        /// </summary>
+        private RelayCommand<Contact> _showDetailsCommand;
+
+        /******** 公开属性 ********/
 
         /// <summary>
         /// 联系人集合。
@@ -27,11 +55,6 @@ namespace BasicMvvm.ViewModels {
             get;
             private set;
         }
-
-        /// <summary>
-        /// 选中的联系人。
-        /// </summary>
-        private Contact _selectedContact;
 
         /// <summary>
         /// 选中的联系人。
@@ -52,31 +75,9 @@ namespace BasicMvvm.ViewModels {
         /// <summary>
         /// 刷新命令。
         /// </summary>
-        private RelayCommand _listCommand;
-
-        /// <summary>
-        /// 刷新命令。
-        /// </summary>
         public RelayCommand ListCommand =>
             _listCommand ?? (_listCommand =
                 new RelayCommand(async () => { await List(); }));
-
-        /// <summary>
-        /// 执行刷新操作。
-        /// </summary>
-        private async Task List() {
-            ContactCollection.Clear();
-
-            var contacts = await _contactService.ListAsync();
-            foreach (var contact in contacts) {
-                ContactCollection.Add(contact);
-            }
-        }
-
-        /// <summary>
-        /// 保存命令。
-        /// </summary>
-        private RelayCommand<Contact> _saveCommand;
 
         /// <summary>
         /// 保存命令。
@@ -91,22 +92,44 @@ namespace BasicMvvm.ViewModels {
         /// <summary>
         /// 详细信息命令。
         /// </summary>
-        private RelayCommand<Contact> _showDetailsCommand;
-
-        /// <summary>
-        /// 详细信息命令。
-        /// </summary>
         public RelayCommand<Contact> ShowDetailsCommand =>
             _showDetailsCommand ?? (_showDetailsCommand =
                 new RelayCommand<Contact>(contact => {
                     SelectedContact = contact;
+                    _navigationService.NavigateTo(typeof(DetailPage));
                 }));
 
-        public MainPageViewModel(IContactService contactService, INavigationService navigationService) {
+        /******** 继承方法 ********/
+
+        /// <summary>
+        /// INotifyPropertyChanged。
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /******** 公开方法 ********/
+
+        public MainPageViewModel(IContactService contactService,
+            INavigationService navigationService) {
             _contactService = contactService;
+            _navigationService = navigationService;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public MainPageViewModel() : this(new ContactService(),
+            new NavigationService()) { }
+
+        /// <summary>
+        /// 执行刷新操作。
+        /// </summary>
+        private async Task List() {
+            ContactCollection.Clear();
+
+            var contacts = await _contactService.ListAsync();
+            foreach (var contact in contacts) {
+                ContactCollection.Add(contact);
+            }
+        }
+
+        /******** 私有方法 ********/
 
         protected virtual void RaisePropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this,

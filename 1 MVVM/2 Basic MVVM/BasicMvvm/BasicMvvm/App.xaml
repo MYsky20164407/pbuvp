@@ -1,7 +1,11 @@
-﻿<Application
-    x:Class="BasicMvvm.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:BasicMvvm">
-
+﻿<Application x:Class="BasicMvvm.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:BasicMvvm"
+             xmlns:viewModels="using:BasicMvvm.ViewModels">
+    <Application.Resources>
+        <ResourceDictionary>
+            <viewModels:MainPageViewModel x:Key="MainPageViewModel" />
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>
