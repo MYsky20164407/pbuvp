@@ -12,19 +12,27 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using BasicMvvm.ViewModels;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
-namespace BasicMvvm
-{
+namespace BasicMvvm {
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class MainPage : Page
-    {
-        public MainPage()
-        {
+    public sealed partial class MainPage : Page {
+        public MainPage() {
             this.InitializeComponent();
+        }
+
+        private void LoseFocusAppBarButton_OnClick(object sender,
+            RoutedEventArgs e) {
+            var textbox = FocusManager.GetFocusedElement() as TextBox;
+            if (textbox != null) {
+                var binding =
+                    textbox.GetBindingExpression(TextBox.TextProperty);
+                binding.UpdateSource();
+            }
         }
     }
 }

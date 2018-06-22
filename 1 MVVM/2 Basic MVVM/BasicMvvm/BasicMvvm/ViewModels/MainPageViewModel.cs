@@ -112,6 +112,7 @@ namespace BasicMvvm.ViewModels {
             INavigationService navigationService) {
             _contactService = contactService;
             _navigationService = navigationService;
+            ContactCollection = new ObservableCollection<Contact>();
         }
 
         public MainPageViewModel() : this(new ContactService(),

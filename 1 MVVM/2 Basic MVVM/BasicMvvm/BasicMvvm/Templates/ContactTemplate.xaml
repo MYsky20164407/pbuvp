@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DataTemplate x:Key="ContactListTemplate">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding FirstName}"
+                       Style="{StaticResource BaseTextBlockStyle}" />
+            <!-- 不能显示单独一个空格。
+            <TextBlock
+                Text=" &#160; "
+                Style="{ThemeResource BaseTextBlockStyle}" />
+            -->
+            <TextBlock Text="{Binding LastName}"
+                       Style="{StaticResource BaseTextBlockStyle}"
+                       Margin="4,0,0,0" />
+        </StackPanel>
+    </DataTemplate>
+</ResourceDictionary>
