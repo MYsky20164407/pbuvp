@@ -66,9 +66,9 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <RefreshContainer Name="RefreshContainer">
+            <RefreshContainer>
                 <RefreshContainer.Visualizer>
-                    <RefreshVisualizer Name="RefreshVisualizer" />
+                    <RefreshVisualizer />
                 </RefreshContainer.Visualizer>
 
                 <ListView IsItemClickEnabled="True"
@@ -133,7 +133,7 @@
                            Margin="4,0,0,0" />
             </StackPanel>
 
-            <Button Content="Null Button" />
+            <Button Content="Null Button"/>
         </StackPanel>
     </Grid>
 </Page>
