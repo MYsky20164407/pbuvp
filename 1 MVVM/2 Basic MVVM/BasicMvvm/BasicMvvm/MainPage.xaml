@@ -4,6 +4,7 @@
       xmlns:local="using:BasicMvvm"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:userControls="using:BasicMvvm.UserControls"
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       DataContext="{Binding Source={StaticResource MainPageViewModel}}">
@@ -66,16 +67,18 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
+            <!-- RefreshContainer无法直接支持数据绑定。
             <RefreshContainer>
                 <RefreshContainer.Visualizer>
                     <RefreshVisualizer />
-                </RefreshContainer.Visualizer>
-
+                </RefreshContainer.Visualizer>-->
+            <ScrollViewer>
                 <ListView IsItemClickEnabled="True"
                           ItemTemplate="{StaticResource ContactListTemplate}"
                           ItemsSource="{Binding ContactCollection}"
                           SelectedValue="{Binding SelectedContact, Mode=TwoWay}" />
-            </RefreshContainer>
+            </ScrollViewer>
+            <!--</RefreshContainer>-->
 
             <CommandBar Grid.Row="1"
                         OverflowButtonVisibility="Collapsed"
@@ -87,53 +90,16 @@
             </CommandBar>
         </Grid>
 
-        <StackPanel Name="DetailStackPanel"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    BorderThickness="1,0,0,0"
-                    Padding="24,0"
-                    BorderBrush="{StaticResource SystemControlForegroundBaseLowBrush}">
-            <CommandBar Background="Transparent"
-                        OverflowButtonVisibility="Collapsed"
-                        DefaultLabelPosition="Right">
-                <AppBarButton Icon="Save"
-                              Label="Save"
-                              Command="{Binding SaveCommand}"
-                              CommandParameter="{Binding SelectedContact}" />
-                <!-- 点击AppBarButton不会导致TextBox失去焦点，所以就不会执行绑定。 -->
-                <AppBarButton Label="Null AppBarButton" />
-                <!-- 绕过上述问题的方法。 -->
-                <AppBarButton Name="LoseFocusAppBarButton"
-                              Label="Lose Focus AppBarButton"
-                              Click="LoseFocusAppBarButton_OnClick" />
-            </CommandBar>
-
-            <TextBlock Text="First Name"
-                       Margin="0,0,0,4"
-                       Style="{StaticResource CaptionTextBlockStyle}" />
-
-            <!-- 只有焦点移开时才会执行绑定。 -->
-            <TextBox Text="{Binding SelectedContact.FirstName, Mode=TwoWay}" />
-
-            <TextBlock Text="Last Name"
-                       Margin="0,12,0,4"
-                       Style="{StaticResource CaptionTextBlockStyle}" />
-
-            <TextBox Text="{Binding SelectedContact.LastName, Mode=TwoWay}" />
-
-            <TextBlock Text="Preview"
-                       Margin="0,12,0,4"
-                       Style="{StaticResource CaptionTextBlockStyle}" />
-
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding SelectedContact.FirstName, Mode=OneWay}"
-                           Style="{StaticResource BaseTextBlockStyle}" />
-                <TextBlock Text="{Binding SelectedContact.LastName, Mode=OneWay}"
-                           Style="{StaticResource BaseTextBlockStyle}"
-                           Margin="4,0,0,0" />
-            </StackPanel>
-
-            <Button Content="Null Button"/>
-        </StackPanel>
+        <ContentPresenter Grid.Row="1"
+                          Grid.Column="1"
+                          BorderThickness="1,0,0,0"
+                          Padding="24,0"
+                          BorderBrush="{StaticResource SystemControlForegroundBaseLowBrush}">
+            <ContentPresenter.ContentTemplate>
+                <DataTemplate>
+                    <userControls:ContactDetailUserControl />
+                </DataTemplate>
+            </ContentPresenter.ContentTemplate>
+        </ContentPresenter>
     </Grid>
 </Page>

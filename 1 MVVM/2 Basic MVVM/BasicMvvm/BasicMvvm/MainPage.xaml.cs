@@ -25,7 +25,8 @@ namespace BasicMvvm {
             this.InitializeComponent();
         }
 
-        private void LoseFocusAppBarButton_OnClick(object sender,
+        // 绕过点击AppBarButton不会导致TextBox失去焦点问题的方法。
+        /*private void LoseFocusAppBarButton_OnClick(object sender,
             RoutedEventArgs e) {
             var textbox = FocusManager.GetFocusedElement() as TextBox;
             if (textbox != null) {
@@ -33,6 +34,6 @@ namespace BasicMvvm {
                     textbox.GetBindingExpression(TextBox.TextProperty);
                 binding.UpdateSource();
             }
-        }
+        }*/
     }
 }
