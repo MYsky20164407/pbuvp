@@ -7,7 +7,9 @@
       xmlns:userControls="using:BasicMvvm.UserControls"
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-      DataContext="{Binding Source={StaticResource MainPageViewModel}}">
+      DataContext="{Binding Source={StaticResource MainPageViewModel}}"
+      Loaded="DetailPage_OnLoaded"
+      Unloaded="DetailPage_OnUnloaded">
 
     <StackPanel>
         <StackPanel Orientation="Horizontal">

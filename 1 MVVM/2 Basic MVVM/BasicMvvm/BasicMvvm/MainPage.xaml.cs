@@ -11,7 +11,9 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using BasicMvvm.Models;
 using BasicMvvm.ViewModels;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
@@ -35,5 +37,34 @@ namespace BasicMvvm {
                 binding.UpdateSource();
             }
         }*/
+
+        private void AdaptiveStates_OnCurrentStateChanged(object sender,
+            VisualStateChangedEventArgs e) {
+            UpdateForVisualState(e.NewState, e.OldState);
+        }
+
+        private void UpdateForVisualState(VisualState newState,
+            VisualState oldState = null) {
+            var viewModel = (MainPageViewModel) this.DataContext;
+
+            var isNarrow = newState == NarrowState;
+
+            if (isNarrow && oldState == DefaultState &&
+                viewModel.SelectedContact != null) {
+                Frame.Navigate(typeof(DetailPage), null,
+                    new SuppressNavigationTransitionInfo());
+            }
+        }
+
+        private void MasterListView_OnItemClick(object sender,
+            ItemClickEventArgs e) {
+            var viewModel = (MainPageViewModel) this.DataContext;
+            viewModel.SelectedContact = (Contact) e.ClickedItem;
+
+            if (AdaptiveStates.CurrentState == NarrowState) {
+                Frame.Navigate(typeof(DetailPage), null,
+                    new DrillInNavigationTransitionInfo());
+            }
+        }
     }
 }

@@ -18,8 +18,9 @@
 
     <StackPanel>
         <StackPanel Orientation="Horizontal">
-            <Button Style="{StaticResource NavigationBackButtonNormalStyle}"
-                    Click="ButtonBase_OnClick" />
+            <Button Name="BackButton"
+                Style="{StaticResource NavigationBackButtonNormalStyle}"
+                    Click="BackButton_OnClick" />
             <TextBlock Style="{StaticResource TitleTextBlockStyle}"
                        Text="Contact"
                        VerticalAlignment="Center"

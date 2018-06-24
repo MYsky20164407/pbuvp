@@ -21,13 +21,15 @@
     <Page.Background>
         <ThemeResource ResourceKey="ApplicationPageBackgroundThemeBrush" />
     </Page.Background>
+
     <Page.DataContext>
         <Binding Source="{StaticResource MainPageViewModel}" />
     </Page.DataContext>
 
     <Grid x:Name="LayoutRoot">
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="AdaptiveStates">
+            <VisualStateGroup x:Name="AdaptiveStates"
+                              CurrentStateChanged="AdaptiveStates_OnCurrentStateChanged">
                 <VisualState x:Name="DefaultState">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720" />
@@ -85,10 +87,11 @@
                 <RefreshContainer.Visualizer>
                     <RefreshVisualizer />
                 </RefreshContainer.Visualizer>-->
-                <ListView IsItemClickEnabled="True"
+                <ListView Name="MasterListView"
+                          IsItemClickEnabled="True"
                           ItemTemplate="{StaticResource ContactListTemplate}"
                           ItemsSource="{Binding ContactCollection}"
-                          SelectedValue="{Binding SelectedContact, Mode=TwoWay}" />
+                          ItemClick="MasterListView_OnItemClick" />
             </RefreshContainer>
 
             <CommandBar Grid.Row="1"

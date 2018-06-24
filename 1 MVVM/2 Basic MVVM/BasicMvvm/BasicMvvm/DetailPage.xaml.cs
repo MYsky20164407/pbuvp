@@ -56,5 +56,13 @@ namespace BasicMvvm {
         private void BackButton_OnClick(object sender, RoutedEventArgs e) {
             OnBackRequested();
         }
+
+        private void DetailPage_OnLoaded(object sender, RoutedEventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        private void DetailPage_OnUnloaded(object sender, RoutedEventArgs e) {
+            throw new NotImplementedException();
+        }
     }
 }
