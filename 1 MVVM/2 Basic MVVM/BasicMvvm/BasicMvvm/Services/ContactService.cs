@@ -24,8 +24,6 @@ namespace BasicMvvm.Services {
 
         /******** 继承方法 ********/
 
-        /******** 公开方法 ********/
-
         /// <summary>
         /// 列出所有联系人。
         /// </summary>
@@ -33,7 +31,11 @@ namespace BasicMvvm.Services {
         public async Task<IEnumerable<Contact>> ListAsync() {
             using (var client = new HttpClient()) {
                 var json = await client.GetStringAsync(ServiceEndpoint);
-                return JsonConvert.DeserializeObject<Contact[]>(json);
+                var contacts = JsonConvert.DeserializeObject<Contact[]>(json);
+                foreach (var contact in contacts) {
+                    contact.Avatar = "http://localhost:54652" + contact.Avatar;
+                }
+                return contacts;
             }
         }
 
@@ -49,6 +51,8 @@ namespace BasicMvvm.Services {
                         "application/json")); // 如为 new StringContent(json) 则不工作。
             }
         }
+
+        /******** 公开方法 ********/
 
         /******** 私有方法 ********/
     }

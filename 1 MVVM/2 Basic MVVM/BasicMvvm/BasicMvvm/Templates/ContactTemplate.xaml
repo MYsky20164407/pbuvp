@@ -1,17 +1,30 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <DataTemplate x:Key="ContactListTemplate">
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding FirstName}"
-                       Style="{StaticResource BaseTextBlockStyle}" />
-            <!-- 不能显示单独一个空格。
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="56" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Image Width="48"
+                   Height="48"
+                   HorizontalAlignment="Left"
+                   Source="{Binding Avatar}" />
+
+            <StackPanel Grid.Column="1"
+                        Margin="0,4">
+                <TextBlock Text="{Binding FirstName}"
+                           Style="{StaticResource BaseTextBlockStyle}" />
+                <!-- 不能显示单独一个空格。
             <TextBlock
                 Text=" &#160; "
                 Style="{ThemeResource BaseTextBlockStyle}" />
             -->
-            <TextBlock Text="{Binding LastName}"
-                       Style="{StaticResource BaseTextBlockStyle}"
-                       Margin="4,0,0,0" />
-        </StackPanel>
+                <TextBlock Text="{Binding LastName}"
+                           Style="{StaticResource SubtitleTextBlockStyle}" />
+            </StackPanel>
+        </Grid>
+
     </DataTemplate>
 </ResourceDictionary>

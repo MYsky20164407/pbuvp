@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using BasicMvvm.Design;
 using BasicMvvm.Helpers;
 using BasicMvvm.Models;
 using BasicMvvm.Services;
@@ -98,7 +100,16 @@ namespace BasicMvvm.ViewModels {
             ContactCollection = new ObservableCollection<Contact>();
         }
 
-        public MainPageViewModel() : this(new ContactService()) { }
+        public MainPageViewModel() : this(DesignMode.DesignModeEnabled ?
+            (IContactService) new DesignContactService() :
+            new ContactService()) {
+#if DEBUG
+            if (DesignMode.DesignModeEnabled) {
+                List();
+                SelectedContact = ContactCollection[0];
+            }
+#endif
+        }
 
         /// <summary>
         /// 执行刷新操作。
