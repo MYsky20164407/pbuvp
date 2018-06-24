@@ -10,6 +10,11 @@
       DataContext="{Binding Source={StaticResource MainPageViewModel}}"
       Loaded="DetailPage_OnLoaded"
       Unloaded="DetailPage_OnUnloaded">
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
 
     <StackPanel>
         <StackPanel Orientation="Horizontal">

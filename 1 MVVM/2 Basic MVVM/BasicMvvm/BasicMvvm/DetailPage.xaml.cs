@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Core;
+﻿using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
@@ -19,32 +8,63 @@ using Windows.UI.Xaml.Navigation;
 
 namespace BasicMvvm {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class DetailPage : Page {
         public DetailPage() {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
 
-            SystemNavigationManager systemNavigationManager =
+            var systemNavigationManager =
                 SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested += DetailPage_BackRequested;
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
+        protected override void OnNavigatedFrom(NavigationEventArgs e) {
             base.OnNavigatedFrom(e);
 
-            SystemNavigationManager systemNavigationManager =
+            var systemNavigationManager =
                 SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested -= DetailPage_BackRequested;
         }
 
         private void OnBackRequested() {
             Frame.GoBack(new DrillInNavigationTransitionInfo());
+        }
+
+        private void NavigateBackForWideState(bool useTransition) {
+            NavigationCacheMode = NavigationCacheMode.Disabled;
+
+            if (useTransition)
+                Frame.GoBack(new EntranceNavigationTransitionInfo());
+            else
+                Frame.GoBack(new SuppressNavigationTransitionInfo());
+        }
+
+        private bool ShouldGoToWideState() {
+            return Window.Current.Bounds.Width >= 720;
+        }
+
+        private void DetailPage_OnLoaded(object sender, RoutedEventArgs e) {
+            if (ShouldGoToWideState())
+                NavigateBackForWideState(true);
+
+            Window.Current.SizeChanged += Window_SizeChanged;
+        }
+
+        private void DetailPage_OnUnloaded(object sender, RoutedEventArgs e) {
+            Window.Current.SizeChanged -= Window_SizeChanged;
+        }
+
+        private void Window_SizeChanged(object sender,
+            WindowSizeChangedEventArgs e) {
+            if (ShouldGoToWideState()) {
+                Window.Current.SizeChanged -= Window_SizeChanged;
+                NavigateBackForWideState(false);
+            }
         }
 
         private void DetailPage_BackRequested(object sender,
@@ -55,14 +75,6 @@ namespace BasicMvvm {
 
         private void BackButton_OnClick(object sender, RoutedEventArgs e) {
             OnBackRequested();
-        }
-
-        private void DetailPage_OnLoaded(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
-        }
-
-        private void DetailPage_OnUnloaded(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
         }
     }
 }
