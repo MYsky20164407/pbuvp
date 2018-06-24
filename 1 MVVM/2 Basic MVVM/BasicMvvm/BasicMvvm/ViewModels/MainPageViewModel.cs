@@ -22,11 +22,6 @@ namespace BasicMvvm.ViewModels {
         private IContactService _contactService;
 
         /// <summary>
-        /// 导航服务。
-        /// </summary>
-        private INavigationService _navigationService;
-
-        /// <summary>
         /// 选中的联系人。
         /// </summary>
         private Contact _selectedContact;
@@ -89,16 +84,6 @@ namespace BasicMvvm.ViewModels {
                     await service.UpdateAsync(contact);
                 }));
 
-        /// <summary>
-        /// 详细信息命令。
-        /// </summary>
-        public RelayCommand<Contact> ShowDetailsCommand =>
-            _showDetailsCommand ?? (_showDetailsCommand =
-                new RelayCommand<Contact>(contact => {
-                    SelectedContact = contact;
-                    _navigationService.NavigateTo(typeof(DetailPage));
-                }));
-
         /******** 继承方法 ********/
 
         /// <summary>
@@ -108,15 +93,12 @@ namespace BasicMvvm.ViewModels {
 
         /******** 公开方法 ********/
 
-        public MainPageViewModel(IContactService contactService,
-            INavigationService navigationService) {
+        public MainPageViewModel(IContactService contactService) {
             _contactService = contactService;
-            _navigationService = navigationService;
             ContactCollection = new ObservableCollection<Contact>();
         }
 
-        public MainPageViewModel() : this(new ContactService(),
-            new NavigationService()) { }
+        public MainPageViewModel() : this(new ContactService()) { }
 
         /// <summary>
         /// 执行刷新操作。

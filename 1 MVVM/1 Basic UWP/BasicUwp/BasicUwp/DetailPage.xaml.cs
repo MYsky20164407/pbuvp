@@ -111,7 +111,7 @@ namespace BasicUwp {
             OnBackRequested();
         }
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e) {
+        private void BackButton_OnClick(object sender, RoutedEventArgs e) {
             OnBackRequested();
         }
 

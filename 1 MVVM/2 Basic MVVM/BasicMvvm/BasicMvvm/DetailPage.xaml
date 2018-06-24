@@ -4,11 +4,24 @@
       xmlns:local="using:BasicMvvm"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:userControls="using:BasicMvvm.UserControls"
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       DataContext="{Binding Source={StaticResource MainPageViewModel}}">
 
     <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Name="BackButton"
+                    Style="{StaticResource NavigationBackButtonNormalStyle}"
+                    Click="BackButton_OnClick" />
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                       Text="Contact"
+                       VerticalAlignment="Center"
+                       Margin="12,0" />
+        </StackPanel>
 
+        <StackPanel Padding="24,0">
+            <userControls:ContactDetailUserControl />
+        </StackPanel>
     </StackPanel>
 </Page>
