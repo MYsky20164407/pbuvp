@@ -151,6 +151,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Etg.SimpleStubs">
+      <Version>2.4.7</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.5</Version>
     </PackageReference>
