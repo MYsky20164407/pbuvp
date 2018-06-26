@@ -4,8 +4,11 @@
              xmlns:local="using:BasicMvvm"
              xmlns:viewModels="using:BasicMvvm.ViewModels">
     <Application.Resources>
+        <!--单元测试前需要删除下述内容。-->
+        <!--
         <ResourceDictionary>
             <viewModels:MainPageViewModel x:Key="MainPageViewModel" />
         </ResourceDictionary>
+        -->
     </Application.Resources>
 </Application>

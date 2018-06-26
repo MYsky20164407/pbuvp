@@ -9,14 +9,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicMvvm.UnitTest", "Basic
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|ARM = Release|ARM
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{683073D0-25A2-4C06-BEA6-C0C86B00AF90}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{683073D0-25A2-4C06-BEA6-C0C86B00AF90}.Debug|ARM.ActiveCfg = Debug|ARM
 		{683073D0-25A2-4C06-BEA6-C0C86B00AF90}.Debug|ARM.Build.0 = Debug|ARM
 		{683073D0-25A2-4C06-BEA6-C0C86B00AF90}.Debug|ARM.Deploy.0 = Debug|ARM
@@ -26,6 +29,7 @@ Global
 		{683073D0-25A2-4C06-BEA6-C0C86B00AF90}.Debug|x86.ActiveCfg = Debug|x86
 		{683073D0-25A2-4C06-BEA6-C0C86B00AF90}.Debug|x86.Build.0 = Debug|x86
 		{683073D0-25A2-4C06-BEA6-C0C86B00AF90}.Debug|x86.Deploy.0 = Debug|x86
+		{683073D0-25A2-4C06-BEA6-C0C86B00AF90}.Release|Any CPU.ActiveCfg = Release|x86
 		{683073D0-25A2-4C06-BEA6-C0C86B00AF90}.Release|ARM.ActiveCfg = Release|ARM
 		{683073D0-25A2-4C06-BEA6-C0C86B00AF90}.Release|ARM.Build.0 = Release|ARM
 		{683073D0-25A2-4C06-BEA6-C0C86B00AF90}.Release|ARM.Deploy.0 = Release|ARM
@@ -35,6 +39,7 @@ Global
 		{683073D0-25A2-4C06-BEA6-C0C86B00AF90}.Release|x86.ActiveCfg = Release|x86
 		{683073D0-25A2-4C06-BEA6-C0C86B00AF90}.Release|x86.Build.0 = Release|x86
 		{683073D0-25A2-4C06-BEA6-C0C86B00AF90}.Release|x86.Deploy.0 = Release|x86
+		{B4A6BB88-34BF-4446-AE0D-BA51B5CE87DF}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{B4A6BB88-34BF-4446-AE0D-BA51B5CE87DF}.Debug|ARM.ActiveCfg = Debug|ARM
 		{B4A6BB88-34BF-4446-AE0D-BA51B5CE87DF}.Debug|ARM.Build.0 = Debug|ARM
 		{B4A6BB88-34BF-4446-AE0D-BA51B5CE87DF}.Debug|ARM.Deploy.0 = Debug|ARM
@@ -44,6 +49,7 @@ Global
 		{B4A6BB88-34BF-4446-AE0D-BA51B5CE87DF}.Debug|x86.ActiveCfg = Debug|x86
 		{B4A6BB88-34BF-4446-AE0D-BA51B5CE87DF}.Debug|x86.Build.0 = Debug|x86
 		{B4A6BB88-34BF-4446-AE0D-BA51B5CE87DF}.Debug|x86.Deploy.0 = Debug|x86
+		{B4A6BB88-34BF-4446-AE0D-BA51B5CE87DF}.Release|Any CPU.ActiveCfg = Release|x86
 		{B4A6BB88-34BF-4446-AE0D-BA51B5CE87DF}.Release|ARM.ActiveCfg = Release|ARM
 		{B4A6BB88-34BF-4446-AE0D-BA51B5CE87DF}.Release|ARM.Build.0 = Release|ARM
 		{B4A6BB88-34BF-4446-AE0D-BA51B5CE87DF}.Release|ARM.Deploy.0 = Release|ARM

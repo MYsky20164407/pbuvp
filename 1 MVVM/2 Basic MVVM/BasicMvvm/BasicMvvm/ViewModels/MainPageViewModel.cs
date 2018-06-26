@@ -36,7 +36,7 @@ namespace BasicMvvm.ViewModels {
         /// <summary>
         /// 保存命令。
         /// </summary>
-        private RelayCommand<Contact> _saveCommand;
+        private RelayCommand<Contact> _updateCommand;
 
         /// <summary>
         /// 详细信息命令。
@@ -77,10 +77,10 @@ namespace BasicMvvm.ViewModels {
                 new RelayCommand(async () => { await List(); }));
 
         /// <summary>
-        /// 保存命令。
+        /// 更新命令。
         /// </summary>
-        public RelayCommand<Contact> SaveCommand =>
-            _saveCommand ?? (_saveCommand = new RelayCommand<Contact>(
+        public RelayCommand<Contact> UpdateCommand =>
+            _updateCommand ?? (_updateCommand = new RelayCommand<Contact>(
                 async contact => {
                     var service = _contactService;
                     await service.UpdateAsync(contact);
