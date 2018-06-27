@@ -1,7 +1,12 @@
-﻿<Application
-    x:Class="MvvmLight.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MvvmLight">
-
+﻿<Application x:Class="MvvmLight.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:MvvmLight"
+             xmlns:viewModels="using:MvvmLight.ViewModels">
+    <Application.Resources>
+        <!--单元测试前需要删除下述内容。-->
+        <ResourceDictionary>
+            <viewModels:MainPageViewModel x:Key="MainPageViewModel" />
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

@@ -8,6 +8,7 @@
       xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
       x:Class="BasicMvvm.MainPage"
       mc:Ignorable="d"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       NavigationCacheMode="Enabled">
 
     <Page.Resources>
@@ -17,10 +18,6 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-
-    <Page.Background>
-        <ThemeResource ResourceKey="ApplicationPageBackgroundThemeBrush" />
-    </Page.Background>
 
     <Page.DataContext>
         <Binding Source="{StaticResource MainPageViewModel}" />

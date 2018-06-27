@@ -111,6 +111,8 @@ namespace BasicMvvm.ViewModels {
 #endif
         }
 
+        /******** 私有方法 ********/
+
         /// <summary>
         /// 执行刷新操作。
         /// </summary>
@@ -122,8 +124,6 @@ namespace BasicMvvm.ViewModels {
                 ContactCollection.Add(contact);
             }
         }
-
-        /******** 私有方法 ********/
 
         protected virtual void RaisePropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this,
