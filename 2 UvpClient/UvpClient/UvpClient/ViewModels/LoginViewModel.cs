@@ -10,7 +10,7 @@ namespace UvpClient.ViewModels {
         /// <summary>
         /// 身份服务。
         /// </summary>
-        private IIdentityService _identityService;
+        private readonly IIdentityService _identityService;
 
         /// <summary>
         ///     登录命令。
