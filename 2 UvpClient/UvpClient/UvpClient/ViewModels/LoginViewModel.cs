@@ -8,9 +8,14 @@ namespace UvpClient.ViewModels {
     /// </summary>
     public class LoginViewModel : ViewModelBase {
         /// <summary>
-        /// 身份服务。
+        ///     身份服务。
         /// </summary>
         private readonly IIdentityService _identityService;
+
+        /// <summary>
+        ///     根导航服务。
+        /// </summary>
+        private readonly IRootNavigationService _rootNavigationService;
 
         /// <summary>
         ///     登录命令。
@@ -18,19 +23,25 @@ namespace UvpClient.ViewModels {
         private RelayCommand _loginCommand;
 
         /// <summary>
-        /// 构造函数。
+        ///     构造函数。
         /// </summary>
         /// <param name="identityService">身份服务。</param>
-        public LoginViewModel(IIdentityService identityService) {
+        /// <param name="rootNavigationService">根导航服务。</param>
+        public LoginViewModel(IIdentityService identityService,
+            IRootNavigationService rootNavigationService) {
             _identityService = identityService;
+            _rootNavigationService = rootNavigationService;
         }
 
         /// <summary>
-        /// 登录命令。
+        ///     登录命令。
         /// </summary>
         public RelayCommand RelayCommand =>
-            _loginCommand ?? (_loginCommand =
-                new RelayCommand(
-                    async () => await _identityService.LoginAsync()));
+            _loginCommand ?? (_loginCommand = new RelayCommand(async () => {
+                var loginReturn = await _identityService.LoginAsync();
+
+                // TODO
+                if (loginReturn.Succeeded) { }
+            }));
     }
 }

@@ -12,6 +12,7 @@ namespace UvpClient.ViewModels {
         public ViewModelLocator() {
             SimpleIoc.Default.Register<IIdentityService, IdentityService>();
             SimpleIoc.Default.Register<LoginViewModel>();
+            SimpleIoc.Default.Register<MyUvpViewModel>();
         }
 
         /// <summary>
@@ -19,5 +20,11 @@ namespace UvpClient.ViewModels {
         /// </summary>
         public LoginViewModel LoginViewModel =>
             SimpleIoc.Default.GetInstance<LoginViewModel>();
+
+        /// <summary>
+        /// 我的uvp ViewModel。
+        /// </summary>
+        public MyUvpViewModel MyUvpViewModel =>
+            SimpleIoc.Default.GetInstance<MyUvpViewModel>();
     }
 }
