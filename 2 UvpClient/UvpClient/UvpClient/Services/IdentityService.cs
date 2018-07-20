@@ -1,9 +1,9 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Security.Credentials;
 using Windows.Storage;
+using IdentityModel.Client;
 using IdentityModel.OidcClient;
 using UwpSample;
 
@@ -25,26 +25,8 @@ namespace UvpClient.Services {
         private static readonly string ServerEndpoint = ResourceLoader
             .GetForCurrentView("AppSettings").GetString("UvpServerEndpoint");
 
-        /// <summary>
-        ///     Oidc客户端登录结果存储。
-        /// </summary>
-        private LoginResultStorage _loginResultStorage;
-
-        /// <summary>
-        ///     获得refresh token handler。
-        /// </summary>
-        /// <returns>Refresh token handler</returns>
-        public async Task<HttpMessageHandler> GetRefreshTokenHandlerAsync() {
-            // TODO
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        ///     登录。
-        /// </summary>
-        /// <returns>是否成功登录。</returns>
-        public async Task<LoginReturn> LoginAsync() {
-            var oidcClientOptions = new OidcClientOptions {
+        private readonly OidcClientOptions _oidcClientOptions =
+            new OidcClientOptions {
                 Authority = ServerEndpoint, ClientId = "native.hybrid",
                 Scope = "openid profile api offline_access",
                 RedirectUri = App.QualifiedAppName + "://callback",
@@ -52,20 +34,36 @@ namespace UvpClient.Services {
                 Browser = new SystemBrowser()
             };
 
-            var oidcClient = new OidcClient(oidcClientOptions);
+        /// <summary>
+        ///     RefreshTokenHandler。
+        /// </summary>
+        private RefreshTokenHandler _refreshTokenHandler;
+
+        /// <summary>
+        ///     登录。
+        /// </summary>
+        /// <returns>是否成功登录。</returns>
+        public async Task<LoginReturn> LoginAsync() {
+            var oidcClient = new OidcClient(_oidcClientOptions);
             var loginResult = await oidcClient.LoginAsync(new LoginRequest());
 
             if (!string.IsNullOrEmpty(loginResult.Error))
                 return new LoginReturn
                     {Succeeded = false, Error = loginResult.Error};
 
-            _loginResultStorage = new LoginResultStorage {
-                AccessToken = loginResult.AccessToken,
-                IdentityToken = loginResult.IdentityToken,
-                RefreshToken = loginResult.RefreshToken,
-                AccessTokenExpiration = loginResult.AccessTokenExpiration,
-                AuthenticationTime = loginResult.AuthenticationTime
-            };
+            var refreshTokenHandler = loginResult.RefreshTokenHandler;
+
+
+            _refreshTokenHandler = new RefreshTokenHandler(TokenClientFactory);
+
+            loginResult.RefreshTokenHandler _loginResultStorage =
+                new LoginResultStorage {
+                    AccessToken = loginResult.AccessToken,
+                    IdentityToken = loginResult.IdentityToken,
+                    RefreshToken = loginResult.RefreshToken,
+                    AccessTokenExpiration = loginResult.AccessTokenExpiration,
+                    AuthenticationTime = loginResult.AuthenticationTime
+                };
             foreach (var userClaim in loginResult.User.Claims)
                 switch (userClaim.Type) {
                     case nameof(_loginResultStorage.sid):
@@ -125,25 +123,32 @@ namespace UvpClient.Services {
             return new LoginReturn {Succeeded = true, Error = ""};
         }
 
-        public IdentityService() {
-            // TODO Load data from roaming settings and password vault
+
+        /// <summary>
+        ///     获得RefreshTokenHandler。
+        /// </summary>
+        /// <returns>RefreshTokenHandler</returns>
+        public RefreshTokenHandler GetRefreshTokenHandlerAsync() {
+            return _refreshTokenHandler;
+        }
+
+        // https://github.com/IdentityModel/IdentityModel.OidcClient2/blob/dev/src/IdentityModel.OidcClient/Infrastructure/TokenClientFactory.cs
+        private TokenClient CreateTokenClient(OidcClientOptions options) {
+            var info = options.ProviderInformation;
+            var handler = options.BackchannelHandler ?? new HttpClientHandler();
+
+            var tokenClient = new TokenClient(info.TokenEndpoint,
+                options.ClientId, handler);
+            tokenClient.Timeout = options.BackchannelTimeout;
+            return tokenClient;
         }
 
         /// <summary>
-        ///     Oidc客户端登录结果存储。
+        ///     RefreshTokenHandler存储。
         /// </summary>
-        private class LoginResultStorage {
-            public string sid { get; set; }
-            public string sub { get; set; }
-            public string idp { get; set; }
-            public string amr { get; set; }
-            public string name { get; set; }
-            public string preferred_username { get; set; }
-            public string AccessToken { get; set; }
-            public string IdentityToken { get; set; }
+        private class RefreshTokenHandlerStorage {
             public string RefreshToken { get; set; }
-            public DateTime AccessTokenExpiration { get; set; }
-            public DateTime AuthenticationTime { get; set; }
+            public string AccessToken { get; set; }
         }
     }
 }

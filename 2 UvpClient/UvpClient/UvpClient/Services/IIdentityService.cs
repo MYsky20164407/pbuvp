@@ -1,5 +1,5 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using IdentityModel.Client;
 
 namespace UvpClient.Services {
     /// <summary>
@@ -7,16 +7,21 @@ namespace UvpClient.Services {
     /// </summary>
     public interface IIdentityService {
         /// <summary>
-        ///     获得refresh token handler。
+        ///     获得RefreshTokenHandler。
         /// </summary>
-        /// <returns>Refresh token handler</returns>
-        Task<HttpMessageHandler> GetRefreshTokenHandlerAsync();
+        /// <returns>RefreshTokenHandler</returns>
+        RefreshTokenHandler GetRefreshTokenHandler();
 
         /// <summary>
         ///     登录。
         /// </summary>
         /// <returns>是否成功登录。</returns>
         Task<LoginReturn> LoginAsync();
+
+        /// <summary>
+        ///     保存。
+        /// </summary>
+        Task SaveAsync();
     }
 
     /// <summary>
