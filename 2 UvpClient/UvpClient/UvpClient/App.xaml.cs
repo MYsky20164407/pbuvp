@@ -5,6 +5,8 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using GalaSoft.MvvmLight.Ioc;
+using UvpClient.Services;
 using UwpSample;
 
 namespace UvpClient {
@@ -13,7 +15,7 @@ namespace UvpClient {
     /// </summary>
     public sealed partial class App : Application {
         /// <summary>
-        /// 应用全名。
+        ///     应用全名。
         /// </summary>
         public const string QualifiedAppName = "cn.edu.neu.uvp.client";
 
@@ -97,6 +99,11 @@ namespace UvpClient {
         /// <param name="e">Details about the suspend request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e) {
             var deferral = e.SuspendingOperation.GetDeferral();
+
+            var identityService =
+                SimpleIoc.Default.GetInstance<IIdentityService>();
+            identityService.Save();
+
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
