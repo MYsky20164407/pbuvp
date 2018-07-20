@@ -1,13 +1,13 @@
 ﻿using Windows.UI.Xaml.Controls;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace UvpClient {
+namespace UvpClient.Pages {
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage {
-        public MainPage() {
+    public sealed partial class LoginPage {
+        public LoginPage() {
             InitializeComponent();
         }
     }

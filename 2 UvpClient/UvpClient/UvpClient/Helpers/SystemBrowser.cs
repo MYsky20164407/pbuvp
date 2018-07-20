@@ -1,36 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.System;
 using IdentityModel.OidcClient.Browser;
 
-namespace UwpSample
-{
-    class SystemBrowser : IBrowser
-    {
-        static TaskCompletionSource<BrowserResult> inFlightRequest;
-        public Task<BrowserResult> InvokeAsync(BrowserOptions options)
-        {
-            inFlightRequest?.TrySetCanceled();
-            inFlightRequest = new TaskCompletionSource<BrowserResult>();
+namespace UwpSample {
+    internal class SystemBrowser : IBrowser {
+        private static TaskCompletionSource<BrowserResult> _inFlightRequest;
 
-            var res = Launcher.LaunchUriAsync(new Uri(options.StartUrl));
+        public Task<BrowserResult> InvokeAsync(BrowserOptions options) {
+            _inFlightRequest?.TrySetCanceled();
+            _inFlightRequest = new TaskCompletionSource<BrowserResult>();
 
-            return inFlightRequest.Task;
+            Launcher.LaunchUriAsync(new Uri(options.StartUrl));
+
+            return _inFlightRequest.Task;
         }
 
-        public static void ProcessResponse(Uri responseData)
-        {
-            var result = new BrowserResult
-            {
+        public static void ProcessResponse(Uri responseData) {
+            var result = new BrowserResult {
                 Response = responseData.OriginalString,
                 ResultType = BrowserResultType.Success
             };
 
-            inFlightRequest.SetResult(result);
-            inFlightRequest = null;
+            _inFlightRequest.SetResult(result);
+            _inFlightRequest = null;
         }
     }
 }

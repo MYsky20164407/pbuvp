@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Security.Credentials;
@@ -40,7 +39,7 @@ namespace UvpClient.Services {
         /// <summary>
         ///     Token锁。
         /// </summary>
-        private readonly object tokenLock = new object();
+        private readonly object _tokenLock = new object();
 
         /// <summary>
         ///     AccessToken。
@@ -63,7 +62,7 @@ namespace UvpClient.Services {
                 refreshTokenCredential =
                     passwordVault.Retrieve(RefreshTokenResource,
                         DefaultUsername);
-            } catch (Exception e) {
+            } catch {
                 // ignored
             }
 
@@ -77,7 +76,7 @@ namespace UvpClient.Services {
                 accessTokenCredential =
                     passwordVault.Retrieve(AccessTokenResource,
                         DefaultUsername);
-            } catch (Exception e) {
+            } catch {
                 // ignored
             }
 
@@ -97,10 +96,11 @@ namespace UvpClient.Services {
                 return null;
 
             var oidcClientOptions = CreateOidcClientOptions();
-            var tokenClient = new TokenClient(ServerEndpoint + "/connect/token",
-                oidcClientOptions.ClientId,
-                oidcClientOptions.BackchannelHandler);
-            tokenClient.Timeout = oidcClientOptions.BackchannelTimeout;
+            var tokenClient =
+                new TokenClient(ServerEndpoint + "/connect/token",
+                        oidcClientOptions.ClientId,
+                        oidcClientOptions.BackchannelHandler)
+                    {Timeout = oidcClientOptions.BackchannelTimeout};
 
             var refreshTokenHandler = new RefreshTokenHandler(tokenClient,
                 _refreshToken, _accessToken, new HttpClientHandler());
@@ -170,7 +170,7 @@ namespace UvpClient.Services {
         /// </summary>
         private void RefreshTokenHandler_TokenRefreshed(object sender,
             TokenRefreshedEventArgs e) {
-            lock (tokenLock) {
+            lock (_tokenLock) {
                 _refreshToken = e.RefreshToken;
                 _accessToken = e.AccessToken;
             }

@@ -13,7 +13,7 @@ namespace UvpClient {
     /// <summary>
     ///     Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    public sealed partial class App : Application {
+    public sealed partial class App {
         /// <summary>
         ///     应用全名。
         /// </summary>
