@@ -13,6 +13,12 @@ namespace UvpClient.Services {
         RefreshTokenHandler GetRefreshTokenHandler();
 
         /// <summary>
+        /// 归还RefreshTokenHandler。
+        /// </summary>
+        /// <param name="refreshTokenHandler">要归还的RefreshTokenHandler。</param>
+        void ReturnRefreshTokenHandler(RefreshTokenHandler refreshTokenHandler);
+
+        /// <summary>
         ///     登录。
         /// </summary>
         /// <returns>是否成功登录。</returns>
@@ -21,7 +27,7 @@ namespace UvpClient.Services {
         /// <summary>
         ///     保存。
         /// </summary>
-        Task SaveAsync();
+        void Save();
     }
 
     /// <summary>

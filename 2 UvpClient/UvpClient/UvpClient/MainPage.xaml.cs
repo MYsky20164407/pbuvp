@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using Windows.Foundation;
@@ -15,6 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using IdentityModel.OidcClient;
+using UvpClient.Services;
 using UwpSample;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -30,30 +32,22 @@ namespace UvpClient {
 
         private async void
             ButtonBase_OnClick(object sender, RoutedEventArgs e) {
-            var options = new OidcClientOptions
-            {
-                Authority = "https://localhost:5090",
-                ClientId = "native.hybrid",
-                Scope = "openid profile api offline_access",
-                RedirectUri = "cn.edu.neu.uvp.client://callback",
-                ResponseMode = OidcClientOptions.AuthorizeResponseMode.Redirect,
-                Browser = new SystemBrowser()
-            };
-
-            var client = new OidcClient(options);
-            var result = await client.LoginAsync(new LoginRequest());
-
-            var sb = new StringBuilder(128);
-
-            foreach (var claim in result.User.Claims)
-            {
-                sb.AppendLine($"{claim.Type}: {claim.Value}");
+            var identityService = new IdentityService();
+            var refreshTokenHandler = identityService.GetRefreshTokenHandler();
+            if (refreshTokenHandler == null) {
+                await identityService.LoginAsync();
+                refreshTokenHandler = identityService.GetRefreshTokenHandler();
             }
 
-            sb.AppendLine($"refresh token: {result.RefreshToken}");
-            sb.AppendLine($"access token: {result.AccessToken}");
+            using (var httpClient = new HttpClient(refreshTokenHandler)) {
+                Json.Text =
+                    await httpClient.GetStringAsync(
+                        "https://localhost:5090/api/Values");
+            }
 
-            Result.Text = sb.ToString();
+            identityService.ReturnRefreshTokenHandler(refreshTokenHandler);
+
+            identityService.Save();
         }
     }
 }

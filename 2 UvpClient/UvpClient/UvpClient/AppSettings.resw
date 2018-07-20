@@ -119,5 +119,6 @@
   </resheader>
   <data name="UvpServerEndpoint" xml:space="preserve">
     <value>https://localhost:5090</value>
+    <comment>Do not end with "/"</comment>
   </data>
 </root>

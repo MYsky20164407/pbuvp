@@ -10,6 +10,7 @@
     <Grid>
         <StackPanel>
             <TextBlock Name="Result" />
+            <TextBlock Name="Json"></TextBlock>
             <Button Content="Call"
                     Click="ButtonBase_OnClick" />
         </StackPanel>
