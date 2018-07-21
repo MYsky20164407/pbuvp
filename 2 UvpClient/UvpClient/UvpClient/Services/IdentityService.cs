@@ -10,7 +10,6 @@ namespace UvpClient.Services {
     /// <summary>
     ///     身份服务。
     /// </summary>
-    // TODO read and test
     public class IdentityService : IIdentityService {
         /// <summary>
         ///     默认用户名。

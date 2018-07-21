@@ -20,6 +20,6 @@ namespace UvpClient.Services {
         ///     导航。
         /// </summary>
         bool Navigate(Type sourcePageType, object parameter,
-            NavigationTransitionInfo infoOverride);
+            NavigationTransitionInfo navigationTransitionInfo);
     }
 }

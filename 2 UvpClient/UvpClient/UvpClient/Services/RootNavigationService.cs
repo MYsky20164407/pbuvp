@@ -34,11 +34,11 @@ namespace UvpClient.Services {
         ///     导航。
         /// </summary>
         public bool Navigate(Type sourcePageType, object parameter,
-            NavigationTransitionInfo infoOverride) {
+            NavigationTransitionInfo navigationTransitionInfo) {
             if (!EnsureMainFrame())
                 return false;
 
-            return _mainFrame.Navigate(sourcePageType, parameter, infoOverride);
+            return _mainFrame.Navigate(sourcePageType, parameter, navigationTransitionInfo);
         }
 
         private bool EnsureMainFrame() {

@@ -113,7 +113,9 @@
       <DependentUpon>MyUvpPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\IdentityService.cs" />
+    <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\IIdentityService.cs" />
     <Compile Include="Services\IRootNavigationService.cs" />
     <Compile Include="Services\RootNavigationService.cs" />

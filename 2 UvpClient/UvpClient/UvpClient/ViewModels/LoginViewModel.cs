@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Windows.UI.Xaml.Media.Animation;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using UvpClient.Services;
 
@@ -7,6 +8,11 @@ namespace UvpClient.ViewModels {
     ///     登录ViewModel。
     /// </summary>
     public class LoginViewModel : ViewModelBase {
+        /// <summary>
+        ///     对话框服务。
+        /// </summary>
+        private readonly IDialogService _dialogService;
+
         /// <summary>
         ///     身份服务。
         /// </summary>
@@ -27,21 +33,29 @@ namespace UvpClient.ViewModels {
         /// </summary>
         /// <param name="identityService">身份服务。</param>
         /// <param name="rootNavigationService">根导航服务。</param>
+        /// <param name="dialogService">对话框服务。</param>
         public LoginViewModel(IIdentityService identityService,
-            IRootNavigationService rootNavigationService) {
+            IRootNavigationService rootNavigationService,
+            IDialogService dialogService) {
             _identityService = identityService;
             _rootNavigationService = rootNavigationService;
+            _dialogService = dialogService;
         }
 
         /// <summary>
         ///     登录命令。
         /// </summary>
-        public RelayCommand RelayCommand =>
+        public RelayCommand LoginCommand =>
             _loginCommand ?? (_loginCommand = new RelayCommand(async () => {
                 var loginReturn = await _identityService.LoginAsync();
 
-                // TODO
-                if (loginReturn.Succeeded) { }
+                if (!loginReturn.Succeeded) {
+                    await _dialogService.Show(loginReturn.Error);
+                }
+
+                if (loginReturn.Succeeded)
+                    _rootNavigationService.Navigate(typeof(MyUvpViewModel),
+                        null, new EntranceNavigationTransitionInfo());
             }));
     }
 }
