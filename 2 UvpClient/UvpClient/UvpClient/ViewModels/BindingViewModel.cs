@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Web;
 using GalaSoft.MvvmLight;
@@ -94,11 +95,20 @@ namespace UvpClient.ViewModels {
                         new HttpClient(identifiedHttpMessageHandler)) {
                         CheckingStudentId = true;
                         _checkStudentIdCommand.RaiseCanExecuteChanged();
-                        var response = await httpClient.GetAsync(
-                            App.ServerEndpoint + "/api/Student?studentId=" +
-                            HttpUtility.UrlEncode(StudentId));
-                        CheckingStudentId = false;
-                        _checkStudentIdCommand.RaiseCanExecuteChanged();
+
+                        HttpResponseMessage response = null;
+                        try {
+                            response = await httpClient.GetAsync(
+                                App.ServerEndpoint + "/api/Student?studentId=" +
+                                HttpUtility.UrlEncode(StudentId));
+                        } catch (Exception e) {
+                            await _dialogService.ShowAsync(
+                                App.HttpClientErrorMessage + e.Message);
+                            return;
+                        } finally {
+                            CheckingStudentId = false;
+                            _checkStudentIdCommand.RaiseCanExecuteChanged();
+                        }
 
                         if (response.StatusCode == HttpStatusCode.NotFound) {
                             await _dialogService.ShowAsync(

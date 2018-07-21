@@ -23,6 +23,12 @@ namespace UvpClient {
         public const string QualifiedAppName = "cn.edu.neu.uvp.client";
 
         /// <summary>
+        ///     HttpClient错误信息。
+        /// </summary>
+        public const string HttpClientErrorMessage =
+            "Sorry!!!\n\nAn error occurred when we tried to send your request to our server.\nPlease screenshot this dialog and send it to your teacher.\n\nError:\n";
+
+        /// <summary>
         ///     服务端点。
         /// </summary>
         public static readonly string ServerEndpoint = ResourceLoader
