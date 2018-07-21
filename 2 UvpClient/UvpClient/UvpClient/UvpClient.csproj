@@ -104,6 +104,8 @@
     </Compile>
     <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
     <Compile Include="Helpers\SystemBrowser.cs" />
+    <Compile Include="Models\Clazz.cs" />
+    <Compile Include="Models\Student.cs" />
     <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -116,6 +118,7 @@
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\IIdentityService.cs" />
     <Compile Include="Services\IRootNavigationService.cs" />
+    <Compile Include="Services\IStudentService.cs" />
     <Compile Include="Services\RootNavigationService.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MyUvpViewModel.cs" />
