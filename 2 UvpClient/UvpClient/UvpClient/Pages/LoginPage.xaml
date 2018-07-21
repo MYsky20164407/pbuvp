@@ -38,9 +38,8 @@
                           IsActive="{Binding SigningIn}"
                           Margin="0,0,0,20" />
             <TextBlock TextWrapping="Wrap"
-                       TextAlignment="Center">
-                To sign in, click on the button and follow the instructions on the opened Web page.
-            </TextBlock>
+                       TextAlignment="Center"
+                       Text="To sign in, click on the button and follow the instructions on the opened Web page." />
         </StackPanel>
     </Grid>
 </Page>

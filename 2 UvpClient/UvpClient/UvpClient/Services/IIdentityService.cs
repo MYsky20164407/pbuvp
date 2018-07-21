@@ -1,5 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using IdentityModel.Client;
+using UvpClient.Pages;
 
 namespace UvpClient.Services {
     /// <summary>
@@ -7,16 +12,10 @@ namespace UvpClient.Services {
     /// </summary>
     public interface IIdentityService {
         /// <summary>
-        ///     获得RefreshTokenHandler。
+        ///     获得带有身份的HttpMessageHandler。
         /// </summary>
-        /// <returns>RefreshTokenHandler</returns>
-        RefreshTokenHandler GetRefreshTokenHandler();
-
-        /// <summary>
-        /// 归还RefreshTokenHandler。
-        /// </summary>
-        /// <param name="refreshTokenHandler">要归还的RefreshTokenHandler。</param>
-        void ReturnRefreshTokenHandler(RefreshTokenHandler refreshTokenHandler);
+        /// <returns>带有身份的HttpMessageHandler</returns>
+        IdentifiedHttpMessageHandler GetIdentifiedHttpMessageHandler();
 
         /// <summary>
         ///     登录。
@@ -43,5 +42,61 @@ namespace UvpClient.Services {
         ///     错误信息。
         /// </summary>
         public string Error { get; set; }
+    }
+
+    /// <summary>
+    ///     带有身份的HttpMessageHandler。
+    /// </summary>
+    public class IdentifiedHttpMessageHandler : RefreshTokenHandler {
+        /// <summary>
+        ///     根导航服务。
+        /// </summary>
+        private readonly IRootNavigationService _rootNavigationService;
+
+        /// <summary>
+        ///     TokenRefreshed事件处理函数。
+        /// </summary>
+        private readonly EventHandler<TokenRefreshedEventArgs>
+            _tokenRefreshedEventHandler;
+
+        /// <summary>
+        ///     构造函数。
+        /// </summary>
+        /// <param name="client">The client.</param>
+        /// <param name="refreshToken">The refresh token.</param>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="innerHandler">The inner handler.</param>
+        /// <param name="rootNavigationService">根导航服务。</param>
+        /// <param name="tokenRefreshedEventHandler">TokenRefreshed事件处理函数。</param>
+        public IdentifiedHttpMessageHandler(TokenClient client,
+            string refreshToken, string accessToken,
+            HttpMessageHandler innerHandler,
+            IRootNavigationService rootNavigationService,
+            EventHandler<TokenRefreshedEventArgs> tokenRefreshedEventHandler) :
+            base(client, refreshToken, accessToken, innerHandler) {
+            _rootNavigationService = rootNavigationService;
+            _tokenRefreshedEventHandler = tokenRefreshedEventHandler;
+            TokenRefreshed += _tokenRefreshedEventHandler;
+        }
+
+        protected override async Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request, CancellationToken cancellationToken) {
+            var response = await base.SendAsync(request, cancellationToken)
+                .ConfigureAwait(false);
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+                _rootNavigationService.Navigate(typeof(LoginPage), null,
+                    NavigationTransition.EntranceNavigationTransition);
+            else if (response.StatusCode == HttpStatusCode.Forbidden)
+                _rootNavigationService.Navigate(typeof(BindingPage), null,
+                    NavigationTransition.EntranceNavigationTransition);
+
+            return response;
+        }
+
+        protected override void Dispose(bool disposing) {
+            TokenRefreshed -= _tokenRefreshedEventHandler;
+            base.Dispose(disposing);
+        }
     }
 }

@@ -47,6 +47,9 @@ namespace UvpClient.ViewModels {
             _dialogService = dialogService;
         }
 
+        /// <summary>
+        ///     正在登录。
+        /// </summary>
         public bool SigningIn {
             get => _signingIn;
             set => Set(nameof(SigningIn), ref _signingIn, value);
@@ -58,11 +61,13 @@ namespace UvpClient.ViewModels {
         public RelayCommand LoginCommand =>
             _loginCommand ?? (_loginCommand = new RelayCommand(async () => {
                 SigningIn = true;
+                _loginCommand.RaiseCanExecuteChanged();
                 var loginReturn = await _identityService.LoginAsync();
                 SigningIn = false;
+                _loginCommand.RaiseCanExecuteChanged();
 
                 if (!loginReturn.Succeeded) {
-                    await _dialogService.Show(
+                    await _dialogService.ShowAsync(
                         "Sorry!!!\n\nAn error occurred when we tried to sign you in.\nPlease screenshot this dialog and send it to your teacher.\n\nError:\n" +
                         loginReturn.Error);
                     return;
@@ -70,6 +75,6 @@ namespace UvpClient.ViewModels {
 
                 _rootNavigationService.Navigate(typeof(MyUvpPage), null,
                     NavigationTransition.EntranceNavigationTransition);
-            }));
+            }, () => !SigningIn));
     }
 }

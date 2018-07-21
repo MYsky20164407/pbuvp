@@ -16,7 +16,7 @@
         /// <summary>
         ///     姓名。
         /// </summary>
-        public string 姓名 { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         ///     班级。

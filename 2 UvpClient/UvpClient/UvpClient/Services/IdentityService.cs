@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources;
 using Windows.Security.Credentials;
 using IdentityModel.Client;
 using IdentityModel.OidcClient;
@@ -31,10 +30,9 @@ namespace UvpClient.Services {
             App.QualifiedAppName + ".AccessToken";
 
         /// <summary>
-        ///     服务端点。
+        ///     根导航服务。
         /// </summary>
-        private static readonly string ServerEndpoint = ResourceLoader
-            .GetForCurrentView("AppSettings").GetString("UvpServerEndpoint");
+        private readonly IRootNavigationService _rootNavigationService;
 
         /// <summary>
         ///     Token锁。
@@ -54,7 +52,10 @@ namespace UvpClient.Services {
         /// <summary>
         ///     构造函数。
         /// </summary>
-        public IdentityService() {
+        /// <param name="rootNavigationService">根导航服务。</param>
+        public IdentityService(IRootNavigationService rootNavigationService) {
+            _rootNavigationService = rootNavigationService;
+
             var passwordVault = new PasswordVault();
 
             PasswordCredential refreshTokenCredential = null;
@@ -87,37 +88,27 @@ namespace UvpClient.Services {
         }
 
         /// <summary>
-        ///     获得RefreshTokenHandler。
+        ///     获得带有身份的HttpMessageHandler。
         /// </summary>
-        /// <returns>RefreshTokenHandler</returns>
-        public RefreshTokenHandler GetRefreshTokenHandler() {
+        /// <returns>带有身份的HttpMessageHandler</returns>
+        public IdentifiedHttpMessageHandler GetIdentifiedHttpMessageHandler() {
             if (string.IsNullOrEmpty(_refreshToken) ||
                 string.IsNullOrEmpty(_accessToken))
                 return null;
 
             var oidcClientOptions = CreateOidcClientOptions();
             var tokenClient =
-                new TokenClient(ServerEndpoint + "/connect/token",
+                new TokenClient(App.ServerEndpoint + "/connect/token",
                         oidcClientOptions.ClientId,
                         oidcClientOptions.BackchannelHandler)
                     {Timeout = oidcClientOptions.BackchannelTimeout};
 
-            var refreshTokenHandler = new RefreshTokenHandler(tokenClient,
-                _refreshToken, _accessToken, new HttpClientHandler());
-            refreshTokenHandler.TokenRefreshed +=
-                RefreshTokenHandler_TokenRefreshed;
+            var identifiedHttpMessageHandler = new IdentifiedHttpMessageHandler(
+                tokenClient, _refreshToken, _accessToken,
+                new HttpClientHandler(), _rootNavigationService,
+                RefreshTokenHandler_TokenRefreshed);
 
-            return refreshTokenHandler;
-        }
-
-        /// <summary>
-        ///     归还RefreshTokenHandler。
-        /// </summary>
-        /// <param name="refreshTokenHandler">要归还的RefreshTokenHandler。</param>
-        public void ReturnRefreshTokenHandler(
-            RefreshTokenHandler refreshTokenHandler) {
-            refreshTokenHandler.TokenRefreshed -=
-                RefreshTokenHandler_TokenRefreshed;
+            return identifiedHttpMessageHandler;
         }
 
         /// <summary>
@@ -163,7 +154,7 @@ namespace UvpClient.Services {
         /// </summary>
         private OidcClientOptions CreateOidcClientOptions() {
             return new OidcClientOptions {
-                Authority = ServerEndpoint, ClientId = "native.hybrid",
+                Authority = App.ServerEndpoint, ClientId = "native.hybrid",
                 Scope = "openid profile api offline_access",
                 RedirectUri = App.QualifiedAppName + "://callback",
                 ResponseMode = OidcClientOptions.AuthorizeResponseMode.Redirect,

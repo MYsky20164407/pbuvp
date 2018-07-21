@@ -8,17 +8,17 @@ namespace UvpClient.Services {
         /// <summary>
         ///     导航。
         /// </summary>
-        bool Navigate(Type sourcePageType);
+        void Navigate(Type sourcePageType);
 
         /// <summary>
         ///     导航。
         /// </summary>
-        bool Navigate(Type sourcePageType, object parameter);
+        void Navigate(Type sourcePageType, object parameter);
 
         /// <summary>
         ///     导航。
         /// </summary>
-        bool Navigate(Type sourcePageType, object parameter,
+        void Navigate(Type sourcePageType, object parameter,
             NavigationTransition navigationTransition);
     }
 

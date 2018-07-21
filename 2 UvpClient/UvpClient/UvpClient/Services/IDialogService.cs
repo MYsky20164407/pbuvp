@@ -9,6 +9,6 @@ namespace UvpClient.Services {
         ///     显示。
         /// </summary>
         /// <param name="message">消息。</param>
-        Task Show(string message);
+        Task ShowAsync(string message);
     }
 }

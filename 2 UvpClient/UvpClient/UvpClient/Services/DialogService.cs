@@ -11,7 +11,7 @@ namespace UvpClient.Services {
         ///     显示。
         /// </summary>
         /// <param name="message">消息。</param>
-        public async Task Show(string message) {
+        public async Task ShowAsync(string message) {
             await new MessageDialog(message).ShowAsync();
         }
     }

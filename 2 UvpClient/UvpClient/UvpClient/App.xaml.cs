@@ -2,10 +2,12 @@
 using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Threading;
 using UvpClient.Pages;
 using UvpClient.Services;
 using UwpSample;
@@ -19,6 +21,12 @@ namespace UvpClient {
         ///     应用全名。
         /// </summary>
         public const string QualifiedAppName = "cn.edu.neu.uvp.client";
+
+        /// <summary>
+        ///     服务端点。
+        /// </summary>
+        public static readonly string ServerEndpoint = ResourceLoader
+            .GetForCurrentView("AppSettings").GetString("UvpServerEndpoint");
 
         /// <summary>
         ///     Initializes the singleton application object.  This is the first line of authored code
@@ -56,11 +64,13 @@ namespace UvpClient {
 
             if (e.PrelaunchActivated == false) {
                 if (rootFrame.Content == null)
-                    rootFrame.Navigate(typeof(LoginPage), e.Arguments);
+                    rootFrame.Navigate(typeof(BindingPage), e.Arguments);
 
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+
+            DispatcherHelper.Initialize();
         }
 
         /// <summary>

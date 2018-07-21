@@ -2,64 +2,53 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
+using GalaSoft.MvvmLight.Threading;
 
 namespace UvpClient.Services {
     /// <summary>
     ///     根导航服务接口。
     /// </summary>
     public class RootNavigationService : IRootNavigationService {
-        private Frame _mainFrame;
-
         /// <summary>
         ///     导航。
         /// </summary>
-        public bool Navigate(Type sourcePageType) {
-            if (!EnsureMainFrame())
-                return false;
-
-            return _mainFrame.Navigate(sourcePageType);
+        public void Navigate(Type sourcePageType) {
+            DispatcherHelper.CheckBeginInvokeOnUI(() => {
+                ((Frame) Window.Current.Content).Navigate(sourcePageType);
+            });
         }
 
         /// <summary>
         ///     导航。
         /// </summary>
-        public bool Navigate(Type sourcePageType, object parameter) {
-            if (!EnsureMainFrame())
-                return false;
-
-            return _mainFrame.Navigate(sourcePageType, parameter);
+        public void Navigate(Type sourcePageType, object parameter) {
+            DispatcherHelper.CheckBeginInvokeOnUI(() => {
+                ((Frame) Window.Current.Content).Navigate(sourcePageType,
+                    parameter);
+            });
         }
 
         /// <summary>
         ///     导航。
         /// </summary>
-        public bool Navigate(Type sourcePageType, object parameter,
+        public void Navigate(Type sourcePageType, object parameter,
             NavigationTransition navigationTransition) {
-            if (!EnsureMainFrame())
-                return false;
+            DispatcherHelper.CheckBeginInvokeOnUI(() => {
+                NavigationTransitionInfo navigationTransitionInfo;
+                switch (navigationTransition) {
+                    case NavigationTransition.EntranceNavigationTransition:
+                        navigationTransitionInfo =
+                            new EntranceNavigationTransitionInfo();
+                        break;
+                    default:
+                        navigationTransitionInfo =
+                            new SuppressNavigationTransitionInfo();
+                        break;
+                }
 
-            NavigationTransitionInfo navigationTransitionInfo;
-            switch (navigationTransition) {
-                case NavigationTransition.EntranceNavigationTransition:
-                    navigationTransitionInfo =
-                        new EntranceNavigationTransitionInfo();
-                    break;
-                default:
-                    navigationTransitionInfo =
-                        new SuppressNavigationTransitionInfo();
-                    break;
-            }
-
-            return _mainFrame.Navigate(sourcePageType, parameter,
-                navigationTransitionInfo);
-        }
-
-        private bool EnsureMainFrame() {
-            if (_mainFrame != null)
-                return true;
-
-            _mainFrame = Window.Current.Content as Frame;
-            return _mainFrame != null;
+                ((Frame) Window.Current.Content).Navigate(sourcePageType,
+                    parameter, navigationTransitionInfo);
+            });
         }
     }
 }

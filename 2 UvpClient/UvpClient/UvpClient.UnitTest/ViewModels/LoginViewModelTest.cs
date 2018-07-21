@@ -25,7 +25,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var dialogShown = false;
             var dialogService = new StubIDialogService();
-            dialogService.Show(async message => dialogShown = true);
+            dialogService.ShowAsync(async message => dialogShown = true);
 
             var loginViewModel = new LoginViewModel(identityService,
                 rootNavigationService, dialogService);
@@ -56,7 +56,7 @@ namespace UvpClient.UnitTest.ViewModels {
             var dialogShown = false;
             var errorMessageShown = "";
             var dialogService = new StubIDialogService();
-            dialogService.Show(async message => {
+            dialogService.ShowAsync(async message => {
                 dialogShown = true;
                 errorMessageShown = message;
             });
