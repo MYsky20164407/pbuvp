@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Security.Credentials;
@@ -125,7 +126,13 @@ namespace UvpClient.Services {
         /// <returns>是否成功登录。</returns>
         public async Task<LoginReturn> LoginAsync() {
             var oidcClient = new OidcClient(CreateOidcClientOptions());
-            var loginResult = await oidcClient.LoginAsync(new LoginRequest());
+
+            LoginResult loginResult = null;
+            try {
+                loginResult = await oidcClient.LoginAsync(new LoginRequest());
+            } catch (Exception e) {
+                return new LoginReturn {Succeeded = false, Error = e.Message};
+            }
 
             if (!string.IsNullOrEmpty(loginResult.Error))
                 return new LoginReturn

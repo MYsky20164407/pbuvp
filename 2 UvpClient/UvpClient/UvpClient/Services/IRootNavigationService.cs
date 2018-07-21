@@ -1,5 +1,4 @@
 ﻿using System;
-using Windows.UI.Xaml.Media.Animation;
 
 namespace UvpClient.Services {
     /// <summary>
@@ -20,6 +19,13 @@ namespace UvpClient.Services {
         ///     导航。
         /// </summary>
         bool Navigate(Type sourcePageType, object parameter,
-            NavigationTransitionInfo navigationTransitionInfo);
+            NavigationTransition navigationTransition);
+    }
+
+    /// <summary>
+    ///     导航动画枚举。
+    /// </summary>
+    public enum NavigationTransition {
+        EntranceNavigationTransition
     }
 }

@@ -34,11 +34,24 @@ namespace UvpClient.Services {
         ///     导航。
         /// </summary>
         public bool Navigate(Type sourcePageType, object parameter,
-            NavigationTransitionInfo navigationTransitionInfo) {
+            NavigationTransition navigationTransition) {
             if (!EnsureMainFrame())
                 return false;
 
-            return _mainFrame.Navigate(sourcePageType, parameter, navigationTransitionInfo);
+            NavigationTransitionInfo navigationTransitionInfo;
+            switch (navigationTransition) {
+                case NavigationTransition.EntranceNavigationTransition:
+                    navigationTransitionInfo =
+                        new EntranceNavigationTransitionInfo();
+                    break;
+                default:
+                    navigationTransitionInfo =
+                        new SuppressNavigationTransitionInfo();
+                    break;
+            }
+
+            return _mainFrame.Navigate(sourcePageType, parameter,
+                navigationTransitionInfo);
         }
 
         private bool EnsureMainFrame() {

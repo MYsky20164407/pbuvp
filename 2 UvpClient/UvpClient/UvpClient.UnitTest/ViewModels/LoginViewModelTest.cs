@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml.Media.Animation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UvpClient.Pages;
 using UvpClient.Services;
 using UvpClient.ViewModels;
@@ -13,25 +7,25 @@ namespace UvpClient.UnitTest.ViewModels {
     [TestClass]
     public class LoginViewModelTest {
         [TestMethod]
-        public void TestLoginCommand() {
-            bool loginRequired = false;
+        public void TestLoginCommandSucceeded() {
+            var loginRequired = false;
             var identityService = new StubIIdentityService();
             identityService.LoginAsync(async () => new LoginReturn
                 {Succeeded = loginRequired = true});
 
-            bool rootFrameNavigated = false;
+            var rootFrameNavigated = false;
             var rootNavigationService = new StubIRootNavigationService();
             rootNavigationService.Navigate(
-                (sourcePageType, parameter, navigationTransitionInfo) =>
-                    rootFrameNavigated =
-                        sourcePageType == typeof(MyUvpPage) &&
-                        parameter == null &&
-                        navigationTransitionInfo is
-                            EntranceNavigationTransitionInfo);
+                (sourcePageType, parameter, navigationTransition) =>
+                    rootFrameNavigated = sourcePageType == typeof(MyUvpPage) &&
+                                         parameter == null &&
+                                         navigationTransition ==
+                                         NavigationTransition
+                                             .EntranceNavigationTransition);
 
-            bool dialogShown = false;
+            var dialogShown = false;
             var dialogService = new StubIDialogService();
-            dialogService.Show(async (message) => dialogShown = true);
+            dialogService.Show(async message => dialogShown = true);
 
             var loginViewModel = new LoginViewModel(identityService,
                 rootNavigationService, dialogService);
@@ -40,6 +34,41 @@ namespace UvpClient.UnitTest.ViewModels {
             Assert.IsTrue(loginRequired);
             Assert.IsTrue(rootFrameNavigated);
             Assert.IsFalse(dialogShown);
+        }
+
+        [TestMethod]
+        public void TestLoginCommandFailed() {
+            var errorMessageToShow = "Error Message";
+
+            var loginRequired = false;
+            var identityService = new StubIIdentityService();
+            identityService.LoginAsync(async () => new LoginReturn {
+                Succeeded = !(loginRequired = true), Error = errorMessageToShow
+            });
+
+            var rootFrameNavigated = false;
+            var rootNavigationService = new StubIRootNavigationService();
+            rootNavigationService.Navigate(
+                (sourcePageType, parameter, navigationTransition) =>
+                    rootFrameNavigated = true);
+
+
+            var dialogShown = false;
+            var errorMessageShown = "";
+            var dialogService = new StubIDialogService();
+            dialogService.Show(async message => {
+                dialogShown = true;
+                errorMessageShown = message;
+            });
+
+            var loginViewModel = new LoginViewModel(identityService,
+                rootNavigationService, dialogService);
+            loginViewModel.LoginCommand.Execute(null);
+
+            Assert.IsTrue(loginRequired);
+            Assert.IsFalse(rootFrameNavigated);
+            Assert.IsTrue(dialogShown);
+            Assert.AreEqual(errorMessageToShow, errorMessageShown);
         }
     }
 }

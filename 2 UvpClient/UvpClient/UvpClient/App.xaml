@@ -1,11 +1,15 @@
-﻿<Application
-    x:Class="UvpClient.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:viewmodels="using:UvpClient.ViewModels">
+﻿<Application x:Class="UvpClient.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewmodels="using:UvpClient.ViewModels"
+             xmlns:helpers="using:UvpClient.Helpers">
     <Application.Resources>
         <ResourceDictionary>
             <viewmodels:ViewModelLocator x:Key="ViewModelLocator" />
+            <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -6,6 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Ioc;
+using UvpClient.Pages;
 using UvpClient.Services;
 using UwpSample;
 
@@ -55,7 +56,7 @@ namespace UvpClient {
 
             if (e.PrelaunchActivated == false) {
                 if (rootFrame.Content == null)
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    rootFrame.Navigate(typeof(LoginPage), e.Arguments);
 
                 // Ensure the current window is active
                 Window.Current.Activate();

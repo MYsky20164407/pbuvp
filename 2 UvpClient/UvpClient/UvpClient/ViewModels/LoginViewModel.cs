@@ -1,6 +1,6 @@
-﻿using Windows.UI.Xaml.Media.Animation;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using UvpClient.Pages;
 using UvpClient.Services;
 
 namespace UvpClient.ViewModels {
@@ -29,6 +29,11 @@ namespace UvpClient.ViewModels {
         private RelayCommand _loginCommand;
 
         /// <summary>
+        ///     正在登录。
+        /// </summary>
+        private bool _signingIn;
+
+        /// <summary>
         ///     构造函数。
         /// </summary>
         /// <param name="identityService">身份服务。</param>
@@ -42,20 +47,29 @@ namespace UvpClient.ViewModels {
             _dialogService = dialogService;
         }
 
+        public bool SigningIn {
+            get => _signingIn;
+            set => Set(nameof(SigningIn), ref _signingIn, value);
+        }
+
         /// <summary>
         ///     登录命令。
         /// </summary>
         public RelayCommand LoginCommand =>
             _loginCommand ?? (_loginCommand = new RelayCommand(async () => {
+                SigningIn = true;
                 var loginReturn = await _identityService.LoginAsync();
+                SigningIn = false;
 
                 if (!loginReturn.Succeeded) {
-                    await _dialogService.Show(loginReturn.Error);
+                    await _dialogService.Show(
+                        "Sorry!!!\n\nAn error occurred when we tried to sign you in.\nPlease screenshot this dialog and send it to your teacher.\n\nError:\n" +
+                        loginReturn.Error);
+                    return;
                 }
 
-                if (loginReturn.Succeeded)
-                    _rootNavigationService.Navigate(typeof(MyUvpViewModel),
-                        null, new EntranceNavigationTransitionInfo());
+                _rootNavigationService.Navigate(typeof(MyUvpPage), null,
+                    NavigationTransition.EntranceNavigationTransition);
             }));
     }
 }

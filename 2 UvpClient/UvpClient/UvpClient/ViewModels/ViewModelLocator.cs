@@ -11,6 +11,9 @@ namespace UvpClient.ViewModels {
         /// </summary>
         public ViewModelLocator() {
             SimpleIoc.Default.Register<IIdentityService, IdentityService>();
+            SimpleIoc.Default
+                .Register<IRootNavigationService, RootNavigationService>();
+            SimpleIoc.Default.Register<IDialogService, DialogService>();
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<MyUvpViewModel>();
         }

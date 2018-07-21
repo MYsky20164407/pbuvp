@@ -7,5 +7,40 @@
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       DataContext="{Binding LoginViewModel, Source={StaticResource ViewModelLocator}}">
 
-    <Grid />
+    <Grid>
+        <StackPanel Padding="12"
+                    MinWidth="320"
+                    MaxWidth="480"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <TextBlock Style="{ThemeResource HeaderTextBlockStyle}"
+                       TextAlignment="Center"
+                       Text="/uvp/" />
+            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
+                       TextAlignment="Center"
+                       FontFamily="Segoe MDL2 Assets"
+                       Text="&#xE00B;"
+                       Foreground="{StaticResource SystemControlHighlightAccentBrush}" />
+            <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}"
+                       TextAlignment="Center"
+                       Text="GitHub" />
+            <TextBlock Style="{StaticResource CaptionTextBlockStyle}"
+                       HorizontalAlignment="Center"
+                       Text="which is a microsoft company"
+                       Margin="0,0,0,20"
+                       Foreground="{StaticResource TextBoxDisabledForegroundThemeBrush}" />
+            <Button Content="Sign in with your GitHub account"
+                    HorizontalAlignment="Center"
+                    Margin="0,0,0,20"
+                    Command="{Binding LoginCommand}" />
+            <ProgressRing Visibility="{Binding SigningIn, Converter={StaticResource BooleanToVisibilityConverter}}"
+                          IsEnabled="{Binding SigningIn}"
+                          IsActive="{Binding SigningIn}"
+                          Margin="0,0,0,20" />
+            <TextBlock TextWrapping="Wrap"
+                       TextAlignment="Center">
+                To sign in, click on the button and follow the instructions on the opened Web page.
+            </TextBlock>
+        </StackPanel>
+    </Grid>
 </Page>

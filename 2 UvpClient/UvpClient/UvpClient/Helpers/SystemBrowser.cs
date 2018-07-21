@@ -1,4 +1,6 @@
-﻿using System;
+﻿// https://github.com/IdentityModel/IdentityModel.OidcClient.Samples/blob/master/Uwp/UwpSample/SystemBrowser.cs
+
+using System;
 using System.Threading.Tasks;
 using Windows.System;
 using IdentityModel.OidcClient.Browser;
