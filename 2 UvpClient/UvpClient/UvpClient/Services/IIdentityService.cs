@@ -20,28 +20,13 @@ namespace UvpClient.Services {
         /// <summary>
         ///     登录。
         /// </summary>
-        /// <returns>是否成功登录。</returns>
-        Task<LoginReturn> LoginAsync();
+        /// <returns>服务结果。</returns>
+        Task<ServiceResult> LoginAsync();
 
         /// <summary>
         ///     保存。
         /// </summary>
         void Save();
-    }
-
-    /// <summary>
-    ///     登录结果。
-    /// </summary>
-    public class LoginReturn {
-        /// <summary>
-        ///     是否成功。
-        /// </summary>
-        public bool Succeeded { get; set; }
-
-        /// <summary>
-        ///     错误信息。
-        /// </summary>
-        public string Error { get; set; }
     }
 
     /// <summary>

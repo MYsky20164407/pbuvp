@@ -14,6 +14,7 @@ namespace UvpClient.ViewModels {
                 .Register<IRootNavigationService, RootNavigationService>();
             SimpleIoc.Default.Register<IIdentityService, IdentityService>();
             SimpleIoc.Default.Register<IDialogService, DialogService>();
+            SimpleIoc.Default.Register<IStudentService, StudentService>();
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<MyUvpViewModel>();
             SimpleIoc.Default.Register<BindingViewModel>();
@@ -26,13 +27,13 @@ namespace UvpClient.ViewModels {
             SimpleIoc.Default.GetInstance<LoginViewModel>();
 
         /// <summary>
-        /// 我的uvp ViewModel。
+        ///     我的uvp ViewModel。
         /// </summary>
         public MyUvpViewModel MyUvpViewModel =>
             SimpleIoc.Default.GetInstance<MyUvpViewModel>();
 
         /// <summary>
-        /// 绑定ViewModel。
+        ///     绑定ViewModel。
         /// </summary>
         public BindingViewModel BindingViewModel =>
             SimpleIoc.Default.GetInstance<BindingViewModel>();

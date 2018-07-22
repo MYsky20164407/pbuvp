@@ -123,7 +123,9 @@
     <Compile Include="Services\IIdentityService.cs" />
     <Compile Include="Services\IRootNavigationService.cs" />
     <Compile Include="Services\IStudentService.cs" />
+    <Compile Include="Services\ServiceResult.cs" />
     <Compile Include="Services\RootNavigationService.cs" />
+    <Compile Include="Services\StudentService.cs" />
     <Compile Include="ViewModels\BindingViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MyUvpViewModel.cs" />

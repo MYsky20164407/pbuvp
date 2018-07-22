@@ -99,6 +99,7 @@
     <Compile Include="UnitTestApp.xaml.cs">
       <DependentUpon>UnitTestApp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\BindingViewModelTest.cs" />
     <Compile Include="ViewModels\LoginViewModelTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -116,7 +117,6 @@
   <ItemGroup>
     <Content Include="Properties\UnitTestApp.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />

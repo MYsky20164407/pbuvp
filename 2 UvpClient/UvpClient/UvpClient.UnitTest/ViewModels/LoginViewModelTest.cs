@@ -10,8 +10,10 @@ namespace UvpClient.UnitTest.ViewModels {
         public void TestLoginCommandSucceeded() {
             var loginRequired = false;
             var identityService = new StubIIdentityService();
-            identityService.LoginAsync(async () => new LoginReturn
-                {Succeeded = loginRequired = true});
+            identityService.LoginAsync(async () => {
+                loginRequired = true;
+                return new ServiceResult {Status = ServiceResultStatus.OK};
+            });
 
             var rootFrameNavigated = false;
             var rootNavigationService = new StubIRootNavigationService();
@@ -42,8 +44,12 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var loginRequired = false;
             var identityService = new StubIIdentityService();
-            identityService.LoginAsync(async () => new LoginReturn {
-                Succeeded = !(loginRequired = true), Error = errorMessageToShow
+            identityService.LoginAsync(async () => {
+                loginRequired = true;
+                return new ServiceResult {
+                    Status = ServiceResultStatus.BadRequest,
+                    Message = errorMessageToShow
+                };
             });
 
             var rootFrameNavigated = false;
@@ -68,7 +74,9 @@ namespace UvpClient.UnitTest.ViewModels {
             Assert.IsTrue(loginRequired);
             Assert.IsFalse(rootFrameNavigated);
             Assert.IsTrue(dialogShown);
-            Assert.AreEqual(errorMessageToShow, errorMessageShown);
+            Assert.AreEqual(
+                LoginViewModel.LoginErrorMessage + errorMessageToShow,
+                errorMessageShown);
         }
     }
 }

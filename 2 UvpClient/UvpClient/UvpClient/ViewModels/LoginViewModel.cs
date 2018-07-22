@@ -9,6 +9,12 @@ namespace UvpClient.ViewModels {
     /// </summary>
     public class LoginViewModel : ViewModelBase {
         /// <summary>
+        ///     登录错误信息。
+        /// </summary>
+        public const string LoginErrorMessage =
+            "Sorry!!!\n\nAn error occurred when we tried to sign you in.\nPlease screenshot this dialog and send it to your teacher.\n\nError:\n";
+
+        /// <summary>
         ///     对话框服务。
         /// </summary>
         private readonly IDialogService _dialogService;
@@ -62,19 +68,20 @@ namespace UvpClient.ViewModels {
             _loginCommand ?? (_loginCommand = new RelayCommand(async () => {
                 SigningIn = true;
                 _loginCommand.RaiseCanExecuteChanged();
-                var loginReturn = await _identityService.LoginAsync();
+                var serviceResult = await _identityService.LoginAsync();
                 SigningIn = false;
                 _loginCommand.RaiseCanExecuteChanged();
 
-                if (!loginReturn.Succeeded) {
-                    await _dialogService.ShowAsync(
-                        "Sorry!!!\n\nAn error occurred when we tried to sign you in.\nPlease screenshot this dialog and send it to your teacher.\n\nError:\n" +
-                        loginReturn.Error);
-                    return;
+                switch (serviceResult.Status) {
+                    case ServiceResultStatus.OK:
+                        _rootNavigationService.Navigate(typeof(MyUvpPage), null,
+                            NavigationTransition.EntranceNavigationTransition);
+                        break;
+                    default:
+                        await _dialogService.ShowAsync(
+                            LoginErrorMessage + serviceResult.Message);
+                        break;
                 }
-
-                _rootNavigationService.Navigate(typeof(MyUvpPage), null,
-                    NavigationTransition.EntranceNavigationTransition);
             }, () => !SigningIn));
     }
 }

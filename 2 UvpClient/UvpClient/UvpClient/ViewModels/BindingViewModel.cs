@@ -1,10 +1,5 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Web;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using Newtonsoft.Json;
 using UvpClient.Models;
 using UvpClient.Pages;
 using UvpClient.Services;
@@ -20,14 +15,14 @@ namespace UvpClient.ViewModels {
         private readonly IDialogService _dialogService;
 
         /// <summary>
-        ///     身份服务。
-        /// </summary>
-        private readonly IIdentityService _identityService;
-
-        /// <summary>
         ///     根导航服务。
         /// </summary>
         private readonly IRootNavigationService _rootNavigationService;
+
+        /// <summary>
+        ///     学生服务。
+        /// </summary>
+        private readonly IStudentService _studentService;
 
         /// <summary>
         ///     绑定命令。
@@ -62,15 +57,14 @@ namespace UvpClient.ViewModels {
         /// <summary>
         ///     构造函数。
         /// </summary>
-        /// <param name="identityService">身份服务。</param>
         /// <param name="rootNavigationService">根导航服务。</param>
         /// <param name="dialogService">对话框服务。</param>
-        public BindingViewModel(IIdentityService identityService,
-            IRootNavigationService rootNavigationService,
-            IDialogService dialogService) {
-            _identityService = identityService;
+        /// <param name="studentService">学生服务。</param>
+        public BindingViewModel(IRootNavigationService rootNavigationService,
+            IDialogService dialogService, IStudentService studentService) {
             _rootNavigationService = rootNavigationService;
             _dialogService = dialogService;
+            _studentService = studentService;
         }
 
         /// <summary>
@@ -78,46 +72,27 @@ namespace UvpClient.ViewModels {
         /// </summary>
         public RelayCommand BindCommand =>
             _bindCommand ?? (_bindCommand = new RelayCommand(async () => {
-                var identifiedHttpMessageHandler =
-                    _identityService.GetIdentifiedHttpMessageHandler();
-                using (var httpClient =
-                    new HttpClient(identifiedHttpMessageHandler)) {
-                    Binding = true;
-                    _bindCommand.RaiseCanExecuteChanged();
+                Binding = true;
+                _bindCommand.RaiseCanExecuteChanged();
+                var serviceResult =
+                    await _studentService.BindAccountAsync(StudentId);
+                Binding = false;
+                _bindCommand.RaiseCanExecuteChanged();
 
-                    HttpResponseMessage response = null;
-                    try {
-                        response = await httpClient.PutAsync(
-                            App.ServerEndpoint + "/api/Student?studentId=" +
-                            HttpUtility.UrlEncode(StudentId),
-                            new StringContent(""));
-                    } catch (Exception e) {
-                        await _dialogService.ShowAsync(
-                            App.HttpClientErrorMessage + e.Message);
-                        return;
-                    } finally {
-                        Binding = false;
-                        _bindCommand.RaiseCanExecuteChanged();
-                    }
-
-                    if (response.StatusCode == HttpStatusCode.Unauthorized)
-                        return;
-
-                    if (response.StatusCode == HttpStatusCode.BadRequest) {
-                        var responseContent =
-                            await response.Content.ReadAsStringAsync();
-                        await _dialogService.ShowAsync(responseContent);
-                        return;
-                    }
-
-                    if (response.StatusCode == HttpStatusCode.NoContent) {
+                switch (serviceResult.Status) {
+                    case ServiceResultStatus.Unauthorized:
+                        break;
+                    case ServiceResultStatus.NoContent:
                         _rootNavigationService.Navigate(typeof(MyUvpPage), null,
                             NavigationTransition.EntranceNavigationTransition);
-                        return;
-                    }
-
-                    await _dialogService.ShowAsync(
-                        App.HttpClientErrorMessage + response.ReasonPhrase);
+                        break;
+                    case ServiceResultStatus.BadRequest:
+                        await _dialogService.ShowAsync(serviceResult.Message);
+                        break;
+                    default:
+                        await _dialogService.ShowAsync(
+                            App.HttpClientErrorMessage + serviceResult.Message);
+                        break;
                 }
             }));
 
@@ -142,44 +117,27 @@ namespace UvpClient.ViewModels {
         /// </summary>
         public RelayCommand CheckCommand =>
             _checkCommand ?? (_checkCommand = new RelayCommand(async () => {
-                var identifiedHttpMessageHandler =
-                    _identityService.GetIdentifiedHttpMessageHandler();
-                using (var httpClient =
-                    new HttpClient(identifiedHttpMessageHandler)) {
-                    Checking = true;
-                    _checkCommand.RaiseCanExecuteChanged();
+                Checking = true;
+                _checkCommand.RaiseCanExecuteChanged();
+                var serviceResult =
+                    await _studentService.GetStudentByStudentIdAsync(StudentId);
+                Checking = false;
+                _checkCommand.RaiseCanExecuteChanged();
 
-                    HttpResponseMessage response = null;
-                    try {
-                        response = await httpClient.GetAsync(
-                            App.ServerEndpoint + "/api/Student?studentId=" +
-                            HttpUtility.UrlEncode(StudentId));
-                    } catch (Exception e) {
-                        await _dialogService.ShowAsync(
-                            App.HttpClientErrorMessage + e.Message);
-                        return;
-                    } finally {
-                        Checking = false;
-                        _checkCommand.RaiseCanExecuteChanged();
-                    }
-
-                    if (response.StatusCode == HttpStatusCode.Unauthorized)
-                        return;
-
-                    if (response.StatusCode == HttpStatusCode.NotFound) {
+                switch (serviceResult.Status) {
+                    case ServiceResultStatus.Unauthorized:
+                        break;
+                    case ServiceResultStatus.OK:
+                        Student = serviceResult.Result;
+                        break;
+                    case ServiceResultStatus.NotFound:
                         await _dialogService.ShowAsync(
                             "We could not find your Student ID in our database.\nPlease check if you have entered a correct Student ID.\n\nIf this error continues, please contact your teacher.");
-                        return;
-                    }
-
-                    if (response.IsSuccessStatusCode) {
-                        var json = await response.Content.ReadAsStringAsync();
-                        Student = JsonConvert.DeserializeObject<Student>(json);
-                        return;
-                    }
-
-                    await _dialogService.ShowAsync(
-                        App.HttpClientErrorMessage + response.ReasonPhrase);
+                        break;
+                    default:
+                        await _dialogService.ShowAsync(
+                            App.HttpClientErrorMessage + serviceResult.Message);
+                        break;
                 }
             }, () => !Checking));
 

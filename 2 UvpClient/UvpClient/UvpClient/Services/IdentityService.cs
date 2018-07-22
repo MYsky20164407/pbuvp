@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.Security.Credentials;
@@ -114,27 +115,33 @@ namespace UvpClient.Services {
         /// <summary>
         ///     登录。
         /// </summary>
-        /// <returns>是否成功登录。</returns>
-        public async Task<LoginReturn> LoginAsync() {
+        /// <returns>服务结果。</returns>
+        public async Task<ServiceResult> LoginAsync() {
             var oidcClient = new OidcClient(CreateOidcClientOptions());
 
             LoginResult loginResult = null;
             try {
                 loginResult = await oidcClient.LoginAsync(new LoginRequest());
             } catch (Exception e) {
-                return new LoginReturn {Succeeded = false, Error = e.Message};
+                return new ServiceResult {
+                    Status = ServiceResultStatus.Exception, Message = e.Message
+                };
             }
 
             if (!string.IsNullOrEmpty(loginResult.Error))
-                return new LoginReturn
-                    {Succeeded = false, Error = loginResult.Error};
+                return new ServiceResult {
+                    Status =
+                        ServiceResultStatusHelper.FromHttpStatusCode(
+                            HttpStatusCode.BadRequest),
+                    Message = loginResult.Error
+                };
 
             var refreshTokenHandler =
                 (RefreshTokenHandler) loginResult.RefreshTokenHandler;
             _refreshToken = refreshTokenHandler.RefreshToken;
             _accessToken = refreshTokenHandler.AccessToken;
 
-            return new LoginReturn {Succeeded = true, Error = ""};
+            return new ServiceResult {Status = ServiceResultStatus.OK};
         }
 
         /// <summary>

@@ -117,9 +117,9 @@ namespace UvpClient {
         private void OnSuspending(object sender, SuspendingEventArgs e) {
             var deferral = e.SuspendingOperation.GetDeferral();
 
-            var identityService =
-                SimpleIoc.Default.GetInstance<IIdentityService>();
-            identityService.Save();
+            //var identityService =
+            //    SimpleIoc.Default.GetInstance<IIdentityService>();
+            //identityService.Save();
 
             //TODO: Save application state and stop any background activity
             deferral.Complete();
