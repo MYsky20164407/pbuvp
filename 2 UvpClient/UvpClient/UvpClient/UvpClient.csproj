@@ -105,8 +105,19 @@
     <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
     <Compile Include="Helpers\NullableObjectToVisibilityConverter.cs" />
     <Compile Include="Helpers\SystemBrowser.cs" />
+    <Compile Include="Models\Announcement.cs" />
     <Compile Include="Models\Clazz.cs" />
+    <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\GroupAssignment.cs" />
+    <Compile Include="Models\Homework.cs" />
+    <Compile Include="Models\MyUvp.cs" />
+    <Compile Include="Models\PeerWorkGroupEvaluation.cs" />
+    <Compile Include="Models\PrivacyData.cs" />
+    <Compile Include="Models\Questionnaire.cs" />
     <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\StudentAssignment.cs" />
+    <Compile Include="Models\TeachingClazz.cs" />
+    <Compile Include="Models\Vote.cs" />
     <Compile Include="Pages\BindingPage.xaml.cs">
       <DependentUpon>BindingPage.xaml</DependentUpon>
     </Compile>
@@ -121,8 +132,10 @@
     <Compile Include="Services\IdentityService.cs" />
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\IIdentityService.cs" />
+    <Compile Include="Services\IMyUvpService.cs" />
     <Compile Include="Services\IRootNavigationService.cs" />
     <Compile Include="Services\IStudentService.cs" />
+    <Compile Include="Services\MyUvpService.cs" />
     <Compile Include="Services\ServiceResult.cs" />
     <Compile Include="Services\RootNavigationService.cs" />
     <Compile Include="Services\StudentService.cs" />
