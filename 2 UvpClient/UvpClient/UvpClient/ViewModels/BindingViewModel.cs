@@ -9,6 +9,9 @@ namespace UvpClient.ViewModels {
     ///     绑定ViewModel。
     /// </summary>
     public class BindingViewModel : ViewModelBase {
+        public const string CheckNotFoundErrorMessage =
+            "We could not find your Student ID in our database.\nPlease check if you have entered a correct Student ID.\n\nIf this error continues, please contact your teacher.";
+
         /// <summary>
         ///     对话框服务。
         /// </summary>
@@ -132,7 +135,7 @@ namespace UvpClient.ViewModels {
                         break;
                     case ServiceResultStatus.NotFound:
                         await _dialogService.ShowAsync(
-                            "We could not find your Student ID in our database.\nPlease check if you have entered a correct Student ID.\n\nIf this error continues, please contact your teacher.");
+                            CheckNotFoundErrorMessage);
                         break;
                     default:
                         await _dialogService.ShowAsync(

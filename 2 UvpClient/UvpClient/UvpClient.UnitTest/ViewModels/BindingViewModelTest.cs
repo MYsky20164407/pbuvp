@@ -58,7 +58,7 @@ namespace UvpClient.UnitTest.ViewModels {
                 checkRequested = true;
                 studentIdRequested = studentId;
                 return new ServiceResult<Student> {
-                    Status = ServiceResultStatus.NoContent,
+                    Status = ServiceResultStatus.OK,
                     Result = new Student {StudentId = studentIdToRequest}
                 };
             });
@@ -66,13 +66,92 @@ namespace UvpClient.UnitTest.ViewModels {
             var bindingViewModel = new BindingViewModel(
                 stubRootNavigationService, stubDialogService,
                 stubStudentService);
-            bindingViewModel.CheckCommand.Execute(studentIdToRequest);
+            bindingViewModel.StudentId = studentIdToRequest;
+            bindingViewModel.CheckCommand.Execute(null);
 
             Assert.IsFalse(rootFrameNavigated);
             Assert.IsFalse(dialogShown);
             Assert.IsTrue(checkRequested);
             Assert.AreEqual(studentIdToRequest, studentIdRequested);
-            Assert.AreEqual(studentIdToRequest, bindingViewModel.Student.StudentId);
+            Assert.AreEqual(studentIdToRequest,
+                bindingViewModel.Student.StudentId);
+        }
+
+        [TestMethod]
+        public void TestCheckCommandError() {
+            var rootFrameNavigated = false;
+            var stubRootNavigationService = new StubIRootNavigationService();
+            stubRootNavigationService.Navigate(
+                (sourcePageType, parameter, navigationTransition) =>
+                    rootFrameNavigated = true);
+
+            var messageShown = "";
+            var dialogShown = false;
+            var stubDialogService = new StubIDialogService();
+            stubDialogService.ShowAsync(async message => {
+                dialogShown = true;
+                messageShown = message;
+            });
+
+            var bindRequested = false;
+            var stubStudentService = new StubIStudentService();
+            stubStudentService.GetStudentByStudentIdAsync(async studentId => {
+                bindRequested = true;
+                return new ServiceResult<Student>
+                    {Status = ServiceResultStatus.NotFound};
+            });
+
+            var bindingViewModel = new BindingViewModel(
+                stubRootNavigationService, stubDialogService,
+                stubStudentService);
+            bindingViewModel.CheckCommand.Execute(null);
+
+            Assert.IsFalse(rootFrameNavigated);
+            Assert.IsTrue(dialogShown);
+            Assert.AreEqual(BindingViewModel.CheckNotFoundErrorMessage,
+                messageShown);
+            Assert.IsTrue(bindRequested);
+        }
+
+        [TestMethod]
+        public void TestCheckCommandOther() {
+            var messageToShow = "Error Message";
+
+            var rootFrameNavigated = false;
+            var stubRootNavigationService = new StubIRootNavigationService();
+            stubRootNavigationService.Navigate(
+                (sourcePageType, parameter, navigationTransition) =>
+                    rootFrameNavigated = true);
+
+            var messageShown = "";
+            var dialogShown = false;
+            var stubDialogService = new StubIDialogService();
+            stubDialogService.ShowAsync(async message => {
+                dialogShown = true;
+                messageShown = message;
+            });
+
+            var bindRequested = false;
+            var stubStudentService = new StubIStudentService();
+            stubStudentService.GetStudentByStudentIdAsync(async studentId => {
+                bindRequested = true;
+                return new ServiceResult<Student> {
+                    Status = ServiceResultStatus.Exception,
+                    Message = messageToShow
+                };
+            });
+
+            var bindingViewModel = new BindingViewModel(
+                stubRootNavigationService, stubDialogService,
+                stubStudentService);
+            bindingViewModel.CheckCommand.Execute(null);
+
+            Assert.IsFalse(rootFrameNavigated);
+            Assert.IsTrue(dialogShown);
+            Assert.AreEqual(
+                UvpClient.App.HttpClientErrorMessage + messageToShow,
+                messageShown);
+            Assert.IsTrue(bindRequested);
         }
 
         [TestMethod]
@@ -98,7 +177,7 @@ namespace UvpClient.UnitTest.ViewModels {
             var bindingViewModel = new BindingViewModel(
                 stubRootNavigationService, stubDialogService,
                 stubStudentService);
-            bindingViewModel.BindCommand.Execute("studentId");
+            bindingViewModel.BindCommand.Execute(null);
 
             Assert.IsFalse(rootFrameNavigated);
             Assert.IsFalse(dialogShown);
@@ -123,7 +202,7 @@ namespace UvpClient.UnitTest.ViewModels {
             var stubDialogService = new StubIDialogService();
             stubDialogService.ShowAsync(async message => dialogShown = true);
 
-            string studentIdRequested = "";
+            var studentIdRequested = "";
             var bindRequested = false;
             var stubStudentService = new StubIStudentService();
             stubStudentService.BindAccountAsync(async studentId => {
@@ -147,7 +226,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
         [TestMethod]
         public void TestBindCommandError() {
-            string messageToShow = "Error Message";
+            var messageToShow = "Error Message";
 
             var rootFrameNavigated = false;
             var stubRootNavigationService = new StubIRootNavigationService();
@@ -176,7 +255,7 @@ namespace UvpClient.UnitTest.ViewModels {
             var bindingViewModel = new BindingViewModel(
                 stubRootNavigationService, stubDialogService,
                 stubStudentService);
-            bindingViewModel.BindCommand.Execute("studentId");
+            bindingViewModel.BindCommand.Execute(null);
 
             Assert.IsFalse(rootFrameNavigated);
             Assert.IsTrue(dialogShown);
@@ -186,7 +265,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
         [TestMethod]
         public void TestBindCommandOther() {
-            string messageToShow = "Error Message";
+            var messageToShow = "Error Message";
 
             var rootFrameNavigated = false;
             var stubRootNavigationService = new StubIRootNavigationService();
@@ -215,7 +294,7 @@ namespace UvpClient.UnitTest.ViewModels {
             var bindingViewModel = new BindingViewModel(
                 stubRootNavigationService, stubDialogService,
                 stubStudentService);
-            bindingViewModel.BindCommand.Execute("studentId");
+            bindingViewModel.BindCommand.Execute(null);
 
             Assert.IsFalse(rootFrameNavigated);
             Assert.IsTrue(dialogShown);
