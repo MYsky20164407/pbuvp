@@ -6,6 +6,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
 using UvpClient.Models;
+using UvpClient.Pages;
 using UvpClient.Services;
 
 namespace UvpClient.ViewModels {
@@ -29,19 +30,24 @@ namespace UvpClient.ViewModels {
         private readonly IRootNavigationService _rootNavigationService;
 
         /// <summary>
+        ///     绑定命令。
+        /// </summary>
+        private RelayCommand _bindCommand;
+
+        /// <summary>
         ///     正在绑定学号。
         /// </summary>
-        private bool _bindingStudentId;
+        private bool _binding;
+
+        /// <summary>
+        ///     检查命令。
+        /// </summary>
+        private RelayCommand _checkCommand;
 
         /// <summary>
         ///     正在检查学号。
         /// </summary>
-        private bool _checkingStudentId;
-
-        /// <summary>
-        ///     检查学号命令。
-        /// </summary>
-        private RelayCommand _checkStudentIdCommand;
+        private bool _checking;
 
         /// <summary>
         ///     学生。
@@ -68,6 +74,54 @@ namespace UvpClient.ViewModels {
         }
 
         /// <summary>
+        ///     绑定命令。
+        /// </summary>
+        public RelayCommand BindCommand =>
+            _bindCommand ?? (_bindCommand = new RelayCommand(async () => {
+                var identifiedHttpMessageHandler =
+                    _identityService.GetIdentifiedHttpMessageHandler();
+                using (var httpClient =
+                    new HttpClient(identifiedHttpMessageHandler)) {
+                    Binding = true;
+                    _bindCommand.RaiseCanExecuteChanged();
+
+                    HttpResponseMessage response = null;
+                    try {
+                        response = await httpClient.PutAsync(
+                            App.ServerEndpoint + "/api/Student?studentId=" +
+                            HttpUtility.UrlEncode(StudentId),
+                            new StringContent(""));
+                    } catch (Exception e) {
+                        await _dialogService.ShowAsync(
+                            App.HttpClientErrorMessage + e.Message);
+                        return;
+                    } finally {
+                        Binding = false;
+                        _bindCommand.RaiseCanExecuteChanged();
+                    }
+
+                    if (response.StatusCode == HttpStatusCode.Unauthorized)
+                        return;
+
+                    if (response.StatusCode == HttpStatusCode.BadRequest) {
+                        var responseContent =
+                            await response.Content.ReadAsStringAsync();
+                        await _dialogService.ShowAsync(responseContent);
+                        return;
+                    }
+
+                    if (response.StatusCode == HttpStatusCode.NoContent) {
+                        _rootNavigationService.Navigate(typeof(MyUvpPage), null,
+                            NavigationTransition.EntranceNavigationTransition);
+                        return;
+                    }
+
+                    await _dialogService.ShowAsync(
+                        App.HttpClientErrorMessage + response.ReasonPhrase);
+                }
+            }));
+
+        /// <summary>
         ///     学号。
         /// </summary>
         public string StudentId {
@@ -84,61 +138,65 @@ namespace UvpClient.ViewModels {
         }
 
         /// <summary>
-        ///     检查学号命令。
+        ///     检查命令。
         /// </summary>
-        public RelayCommand CheckStudentIdCommand =>
-            _checkStudentIdCommand ?? (_checkStudentIdCommand =
-                new RelayCommand(async () => {
-                    var identifiedHttpMessageHandler = _identityService
-                        .GetIdentifiedHttpMessageHandler();
-                    using (var httpClient =
-                        new HttpClient(identifiedHttpMessageHandler)) {
-                        CheckingStudentId = true;
-                        _checkStudentIdCommand.RaiseCanExecuteChanged();
+        public RelayCommand CheckCommand =>
+            _checkCommand ?? (_checkCommand = new RelayCommand(async () => {
+                var identifiedHttpMessageHandler =
+                    _identityService.GetIdentifiedHttpMessageHandler();
+                using (var httpClient =
+                    new HttpClient(identifiedHttpMessageHandler)) {
+                    Checking = true;
+                    _checkCommand.RaiseCanExecuteChanged();
 
-                        HttpResponseMessage response = null;
-                        try {
-                            response = await httpClient.GetAsync(
-                                App.ServerEndpoint + "/api/Student?studentId=" +
-                                HttpUtility.UrlEncode(StudentId));
-                        } catch (Exception e) {
-                            await _dialogService.ShowAsync(
-                                App.HttpClientErrorMessage + e.Message);
-                            return;
-                        } finally {
-                            CheckingStudentId = false;
-                            _checkStudentIdCommand.RaiseCanExecuteChanged();
-                        }
+                    HttpResponseMessage response = null;
+                    try {
+                        response = await httpClient.GetAsync(
+                            App.ServerEndpoint + "/api/Student?studentId=" +
+                            HttpUtility.UrlEncode(StudentId));
+                    } catch (Exception e) {
+                        await _dialogService.ShowAsync(
+                            App.HttpClientErrorMessage + e.Message);
+                        return;
+                    } finally {
+                        Checking = false;
+                        _checkCommand.RaiseCanExecuteChanged();
+                    }
 
-                        if (response.StatusCode == HttpStatusCode.NotFound) {
-                            await _dialogService.ShowAsync(
-                                "We could not find your Student ID in our database.\nPlease check if you have entered a correct Student ID.\n\nIf this error continues, please contact your teacher.");
-                            return;
-                        }
+                    if (response.StatusCode == HttpStatusCode.Unauthorized)
+                        return;
 
-                        if (!response.IsSuccessStatusCode)
-                            return;
+                    if (response.StatusCode == HttpStatusCode.NotFound) {
+                        await _dialogService.ShowAsync(
+                            "We could not find your Student ID in our database.\nPlease check if you have entered a correct Student ID.\n\nIf this error continues, please contact your teacher.");
+                        return;
+                    }
 
+                    if (response.IsSuccessStatusCode) {
                         var json = await response.Content.ReadAsStringAsync();
                         Student = JsonConvert.DeserializeObject<Student>(json);
+                        return;
                     }
-                }, () => !CheckingStudentId));
+
+                    await _dialogService.ShowAsync(
+                        App.HttpClientErrorMessage + response.ReasonPhrase);
+                }
+            }, () => !Checking));
 
         /// <summary>
         ///     正在检查学号。
         /// </summary>
-        public bool CheckingStudentId {
-            get => _checkingStudentId;
-            set =>
-                Set(nameof(CheckingStudentId), ref _checkingStudentId, value);
+        public bool Checking {
+            get => _checking;
+            set => Set(nameof(Checking), ref _checking, value);
         }
 
         /// <summary>
         ///     正在绑定学号。
         /// </summary>
-        public bool BindingStudentId {
-            get => _bindingStudentId;
-            set => Set(nameof(BindingStudentId), ref _bindingStudentId, value);
+        public bool Binding {
+            get => _binding;
+            set => Set(nameof(Binding), ref _binding, value);
         }
     }
 }

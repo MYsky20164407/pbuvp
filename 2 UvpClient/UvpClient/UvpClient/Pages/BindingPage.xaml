@@ -27,13 +27,13 @@
             <StackPanel Orientation="Horizontal"
                         Margin="0,0,0,20">
                 <Button Content="Check"
-                        Command="{Binding CheckStudentIdCommand}" />
-                <ProgressRing Margin="4,0,0,0"
-                              IsEnabled="{Binding CheckingStudentId}"
-                              IsActive="{Binding CheckingStudentId}" />
+                        Command="{Binding CheckCommand}" />
+                <ProgressRing Margin="8,0,0,0"
+                              IsEnabled="{Binding Checking}"
+                              IsActive="{Binding Checking}" />
             </StackPanel>
             <StackPanel Visibility="{Binding Student, Converter={StaticResource NullableObjectToVisibilityConverter}}">
-                <TextBlock Text="We think you are"
+                <TextBlock Text="We think you are:"
                            Style="{ThemeResource TitleTextBlockStyle}"
                            Margin="0,0,0,4" />
                 <StackPanel Orientation="Horizontal"
@@ -43,10 +43,11 @@
                                Margin="4,0,0,0" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="Correct! Bind that information to my account!" />
+                    <Button Content="Correct! Bind that information to my account!"
+                            Command="{Binding BindCommand}" />
                     <ProgressRing Margin="4,0,0,0"
-                                  IsEnabled="{Binding BindingStudentId}"
-                                  IsActive="{Binding BindingStudentId}" />
+                                  IsEnabled="{Binding Binding}"
+                                  IsActive="{Binding Binding}" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>
