@@ -70,7 +70,7 @@ namespace UvpClient {
 
             if (e.PrelaunchActivated == false) {
                 if (rootFrame.Content == null)
-                    rootFrame.Navigate(typeof(BindingPage), e.Arguments);
+                    rootFrame.Navigate(typeof(MyUvpPage), e.Arguments);
 
                 // Ensure the current window is active
                 Window.Current.Activate();
@@ -117,9 +117,9 @@ namespace UvpClient {
         private void OnSuspending(object sender, SuspendingEventArgs e) {
             var deferral = e.SuspendingOperation.GetDeferral();
 
-            //var identityService =
-            //    SimpleIoc.Default.GetInstance<IIdentityService>();
-            //identityService.Save();
+            var identityService =
+                SimpleIoc.Default.GetInstance<IIdentityService>();
+            identityService.Save();
 
             //TODO: Save application state and stop any background activity
             deferral.Complete();

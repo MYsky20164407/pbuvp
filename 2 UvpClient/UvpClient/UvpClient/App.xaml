@@ -5,7 +5,7 @@
              xmlns:helpers="using:UvpClient.Helpers">
     <Application.Resources>
         <ResourceDictionary>
-            <!--<viewmodels:ViewModelLocator x:Key="ViewModelLocator" />-->
+            <viewmodels:ViewModelLocator x:Key="ViewModelLocator" />
             <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <helpers:NullableObjectToVisibilityConverter x:Key="NullableObjectToVisibilityConverter" />
             <ResourceDictionary.MergedDictionaries>
