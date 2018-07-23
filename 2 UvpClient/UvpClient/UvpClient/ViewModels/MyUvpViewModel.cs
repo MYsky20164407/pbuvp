@@ -31,9 +31,19 @@ namespace UvpClient.ViewModels {
         private MyUvp _myUvp;
 
         /// <summary>
+        ///     查看通知命令。
+        /// </summary>
+        private RelayCommand<Announcement> _openAnnouncementCommand;
+
+        /// <summary>
         ///     查看小组作业命令。
         /// </summary>
         private RelayCommand<GroupAssignment> _openGroupAssignmentCommand;
+
+        /// <summary>
+        ///     查看我命令。
+        /// </summary>
+        private RelayCommand _openMeCommand;
 
         /// <summary>
         ///     查看组内自评互评表命令。
@@ -80,6 +90,24 @@ namespace UvpClient.ViewModels {
             _dialogService = dialogService;
             _rootNavigationService = rootNavigationService;
         }
+
+        /// <summary>
+        ///     查看通知命令。
+        /// </summary>
+        public RelayCommand<Announcement> OpenAnnouncementCommand =>
+            _openAnnouncementCommand ?? (_openAnnouncementCommand =
+                new RelayCommand<Announcement>(announcement =>
+                    _rootNavigationService.Navigate(typeof(AnnouncementPage),
+                        announcement,
+                        NavigationTransition.DrillInNavigationTransition)));
+
+        /// <summary>
+        ///     查看我命令。
+        /// </summary>
+        public RelayCommand OpenMeCommand =>
+            _openMeCommand ?? (_openMeCommand = new RelayCommand(() =>
+                _rootNavigationService.Navigate(typeof(MePage), null,
+                    NavigationTransition.DrillInNavigationTransition)));
 
         /// <summary>
         ///     查看隐私数据命令。

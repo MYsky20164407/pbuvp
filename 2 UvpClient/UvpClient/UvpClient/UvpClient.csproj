@@ -103,9 +103,10 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Helpers\InvisibleWhenZeroConverter.cs" />
+    <Compile Include="Helpers\VisibleWhenZeroConverter.cs" />
     <Compile Include="Helpers\NullableObjectToVisibilityConverter.cs" />
     <Compile Include="Helpers\SystemBrowser.cs" />
+    <Compile Include="Helpers\InvisibleWhenZeroConverter.cs" />
     <Compile Include="Models\Announcement.cs" />
     <Compile Include="Models\Clazz.cs" />
     <Compile Include="Models\Group.cs" />
@@ -119,6 +120,9 @@
     <Compile Include="Models\StudentAssignment.cs" />
     <Compile Include="Models\TeachingClazz.cs" />
     <Compile Include="Models\Vote.cs" />
+    <Compile Include="Pages\AnnouncementPage.xaml.cs">
+      <DependentUpon>AnnouncementPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\BindingPage.xaml.cs">
       <DependentUpon>BindingPage.xaml</DependentUpon>
     </Compile>
@@ -127,6 +131,9 @@
     </Compile>
     <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MePage.xaml.cs">
+      <DependentUpon>MePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\MyUvpPage.xaml.cs">
       <DependentUpon>MyUvpPage.xaml</DependentUpon>
@@ -182,6 +189,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Pages\AnnouncementPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\BindingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -191,6 +202,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

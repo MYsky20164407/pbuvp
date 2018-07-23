@@ -50,5 +50,12 @@ namespace UvpClient.Pages {
             ((MyUvpViewModel) DataContext).OpenPeerWorkGroupEvaluationCommand
                 .Execute(peerWorkGroupEvaluation);
         }
+
+        private void AnnouncementListView_OnItemClick(object sender,
+            ItemClickEventArgs e) {
+            var announcement = (Announcement) e.ClickedItem;
+            ((MyUvpViewModel) DataContext).OpenAnnouncementCommand.Execute(
+                announcement);
+        }
     }
 }

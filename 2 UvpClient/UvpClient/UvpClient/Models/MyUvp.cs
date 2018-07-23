@@ -7,6 +7,11 @@ namespace UvpClient.Models {
     /// </summary>
     public class MyUvp {
         /// <summary>
+        ///     我。
+        /// </summary>
+        public Student Me { get; set; }
+
+        /// <summary>
         ///     通知。
         /// </summary>
         public List<Announcement> Announcements { get; set; }

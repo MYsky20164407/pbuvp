@@ -8,6 +8,7 @@
             <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <helpers:NullableObjectToVisibilityConverter x:Key="NullableObjectToVisibilityConverter" />
             <helpers:InvisibleWhenZeroConverter x:Key="InvisibleWhenZeroConverter" />
+            <helpers:VisibleWhenZeroConverter x:Key="VisibleWhenZeroConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
