@@ -26,6 +26,7 @@ namespace UvpClient.Services {
     ///     导航动画枚举。
     /// </summary>
     public enum NavigationTransition {
-        EntranceNavigationTransition
+        EntranceNavigationTransition,
+        DrillInNavigationTransition
     }
 }

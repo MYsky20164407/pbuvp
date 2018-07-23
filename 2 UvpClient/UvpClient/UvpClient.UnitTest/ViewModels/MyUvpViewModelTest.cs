@@ -26,8 +26,8 @@ namespace UvpClient.UnitTest.ViewModels {
                     {Status = ServiceResultStatus.Unauthorized};
             });
 
-            var myUvpViewModel =
-                new MyUvpViewModel(stubMyUvpService, stubDialogService);
+            var myUvpViewModel = new MyUvpViewModel(stubMyUvpService,
+                stubDialogService, stubRootNavigationService);
             myUvpViewModel.RefreshCommand.Execute(null);
 
             Assert.IsFalse(rootFrameNavigated);
@@ -57,8 +57,8 @@ namespace UvpClient.UnitTest.ViewModels {
                     {Status = ServiceResultStatus.OK, Result = myUvpToReturn};
             });
 
-            var myUvpViewModel =
-                new MyUvpViewModel(myUvpService, stubDialogService);
+            var myUvpViewModel = new MyUvpViewModel(myUvpService,
+                stubDialogService, stubRootNavigationService);
             myUvpViewModel.RefreshCommand.Execute(null);
 
             Assert.IsFalse(rootFrameNavigated);
@@ -95,8 +95,8 @@ namespace UvpClient.UnitTest.ViewModels {
                 };
             });
 
-            var myUvpViewModel =
-                new MyUvpViewModel(myUvpService, stubDialogService);
+            var myUvpViewModel = new MyUvpViewModel(myUvpService,
+                stubDialogService, stubRootNavigationService);
             myUvpViewModel.RefreshCommand.Execute(null);
 
             Assert.IsFalse(rootFrameNavigated);

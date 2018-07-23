@@ -40,6 +40,10 @@ namespace UvpClient.Services {
                         navigationTransitionInfo =
                             new EntranceNavigationTransitionInfo();
                         break;
+                    case NavigationTransition.DrillInNavigationTransition:
+                        navigationTransitionInfo =
+                            new DrillInNavigationTransitionInfo();
+                        break;
                     default:
                         navigationTransitionInfo =
                             new SuppressNavigationTransitionInfo();

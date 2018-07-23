@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using Windows.ApplicationModel;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using UvpClient.Models;
+using UvpClient.Pages;
 using UvpClient.Services;
 
 namespace UvpClient.ViewModels {
@@ -22,9 +21,40 @@ namespace UvpClient.ViewModels {
         private readonly IMyUvpService _myUvpService;
 
         /// <summary>
+        ///     根导航服务。
+        /// </summary>
+        private readonly IRootNavigationService _rootNavigationService;
+
+        /// <summary>
         ///     我的uvp。
         /// </summary>
         private MyUvp _myUvp;
+
+        /// <summary>
+        ///     查看小组作业命令。
+        /// </summary>
+        private RelayCommand<GroupAssignment> _openGroupAssignmentCommand;
+
+        /// <summary>
+        ///     查看组内自评互评表命令。
+        /// </summary>
+        private RelayCommand<PeerWorkGroupEvaluation>
+            _openPeerWorkGroupEvaluationCommand;
+
+        /// <summary>
+        ///     查看隐私数据命令。
+        /// </summary>
+        private RelayCommand _openPrivacyDataCommand;
+
+        /// <summary>
+        ///     查看个人作业命令。
+        /// </summary>
+        private RelayCommand<StudentAssignment> _openStudentAssignmentCommand;
+
+        /// <summary>
+        ///     查看投票命令。
+        /// </summary>
+        private RelayCommand<Vote> _openVoteCommand;
 
         /// <summary>
         ///     刷新命令。
@@ -41,12 +71,67 @@ namespace UvpClient.ViewModels {
         /// </summary>
         /// <param name="myUvpService">我的uvp服务。</param>
         /// <param name="dialogService">对话框服务。</param>
+        /// <param name="rootNavigationService">根导航服务。</param>
         [PreferredConstructor]
         public MyUvpViewModel(IMyUvpService myUvpService,
-            IDialogService dialogService) {
+            IDialogService dialogService,
+            IRootNavigationService rootNavigationService) {
             _myUvpService = myUvpService;
             _dialogService = dialogService;
+            _rootNavigationService = rootNavigationService;
         }
+
+        /// <summary>
+        ///     查看隐私数据命令。
+        /// </summary>
+        public RelayCommand OpenPrivacyDataCommand =>
+            _openPrivacyDataCommand ?? (_openPrivacyDataCommand =
+                new RelayCommand(() =>
+                    _rootNavigationService.Navigate(typeof(PrivacyDataPage),
+                        null, NavigationTransition.DrillInNavigationTransition))
+            );
+
+        /// <summary>
+        ///     查看投票命令。
+        /// </summary>
+        public RelayCommand<Vote> OpenVoteCommand =>
+            _openVoteCommand ?? (_openVoteCommand =
+                new RelayCommand<Vote>(vote =>
+                    _rootNavigationService.Navigate(typeof(VotePage), vote,
+                        NavigationTransition.DrillInNavigationTransition)));
+
+        /// <summary>
+        ///     查看组内自评互评表命令。
+        /// </summary>
+        public RelayCommand<PeerWorkGroupEvaluation>
+            OpenPeerWorkGroupEvaluationCommand =>
+            _openPeerWorkGroupEvaluationCommand ??
+            (_openPeerWorkGroupEvaluationCommand =
+                new RelayCommand<PeerWorkGroupEvaluation>(
+                    peerWorkGroupEvaluation => _rootNavigationService.Navigate(
+                        typeof(PeerWorkGroupEvaluation),
+                        peerWorkGroupEvaluation,
+                        NavigationTransition.DrillInNavigationTransition)));
+
+        /// <summary>
+        ///     查看小组作业命令。
+        /// </summary>
+        public RelayCommand<GroupAssignment> OpenGroupAssignmentCommand =>
+            _openGroupAssignmentCommand ?? (_openGroupAssignmentCommand =
+                new RelayCommand<GroupAssignment>(groupAssignment =>
+                    _rootNavigationService.Navigate(typeof(GroupAssignmentPage),
+                        groupAssignment,
+                        NavigationTransition.DrillInNavigationTransition)));
+
+        /// <summary>
+        ///     查看个人作业命令。
+        /// </summary>
+        public RelayCommand<StudentAssignment> OpenStudentAssignmentCommand =>
+            _openStudentAssignmentCommand ?? (_openStudentAssignmentCommand =
+                new RelayCommand<StudentAssignment>(studentAssignment =>
+                    _rootNavigationService.Navigate(
+                        typeof(StudentAssignmentPage), studentAssignment,
+                        NavigationTransition.DrillInNavigationTransition)));
 
         /// <summary>
         ///     我的uvp。

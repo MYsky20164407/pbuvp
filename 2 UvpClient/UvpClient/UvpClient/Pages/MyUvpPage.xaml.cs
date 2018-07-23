@@ -1,10 +1,8 @@
 ﻿// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-using System.Net.Http;
-using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using GalaSoft.MvvmLight.Ioc;
-using UvpClient.Services;
+using UvpClient.Models;
 using UvpClient.ViewModels;
 
 namespace UvpClient.Pages {
@@ -19,7 +17,38 @@ namespace UvpClient.Pages {
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             Frame.BackStack.Clear();
-            ((MyUvpViewModel)DataContext).RefreshCommand.Execute(null);
+
+            var myUvpViewModel = (MyUvpViewModel) DataContext;
+            if (myUvpViewModel.MyUvp == null)
+                myUvpViewModel.RefreshCommand.Execute(null);
+        }
+
+        private void StudentAssignmentListView_OnItemClick(object sender,
+            ItemClickEventArgs e) {
+            var studentAssignment = (StudentAssignment) e.ClickedItem;
+            ((MyUvpViewModel) DataContext).OpenStudentAssignmentCommand.Execute(
+                studentAssignment);
+        }
+
+        private void GroupAssignmentListView_OnItemClick(object sender,
+            ItemClickEventArgs e) {
+            var groupAssignment = (GroupAssignment) e.ClickedItem;
+            ((MyUvpViewModel) DataContext).OpenGroupAssignmentCommand.Execute(
+                groupAssignment);
+        }
+
+        private void VoteListView_OnItemClick(object sender,
+            ItemClickEventArgs e) {
+            var vote = (Vote) e.ClickedItem;
+            ((MyUvpViewModel) DataContext).OpenVoteCommand.Execute(vote);
+        }
+
+        private void PeerWorkGroupEvaluationListView_OnItemClick(object sender,
+            ItemClickEventArgs e) {
+            var peerWorkGroupEvaluation =
+                (PeerWorkGroupEvaluation) e.ClickedItem;
+            ((MyUvpViewModel) DataContext).OpenPeerWorkGroupEvaluationCommand
+                .Execute(peerWorkGroupEvaluation);
         }
     }
 }
