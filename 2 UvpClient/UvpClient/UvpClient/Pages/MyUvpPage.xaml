@@ -31,7 +31,8 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <RelativePanel Grid.Row="0" Margin="0,0,0,20">
+            <RelativePanel Grid.Row="0"
+                           Margin="0,0,0,20">
                 <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}"
                            Text="my /uvp/"
                            RelativePanel.AlignLeftWithPanel="True"
@@ -55,9 +56,11 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    
-                    <TextBlock Grid.Row="0" Style="{StaticResource UvpTitleTextBlockStyle}" Text="to-do"></TextBlock>
-                    <ListView></ListView>
+
+                    <TextBlock Grid.Row="0"
+                               Margin="0,0,0,20"
+                               Text="to-do" />
+                    <ListView />
                 </Grid>
             </Grid>
         </Grid>
