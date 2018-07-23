@@ -97,7 +97,7 @@ namespace UvpClient.ViewModels {
                             App.HttpClientErrorMessage + serviceResult.Message);
                         break;
                 }
-            }));
+            }, () => !Binding));
 
         /// <summary>
         ///     学号。

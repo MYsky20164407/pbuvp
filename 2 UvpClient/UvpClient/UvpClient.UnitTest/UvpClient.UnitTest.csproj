@@ -101,6 +101,7 @@
     </Compile>
     <Compile Include="ViewModels\BindingViewModelTest.cs" />
     <Compile Include="ViewModels\LoginViewModelTest.cs" />
+    <Compile Include="ViewModels\MyUvpViewModelTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="UnitTestApp.xaml">
