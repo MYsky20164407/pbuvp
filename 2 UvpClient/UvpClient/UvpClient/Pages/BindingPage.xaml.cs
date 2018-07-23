@@ -1,5 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using UvpClient.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -10,6 +11,7 @@ namespace UvpClient.Pages {
     public sealed partial class BindingPage : Page {
         public BindingPage() {
             InitializeComponent();
+            DataContext = ViewModelLocator.Instance.BindingViewModel;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {

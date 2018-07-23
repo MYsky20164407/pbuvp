@@ -4,19 +4,11 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:i="using:Microsoft.Xaml.Interactivity"
       xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:viewModels="using:UvpClient.ViewModels"
       x:Class="UvpClient.Pages.MyUvpPage"
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-      NavigationCacheMode="Enabled"
-      DataContext="{Binding MyUvpViewModel, Source={StaticResource ViewModelLocator}}">
-
-
-    <!-- <i:Interaction.Behaviors> -->
-    <!--     <ic:EventTriggerBehavior EventName="Loaded"> -->
-    <!--         <ic:InvokeCommandAction Command="{Binding RefreshCommand}" /> -->
-    <!--     </ic:EventTriggerBehavior> -->
-    <!-- </i:Interaction.Behaviors> -->
-
+      NavigationCacheMode="Enabled">
 
     <Grid>
         <Grid MinWidth="320"
@@ -60,7 +52,13 @@
                     <TextBlock Grid.Row="0"
                                Margin="0,0,0,20"
                                Text="to-do" />
-                    <ListView />
+                    <ListView Grid.Row="1" ItemsSource="{Binding MyUvp.StudentAssignments}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="1"></TextBlock>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Grid>
             </Grid>
         </Grid>

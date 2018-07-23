@@ -1,6 +1,4 @@
-﻿using Windows.ApplicationModel;
-using GalaSoft.MvvmLight.Ioc;
-using UvpClient.Design;
+﻿using GalaSoft.MvvmLight.Ioc;
 using UvpClient.Services;
 
 namespace UvpClient.ViewModels {
@@ -9,32 +7,21 @@ namespace UvpClient.ViewModels {
     /// </summary>
     public class ViewModelLocator {
         /// <summary>
+        /// ViewModel定位器单件。
+        /// </summary>
+        public static readonly ViewModelLocator Instance =
+            new ViewModelLocator();
+
+        /// <summary>
         ///     构造函数。
         /// </summary>
-        public ViewModelLocator() {
-#if DEBUG
-            if (DesignMode.DesignModeEnabled) {
-                SimpleIoc.Default.Register<DesignDataContext>();
-                SimpleIoc.Default.Register<DesignDbInitializer>();
-
-                SimpleIoc.Default.GetInstance<DesignDbInitializer>()
-                    .Initialize();
-            }
-#endif
-
+        private ViewModelLocator() {
             SimpleIoc.Default
                 .Register<IRootNavigationService, RootNavigationService>();
             SimpleIoc.Default.Register<IIdentityService, IdentityService>();
-
             SimpleIoc.Default.Register<IDialogService, DialogService>();
-
             SimpleIoc.Default.Register<IStudentService, StudentService>();
-
-            if (DesignMode.DesignModeEnabled)
-                SimpleIoc.Default.Register<IMyUvpService, DesignMyUvpService>();
-            else
-                SimpleIoc.Default.Register<IMyUvpService, MyUvpService>();
-
+            SimpleIoc.Default.Register<IMyUvpService, MyUvpService>();
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<BindingViewModel>();
             SimpleIoc.Default.Register<MyUvpViewModel>();

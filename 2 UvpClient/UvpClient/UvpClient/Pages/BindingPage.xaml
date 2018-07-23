@@ -5,9 +5,9 @@
       xmlns:local="using:UvpClient.Pages"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:viewModels="using:UvpClient.ViewModels"
       mc:Ignorable="d"
-      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-      DataContext="{Binding BindingViewModel, Source={StaticResource ViewModelLocator}}">
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
         <StackPanel Padding="12"

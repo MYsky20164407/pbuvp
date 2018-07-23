@@ -1,5 +1,7 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Windows.ApplicationModel;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 using UvpClient.Models;
 using UvpClient.Pages;
 using UvpClient.Services;
@@ -63,6 +65,7 @@ namespace UvpClient.ViewModels {
         /// <param name="rootNavigationService">根导航服务。</param>
         /// <param name="dialogService">对话框服务。</param>
         /// <param name="studentService">学生服务。</param>
+        [PreferredConstructor]
         public BindingViewModel(IRootNavigationService rootNavigationService,
             IDialogService dialogService, IStudentService studentService) {
             _rootNavigationService = rootNavigationService;

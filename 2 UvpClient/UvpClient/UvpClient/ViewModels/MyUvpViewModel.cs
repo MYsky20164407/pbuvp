@@ -1,5 +1,8 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.Collections.Generic;
+using Windows.ApplicationModel;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Ioc;
 using UvpClient.Models;
 using UvpClient.Services;
 
@@ -38,6 +41,7 @@ namespace UvpClient.ViewModels {
         /// </summary>
         /// <param name="myUvpService">我的uvp服务。</param>
         /// <param name="dialogService">对话框服务。</param>
+        [PreferredConstructor]
         public MyUvpViewModel(IMyUvpService myUvpService,
             IDialogService dialogService) {
             _myUvpService = myUvpService;

@@ -102,9 +102,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Design\DesignDataContext.cs" />
-    <Compile Include="Design\DesignDbInitializer.cs" />
-    <Compile Include="Design\DesignMyUvpService.cs" />
     <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
     <Compile Include="Helpers\NullableObjectToVisibilityConverter.cs" />
     <Compile Include="Helpers\SystemBrowser.cs" />
@@ -212,7 +209,9 @@
       <Version>11.0.2</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Design\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
