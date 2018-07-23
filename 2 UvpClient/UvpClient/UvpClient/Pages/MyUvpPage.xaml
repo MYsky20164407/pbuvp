@@ -79,8 +79,8 @@
                             </ListView.ItemTemplate>
                         </ListView>
 
-                        <ListView ItemsSource="{Binding MyUvp.IncompleteGroupAssignments}"
-                                  Visibility="{Binding MyUvp.IncompleteGroupAssignments.Count, Converter={StaticResource InvisibleWhenZeroConverter}}"
+                        <ListView Name="IncompleteGroupAssignmentListView" ItemsSource="{Binding MyUvp.IncompleteGroupAssignments}"
+                                  Visibility="{Binding IncompleteGroupAssignmentListView.Items, Converter={StaticResource InvisibleWhenZeroConverter}}"
                                   SelectionMode="None"
                                   IsItemClickEnabled="True"
                                   ItemClick="GroupAssignmentListView_OnItemClick">
