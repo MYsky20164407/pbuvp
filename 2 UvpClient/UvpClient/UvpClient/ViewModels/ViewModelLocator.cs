@@ -7,7 +7,7 @@ namespace UvpClient.ViewModels {
     /// </summary>
     public class ViewModelLocator {
         /// <summary>
-        /// ViewModel定位器单件。
+        ///     ViewModel定位器单件。
         /// </summary>
         public static readonly ViewModelLocator Instance =
             new ViewModelLocator();
@@ -25,6 +25,7 @@ namespace UvpClient.ViewModels {
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<BindingViewModel>();
             SimpleIoc.Default.Register<MyUvpViewModel>();
+            SimpleIoc.Default.Register<MeViewModel>();
         }
 
         /// <summary>
@@ -44,5 +45,11 @@ namespace UvpClient.ViewModels {
         /// </summary>
         public BindingViewModel BindingViewModel =>
             SimpleIoc.Default.GetInstance<BindingViewModel>();
+
+        /// <summary>
+        ///     我ViewModel。
+        /// </summary>
+        public MeViewModel MeViewModel =>
+            SimpleIoc.Default.GetInstance<MeViewModel>();
     }
 }

@@ -135,6 +135,9 @@
     <Compile Include="Pages\MePage.xaml.cs">
       <DependentUpon>MePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\MoreAnnouncementPage.xaml.cs">
+      <DependentUpon>MoreAnnouncementPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MyUvpPage.xaml.cs">
       <DependentUpon>MyUvpPage.xaml</DependentUpon>
     </Compile>
@@ -164,6 +167,7 @@
     <Compile Include="Services\StudentService.cs" />
     <Compile Include="ViewModels\BindingViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\MeViewModel.cs" />
     <Compile Include="ViewModels\MyUvpViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
   </ItemGroup>
@@ -206,6 +210,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\MePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MoreAnnouncementPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

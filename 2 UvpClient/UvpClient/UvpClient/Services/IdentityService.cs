@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Windows.Security.Credentials;
 using IdentityModel.Client;
 using IdentityModel.OidcClient;
+using UvpClient.Pages;
 using UwpSample;
 
 namespace UvpClient.Services {
@@ -153,6 +154,18 @@ namespace UvpClient.Services {
                 DefaultUsername, _refreshToken));
             passwordVault.Add(new PasswordCredential(AccessTokenResource,
                 DefaultUsername, _accessToken));
+        }
+
+        /// <summary>
+        ///     注销。
+        /// </summary>
+        public void SignOut() {
+            _refreshToken = "empty";
+            _accessToken = "empty";
+            Save();
+
+            _rootNavigationService.Navigate(typeof(LoginPage), null,
+                NavigationTransition.EntranceNavigationTransition);
         }
 
 

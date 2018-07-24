@@ -20,5 +20,11 @@ namespace UvpClient.Services {
         /// <param name="studentId">学号。</param>
         /// <returns>服务结果。</returns>
         Task<ServiceResult> BindAccountAsync(string studentId);
+
+        /// <summary>
+        ///     获得我。
+        /// </summary>
+        /// <returns>服务结果。</returns>
+        Task<ServiceResult<Student>> GetMeAsync();
     }
 }

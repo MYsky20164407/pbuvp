@@ -15,7 +15,7 @@
         <RelativePanel Grid.Row="0">
             <Button Style="{ThemeResource NavigationBackButtonNormalStyle}"
                     RelativePanel.AlignTopWithPanel="True"
-                    RelativePanel.AlignLeftWithPanel="True" />
+                    RelativePanel.AlignLeftWithPanel="True" Name="BackButton" Click="BackButton_OnClick" />
         </RelativePanel>
     </Grid>
 </Page>

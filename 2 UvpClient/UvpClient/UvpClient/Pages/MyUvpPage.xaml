@@ -88,7 +88,26 @@
                                 Background="Transparent">
                         <AppBarButton Content="{Binding MyUvp.Me.Name}"
                                       Command="{Binding OpenMeCommand}" />
-                        <AppBarButton Content="sign out" />
+                        <AppBarButton Content="sign out">
+                            <AppBarButton.Flyout>
+                                <Flyout x:Name="SignOutFlyout">
+                                    <StackPanel>
+                                        <TextBlock Text="Are you sure to sign out?"
+                                                   Style="{ThemeResource BodyTextBlockStyle}"
+                                                   HorizontalAlignment="Center"
+                                                   Margin="0,0,0,12" />
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Center">
+                                            <Button Content="Yes"
+                                                    Command="{Binding SignOutCommand}" />
+                                            <Button Content="No"
+                                                    Click="ButtonBase_OnClick"
+                                                    Margin="8,0,0,0" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Flyout>
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
                         <AppBarButton Content="refresh"
                                       Command="{Binding RefreshCommand}" />
                     </CommandBar>
@@ -222,15 +241,24 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <StackPanel Grid.Row="0"
-                                    Orientation="Horizontal"
-                                    Margin="0,0,0,24">
-                            <TextBlock Text="announcement"
-                                       Style="{ThemeResource TitleTextBlockStyle}" />
-                            <ProgressRing IsEnabled="{Binding Refreshing}"
-                                          IsActive="{Binding Refreshing}"
-                                          Margin="8,0,0,0" />
-                        </StackPanel>
+                        <RelativePanel Grid.Row="0"
+                                       Margin="0,0,0,24">
+                            <StackPanel Orientation="Horizontal"
+                                        RelativePanel.AlignLeftWithPanel="True"
+                                        RelativePanel.AlignTopWithPanel="True"
+                                        Name="AnnouncementTextBlock">
+                                <TextBlock Text="announcement"
+                                           Style="{ThemeResource TitleTextBlockStyle}" />
+                                <ProgressRing IsEnabled="{Binding Refreshing}"
+                                              IsActive="{Binding Refreshing}"
+                                              Margin="8,0,0,0" />
+                            </StackPanel>
+                            <HyperlinkButton Content="more"
+                                             RelativePanel.AlignRightWithPanel="True"
+                                             RelativePanel.AlignVerticalCenterWith="AnnouncementTextBlock"
+                                             Command="{Binding OpenMoreAnnouncementCommand}" />
+                        </RelativePanel>
+
 
                         <ListView Grid.Row="1"
                                   ItemsSource="{Binding MyUvp.Announcements}"

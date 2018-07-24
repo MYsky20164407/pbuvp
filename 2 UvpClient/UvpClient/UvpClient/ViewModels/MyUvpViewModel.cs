@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
 using UvpClient.Models;
 using UvpClient.Pages;
 using UvpClient.Services;
@@ -14,6 +13,11 @@ namespace UvpClient.ViewModels {
         ///     对话框服务。
         /// </summary>
         private readonly IDialogService _dialogService;
+
+        /// <summary>
+        ///     身份服务。
+        /// </summary>
+        private readonly IIdentityService _identityService;
 
         /// <summary>
         ///     我的uvp服务。
@@ -44,6 +48,11 @@ namespace UvpClient.ViewModels {
         ///     查看我命令。
         /// </summary>
         private RelayCommand _openMeCommand;
+
+        /// <summary>
+        ///     查看更多通知命令。
+        /// </summary>
+        private RelayCommand _openMoreAnnouncementCommand;
 
         /// <summary>
         ///     查看组内自评互评表命令。
@@ -77,19 +86,43 @@ namespace UvpClient.ViewModels {
         private bool _refreshing;
 
         /// <summary>
+        ///     注销命令。
+        /// </summary>
+        private RelayCommand _signOutCommand;
+
+        /// <summary>
         ///     构造函数。
         /// </summary>
         /// <param name="myUvpService">我的uvp服务。</param>
         /// <param name="dialogService">对话框服务。</param>
         /// <param name="rootNavigationService">根导航服务。</param>
-        [PreferredConstructor]
+        /// <param name="identityService">身份服务。</param>
         public MyUvpViewModel(IMyUvpService myUvpService,
             IDialogService dialogService,
-            IRootNavigationService rootNavigationService) {
+            IRootNavigationService rootNavigationService,
+            IIdentityService identityService) {
             _myUvpService = myUvpService;
             _dialogService = dialogService;
             _rootNavigationService = rootNavigationService;
+            _identityService = identityService;
         }
+
+        /// <summary>
+        ///     注销命令。
+        /// </summary>
+        public RelayCommand SignOutCommand =>
+            _signOutCommand ?? (_signOutCommand =
+                new RelayCommand(() => _identityService.SignOut()));
+
+        /// <summary>
+        ///     查看更多通知命令。
+        /// </summary>
+        public RelayCommand OpenMoreAnnouncementCommand =>
+            _openMoreAnnouncementCommand ?? (_openMoreAnnouncementCommand =
+                new RelayCommand(() =>
+                    _rootNavigationService.Navigate(
+                        typeof(MoreAnnouncementPage), null,
+                        NavigationTransition.DrillInNavigationTransition)));
 
         /// <summary>
         ///     查看通知命令。

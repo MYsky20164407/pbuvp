@@ -118,5 +118,50 @@ namespace UvpClient.Services {
                 return serviceResult;
             }
         }
+
+        /// <summary>
+        ///     获得我。
+        /// </summary>
+        /// <returns>服务结果。</returns>
+        public async Task<ServiceResult<Student>> GetMeAsync() {
+            var identifiedHttpMessageHandler =
+                _identityService.GetIdentifiedHttpMessageHandler();
+            using (var httpClient =
+                new HttpClient(identifiedHttpMessageHandler)) {
+                HttpResponseMessage response;
+                try {
+                    response =
+                        await httpClient.GetAsync(
+                            App.ServerEndpoint + "/api/Me");
+                } catch (Exception e) {
+                    return new ServiceResult<Student> {
+                        Status = ServiceResultStatus.Exception,
+                        Message = e.Message
+                    };
+                }
+
+                var serviceResult = new ServiceResult<Student> {
+                    Status =
+                        ServiceResultStatusHelper.FromHttpStatusCode(
+                            response.StatusCode)
+                };
+
+                switch (response.StatusCode) {
+                    case HttpStatusCode.Unauthorized:
+                    case HttpStatusCode.Forbidden:
+                        break;
+                    case HttpStatusCode.OK:
+                        var json = await response.Content.ReadAsStringAsync();
+                        serviceResult.Result =
+                            JsonConvert.DeserializeObject<Student>(json);
+                        break;
+                    default:
+                        serviceResult.Message = response.ReasonPhrase;
+                        break;
+                }
+
+                return serviceResult;
+            }
+        }
     }
 }

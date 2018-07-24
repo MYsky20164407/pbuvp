@@ -27,6 +27,11 @@ namespace UvpClient.Services {
         ///     保存。
         /// </summary>
         void Save();
+
+        /// <summary>
+        /// 注销。
+        /// </summary>
+        void SignOut();
     }
 
     /// <summary>
