@@ -8,6 +8,31 @@
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="AboutMeStackPanel.(RelativePanel.RightOf)"
+                                Value="BackButton" />
+                        <Setter Target="AboutMeStackPanel.(RelativePanel.AlignHorizontalCenterWithPanel)"
+                                Value="False" />
+                        <Setter Target="AboutMeStackPanel.(RelativePanel.AlignLeftWithPanel)"
+                                Value="False" />
+                        <Setter Target="AboutMeStackPanel.(RelativePanel.AlignRightWithPanel)"
+                                Value="False" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="580" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -15,7 +40,18 @@
         <RelativePanel Grid.Row="0">
             <Button Style="{ThemeResource NavigationBackButtonNormalStyle}"
                     RelativePanel.AlignTopWithPanel="True"
-                    RelativePanel.AlignLeftWithPanel="True" Name="BackButton" Click="BackButton_OnClick" />
+                    RelativePanel.AlignLeftWithPanel="True"
+                    Name="BackButton"
+                    Click="BackButton_OnClick" />
+            <StackPanel Padding="12"
+                        MaxWidth="480"
+                        Name="AboutMeStackPanel"
+                        RelativePanel.AlignHorizontalCenterWithPanel="True"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True">
+                <TextBlock Text="about me"
+                           Style="{ThemeResource SubheaderTextBlockStyle}" />
+            </StackPanel>
         </RelativePanel>
     </Grid>
 </Page>

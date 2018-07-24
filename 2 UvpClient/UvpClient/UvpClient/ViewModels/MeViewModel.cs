@@ -49,7 +49,7 @@ namespace UvpClient.ViewModels {
         /// </summary>
         public Student Me {
             get => _me;
-            set => Set(nameof(Me), ref value, value);
+            set => Set(nameof(Me), ref _me, value);
         }
 
         /// <summary>

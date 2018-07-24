@@ -2,6 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using UvpClient.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -12,6 +13,7 @@ namespace UvpClient.Pages {
     public sealed partial class MePage : Page {
         public MePage() {
             InitializeComponent();
+            DataContext = ViewModelLocator.Instance.MeViewModel;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
