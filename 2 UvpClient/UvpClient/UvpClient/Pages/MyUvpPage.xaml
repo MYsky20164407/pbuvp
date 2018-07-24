@@ -9,141 +9,447 @@
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       NavigationCacheMode="Enabled">
 
-    <Grid>
+    <ScrollViewer>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="640"></AdaptiveTrigger>
+                        <AdaptiveTrigger MinWindowWidth="912" />
                     </VisualState.StateTriggers>
                 </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"></AdaptiveTrigger>
+                        <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="TodoGrid.(Grid.ColumnSpan)" Value="2"></Setter>
-                        <Setter Target="AnnouncementGrid.(Grid.ColumnSpan)" Value="2"></Setter>
-                        <Setter Target="AnnouncementGrid.(Grid.Column)" Value="0"></Setter>
-                        <Setter Target="AnnouncementGrid.(Grid.Row)" Value="1"></Setter>
+                        <Setter Target="TodoGrid.(Grid.ColumnSpan)"
+                                Value="2" />
+                        <Setter Target="TodoGrid.Padding"
+                                Value="0" />
+                        <Setter Target="AnnouncementGrid.(Grid.ColumnSpan)"
+                                Value="2" />
+                        <Setter Target="AnnouncementGrid.(Grid.Column)"
+                                Value="0" />
+                        <Setter Target="AnnouncementGrid.(Grid.Row)"
+                                Value="1" />
+
+                        <Setter Target="StudentAssignmentGrid.(Grid.ColumnSpan)"
+                                Value="2" />
+                        <Setter Target="StudentAssignmentGrid.Padding"
+                                Value="0" />
+                        <Setter Target="GroupAssignmentGrid.(Grid.ColumnSpan)"
+                                Value="2" />
+                        <Setter Target="GroupAssignmentGrid.Padding"
+                                Value="0" />
+                        <Setter Target="GroupAssignmentGrid.(Grid.Column)"
+                                Value="0" />
+                        <Setter Target="GroupAssignmentGrid.(Grid.Row)"
+                                Value="1" />
+
+                        <Setter Target="VoteGrid.(Grid.ColumnSpan)"
+                                Value="2" />
+                        <Setter Target="VoteGrid.Padding"
+                                Value="0" />
+                        <Setter Target="PeerWorkGroupEvaluationGrid.(Grid.ColumnSpan)"
+                                Value="2" />
+                        <Setter Target="PeerWorkGroupEvaluationGrid.Padding"
+                                Value="0" />
+                        <Setter Target="PeerWorkGroupEvaluationGrid.(Grid.Column)"
+                                Value="0" />
+                        <Setter Target="PeerWorkGroupEvaluationGrid.(Grid.Row)"
+                                Value="1" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Grid MinWidth="320"
-              MaxWidth="1124"
-              Padding="12">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <RelativePanel Grid.Row="0"
-                           Margin="0,0,0,20">
-                <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}"
-                           Text="my /uvp/"
-                           RelativePanel.AlignLeftWithPanel="True"
-                           RelativePanel.AlignTopWithPanel="True" />
-                <CommandBar RelativePanel.AlignRightWithPanel="True"
-                            RelativePanel.AlignTopWithPanel="True"
-                            OverflowButtonVisibility="Collapsed"
-                            Background="Transparent">
-                    <AppBarButton Content="{Binding MyUvp.Me.Name}"
-                                  Command="{Binding OpenMeCommand}" />
-                    <AppBarButton Content="sign out" />
-                    <AppBarButton Content="refresh"
-                                  Command="{Binding RefreshCommand}" />
-                </CommandBar>
-            </RelativePanel>
-
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
+        <Grid>
+            <Grid MinWidth="320"
+                  MaxWidth="1204"
+                  Padding="40">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Column="0"
-                      Grid.Row="0"
-                      Name="TodoGrid"
-                      Padding="0,0,20,0"
-                      Margin="0,0,0,20">
+                <RelativePanel Grid.Row="0"
+                               Margin="0,0,0,40">
+                    <TextBlock Style="{ThemeResource SubheaderTextBlockStyle}"
+                               Text="my /uvp/"
+                               RelativePanel.AlignLeftWithPanel="True"
+                               RelativePanel.AlignTopWithPanel="True" />
+                    <CommandBar RelativePanel.AlignRightWithPanel="True"
+                                RelativePanel.AlignTopWithPanel="True"
+                                OverflowButtonVisibility="Collapsed"
+                                Background="Transparent">
+                        <AppBarButton Content="{Binding MyUvp.Me.Name}"
+                                      Command="{Binding OpenMeCommand}" />
+                        <AppBarButton Content="sign out" />
+                        <AppBarButton Content="refresh"
+                                      Command="{Binding RefreshCommand}" />
+                    </CommandBar>
+                </RelativePanel>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <StackPanel Grid.Row="0"
-                                Orientation="Horizontal"
-                                Margin="0,0,0,12">
-                        <TextBlock Text="to-do"
-                                   Style="{ThemeResource TitleTextBlockStyle}" />
-                        <ProgressRing IsEnabled="{Binding Refreshing}"
-                                      IsActive="{Binding Refreshing}"
-                                      Margin="8,0,0,0" />
-                    </StackPanel>
-                    <StackPanel Grid.Row="1">
-                        <ListView ItemsSource="{Binding MyUvp.IncompleteStudentAssignments}"
+                    <Grid Grid.Column="0"
+                          Grid.Row="0"
+                          Name="TodoGrid"
+                          Padding="0,0,40,0"
+                          Margin="0,0,0,40">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0"
+                                    Orientation="Horizontal"
+                                    Margin="0,0,0,24">
+                            <TextBlock Text="to-do"
+                                       Style="{ThemeResource TitleTextBlockStyle}" />
+                            <ProgressRing IsEnabled="{Binding Refreshing}"
+                                          IsActive="{Binding Refreshing}"
+                                          Margin="8,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="1">
+                            <ListView ItemsSource="{Binding MyUvp.IncompleteStudentAssignments}"
+                                      SelectionMode="None"
+                                      IsItemClickEnabled="True"
+                                      ItemClick="StudentAssignmentListView_OnItemClick"
+                                      Visibility="{Binding MyUvp.IncompleteStudentAssignments.Count, Converter={StaticResource InvisibleWhenZeroConverter}, FallbackValue=Collapsed}"
+                                      Margin="0,0,0,12">
+                                <ListView.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="homework"
+                                                   Style="{ThemeResource BaseTextBlockStyle}"
+                                                   Margin="0,0,0,8" />
+                                    </DataTemplate>
+                                </ListView.HeaderTemplate>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Homework.Subject}"
+                                                   Style="{ThemeResource BodyTextBlockStyle}" />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                            <ListView ItemsSource="{Binding MyUvp.IncompleteGroupAssignments}"
+                                      SelectionMode="None"
+                                      IsItemClickEnabled="True"
+                                      ItemClick="GroupAssignmentListView_OnItemClick"
+                                      Margin="0,0,0,12"
+                                      Visibility="{Binding MyUvp.IncompleteGroupAssignments.Count, Converter={StaticResource InvisibleWhenZeroConverter}, FallbackValue=Collapsed}">
+                                <ListView.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="team homework"
+                                                   Style="{ThemeResource BaseTextBlockStyle}"
+                                                   Margin="0,0,0,8" />
+                                    </DataTemplate>
+                                </ListView.HeaderTemplate>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Homework.Subject}"
+                                                   Style="{ThemeResource BodyTextBlockStyle}" />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                            <ListView ItemsSource="{Binding MyUvp.IncompleteVotes}"
+                                      SelectionMode="None"
+                                      IsItemClickEnabled="True"
+                                      Margin="0,0,0,12"
+                                      ItemClick="VoteListView_OnItemClick"
+                                      Visibility="{Binding MyUvp.IncompleteVotes.Count, Converter={StaticResource InvisibleWhenZeroConverter}, FallbackValue=Collapsed}">
+                                <ListView.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="vote"
+                                                   Style="{ThemeResource BaseTextBlockStyle}"
+                                                   Margin="0,0,0,8" />
+                                    </DataTemplate>
+                                </ListView.HeaderTemplate>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Questionnaire.Title}"
+                                                   Style="{ThemeResource BodyTextBlockStyle}" />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                            <ListView ItemsSource="{Binding MyUvp.IncompletePeerWorkGroupEvaluations}"
+                                      SelectionMode="None"
+                                      IsItemClickEnabled="True"
+                                      Margin="0,0,0,12"
+                                      ItemClick="PeerWorkGroupEvaluationListView_OnItemClick"
+                                      Visibility="{Binding MyUvp.IncompletePeerWorkGroupEvaluations.Count, Converter={StaticResource InvisibleWhenZeroConverter}, FallbackValue=Collapsed}">
+                                <ListView.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="peer work group evaluation"
+                                                   Style="{ThemeResource BaseTextBlockStyle}"
+                                                   Margin="0,0,0,8" />
+                                    </DataTemplate>
+                                </ListView.HeaderTemplate>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Target.Name}"
+                                                       Style="{ThemeResource BodyTextBlockStyle}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Column="1"
+                          Grid.Row="0"
+                          Name="AnnouncementGrid"
+                          Margin="0,0,0,40">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0"
+                                    Orientation="Horizontal"
+                                    Margin="0,0,0,24">
+                            <TextBlock Text="announcement"
+                                       Style="{ThemeResource TitleTextBlockStyle}" />
+                            <ProgressRing IsEnabled="{Binding Refreshing}"
+                                          IsActive="{Binding Refreshing}"
+                                          Margin="8,0,0,0" />
+                        </StackPanel>
+
+                        <ListView Grid.Row="1"
+                                  ItemsSource="{Binding MyUvp.Announcements}"
                                   SelectionMode="None"
                                   IsItemClickEnabled="True"
-                                  ItemClick="StudentAssignmentListView_OnItemClick"
-                                  Visibility="{Binding MyUvp.IncompleteStudentAssignments.Count, Converter={StaticResource InvisibleWhenZeroConverter}}">
+                                  ItemClick="AnnouncementListView_OnItemClick">
                             <ListView.HeaderTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="homework"
-                                               Style="{ThemeResource BaseTextBlockStyle}"
-                                               Margin="0,0,0,4" />
+                                    <TextBlock Text="no announcement right now"
+                                               Visibility="{Binding MyUvp.Announcements.Count, Converter={StaticResource VisibleWhenZeroConverter}}"
+                                               Style="{ThemeResource BodyTextBlockStyle}" />
                                 </DataTemplate>
                             </ListView.HeaderTemplate>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Homework.Subject}"
-                                               Style="{ThemeResource BodyTextBlockStyle}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Title}"
+                                                   Style="{ThemeResource BodyTextBlockStyle}" />
+                                    </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
+                    </Grid>
+                </Grid>
 
-                        <ListView ItemsSource="{Binding MyUvp.IncompleteGroupAssignments}"
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Column="0"
+                          Grid.Row="0"
+                          Name="StudentAssignmentGrid"
+                          Padding="0,0,20,0"
+                          Margin="0,0,0,40">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0"
+                                    Orientation="Horizontal"
+                                    Margin="0,0,0,24">
+                            <TextBlock Text="homework"
+                                       Style="{ThemeResource TitleTextBlockStyle}" />
+                            <ProgressRing IsEnabled="{Binding Refreshing}"
+                                          IsActive="{Binding Refreshing}"
+                                          Margin="8,0,0,0" />
+                        </StackPanel>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="no homework right now"
+                                   Visibility="{Binding MyUvp.StudentAssignments.Count, Converter={StaticResource VisibleWhenZeroConverter}}"
+                                   Style="{ThemeResource BodyTextBlockStyle}" />
+
+                        <ListView Grid.Row="1"
+                                  Visibility="{Binding MyUvp.StudentAssignments.Count, Converter={StaticResource InvisibleWhenZeroConverter}, FallbackValue=Collapsed}"
+                                  ItemsSource="{Binding MyUvp.StudentAssignments}"
                                   SelectionMode="None"
                                   IsItemClickEnabled="True"
-                                  ItemClick="GroupAssignmentListView_OnItemClick"
-                                  Visibility="{Binding MyUvp.IncompleteGroupAssignments.Count, Converter={StaticResource InvisibleWhenZeroConverter}}">
+                                  ItemClick="StudentAssignmentListView_OnItemClick">
                             <ListView.HeaderTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="team homework"
-                                               Style="{ThemeResource BaseTextBlockStyle}"
-                                               Margin="0,0,0,4" />
+                                    <Grid Margin="0,0,0,4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="48" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0"
+                                                   Style="{ThemeResource BaseTextBlockStyle}"
+                                                   Text="subject" />
+                                        <TextBlock Grid.Column="1"
+                                                   Style="{ThemeResource BaseTextBlockStyle}"
+                                                   Text="score"
+                                                   HorizontalAlignment="Center" />
+                                    </Grid>
                                 </DataTemplate>
                             </ListView.HeaderTemplate>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Homework.Subject}"
-                                               Style="{ThemeResource BodyTextBlockStyle}" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="48" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0"
+                                                   Text="{Binding Homework.Subject}"
+                                                   Style="{ThemeResource BodyTextBlockStyle}" />
+                                        <TextBlock Grid.Column="1"
+                                                   Text="{Binding Score}"
+                                                   HorizontalAlignment="Center"
+                                                   Style="{ThemeResource BodyTextBlockStyle}" />
+                                    </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
+                    </Grid>
 
-                        <ListView ItemsSource="{Binding MyUvp.IncompleteVotes}"
+                    <Grid Grid.Column="1"
+                          Grid.Row="0"
+                          Name="GroupAssignmentGrid"
+                          Padding="20,0,0,0"
+                          Margin="0,0,0,40">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0"
+                                    Orientation="Horizontal"
+                                    Margin="0,0,0,24">
+                            <TextBlock Text="team homework"
+                                       Style="{ThemeResource TitleTextBlockStyle}" />
+                            <ProgressRing IsEnabled="{Binding Refreshing}"
+                                          IsActive="{Binding Refreshing}"
+                                          Margin="8,0,0,0" />
+                        </StackPanel>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="no team homework right now"
+                                   Visibility="{Binding MyUvp.GroupAssignments.Count, Converter={StaticResource VisibleWhenZeroConverter}}"
+                                   Style="{ThemeResource BodyTextBlockStyle}" />
+
+                        <ListView Grid.Row="1"
+                                  Visibility="{Binding MyUvp.GroupAssignments.Count, Converter={StaticResource InvisibleWhenZeroConverter}, FallbackValue=Collapsed}"
+                                  ItemsSource="{Binding MyUvp.GroupAssignments}"
                                   SelectionMode="None"
                                   IsItemClickEnabled="True"
-                                  ItemClick="VoteListView_OnItemClick"
-                                  Visibility="{Binding MyUvp.IncompleteVotes.Count, Converter={StaticResource InvisibleWhenZeroConverter}}">
+                                  ItemClick="GroupAssignmentListView_OnItemClick">
                             <ListView.HeaderTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="vote"
-                                               Style="{ThemeResource BaseTextBlockStyle}"
-                                               Margin="0,0,0,4" />
+                                    <Grid Margin="0,0,0,4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="48" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0"
+                                                   Style="{ThemeResource BaseTextBlockStyle}"
+                                                   Text="subject" />
+                                        <TextBlock Grid.Column="1"
+                                                   Style="{ThemeResource BaseTextBlockStyle}"
+                                                   Text="score"
+                                                   HorizontalAlignment="Center" />
+                                    </Grid>
                                 </DataTemplate>
                             </ListView.HeaderTemplate>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="48" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0"
+                                                   Text="{Binding Homework.Subject}"
+                                                   Style="{ThemeResource BodyTextBlockStyle}" />
+                                        <TextBlock Grid.Column="1"
+                                                   Text="{Binding Score}"
+                                                   HorizontalAlignment="Center"
+                                                   Style="{ThemeResource BodyTextBlockStyle}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Column="0"
+                          Grid.Row="0"
+                          Name="VoteGrid"
+                          Padding="0,0,20,0"
+                          Margin="0,0,0,40">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0"
+                                    Orientation="Horizontal"
+                                    Margin="0,0,0,8">
+                            <TextBlock Text="vote"
+                                       Style="{ThemeResource TitleTextBlockStyle}" />
+                            <ProgressRing IsEnabled="{Binding Refreshing}"
+                                          IsActive="{Binding Refreshing}"
+                                          Margin="8,0,0,0" />
+                        </StackPanel>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="no vote right now"
+                                   Visibility="{Binding MyUvp.Votes.Count, Converter={StaticResource VisibleWhenZeroConverter}}"
+                                   Style="{ThemeResource BodyTextBlockStyle}" />
+
+                        <ListView Grid.Row="1"
+                                  Visibility="{Binding MyUvp.Votes.Count, Converter={StaticResource InvisibleWhenZeroConverter}, FallbackValue=Collapsed}"
+                                  ItemsSource="{Binding MyUvp.Votes}"
+                                  SelectionMode="None"
+                                  IsItemClickEnabled="True"
+                                  ItemClick="VoteListView_OnItemClick">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Questionnaire.Title}"
@@ -151,72 +457,50 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
+                    </Grid>
 
-                        <ListView ItemsSource="{Binding MyUvp.IncompletePeerWorkGroupEvaluations}"
+                    <Grid Grid.Column="1"
+                          Grid.Row="0"
+                          Name="PeerWorkGroupEvaluationGrid"
+                          Padding="20,0,0,0"
+                          Margin="0,0,0,40">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0"
+                                    Orientation="Horizontal"
+                                    Margin="0,0,0,8">
+                            <TextBlock Text="peer work group evaluation"
+                                       Style="{ThemeResource TitleTextBlockStyle}" />
+                            <ProgressRing IsEnabled="{Binding Refreshing}"
+                                          IsActive="{Binding Refreshing}"
+                                          Margin="8,0,0,0" />
+                        </StackPanel>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="no evalution right now"
+                                   Visibility="{Binding MyUvp.PeerWorkGroupEvaluations.Count, Converter={StaticResource VisibleWhenZeroConverter}}"
+                                   Style="{ThemeResource BodyTextBlockStyle}" />
+
+                        <ListView Grid.Row="1"
+                                  Visibility="{Binding MyUvp.PeerWorkGroupEvaluations.Count, Converter={StaticResource InvisibleWhenZeroConverter}, FallbackValue=Collapsed}"
+                                  ItemsSource="{Binding MyUvp.PeerWorkGroupEvaluations}"
                                   SelectionMode="None"
                                   IsItemClickEnabled="True"
-                                  ItemClick="PeerWorkGroupEvaluationListView_OnItemClick"
-                                  Visibility="{Binding MyUvp.IncompletePeerWorkGroupEvaluations.Count, Converter={StaticResource InvisibleWhenZeroConverter}}">
-                            <ListView.HeaderTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="peer work group evaluation"
-                                               Style="{ThemeResource BaseTextBlockStyle}"
-                                               Margin="0,0,0,4" />
-                                </DataTemplate>
-                            </ListView.HeaderTemplate>
+                                  ItemClick="PeerWorkGroupEvaluationListView_OnItemClick">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Target.Name}"
-                                                   Style="{ThemeResource BodyTextBlockStyle}" />
-                                    </StackPanel>
+                                    <TextBlock Text="{Binding Target.Name}"
+                                               Style="{ThemeResource BodyTextBlockStyle}" />
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                    </StackPanel>
-                </Grid>
-
-                <Grid Grid.Column="1"
-                      Grid.Row="0"
-                      Name="AnnouncementGrid" Margin="0,0,0,20">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <StackPanel Grid.Row="0"
-                                Orientation="Horizontal"
-                                Margin="0,0,0,12">
-                        <TextBlock Text="announcement"
-                                   Style="{ThemeResource TitleTextBlockStyle}" />
-                        <ProgressRing IsEnabled="{Binding Refreshing}"
-                                      IsActive="{Binding Refreshing}"
-                                      Margin="8,0,0,0" />
-                    </StackPanel>
-
-                    <ListView Grid.Row="1"
-                              ItemsSource="{Binding MyUvp.Announcements}"
-                              SelectionMode="None"
-                              IsItemClickEnabled="True"
-                              ItemClick="AnnouncementListView_OnItemClick">
-                        <ListView.HeaderTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="no announcement right now"
-                                           Visibility="{Binding MyUvp.Announcements.Count, Converter={StaticResource VisibleWhenZeroConverter}}" />
-                            </DataTemplate>
-                        </ListView.HeaderTemplate>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Target.Name}"
-                                               Style="{ThemeResource BodyTextBlockStyle}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                    </Grid>
                 </Grid>
             </Grid>
         </Grid>
-    </Grid>
+    </ScrollViewer>
 
 </Page>

@@ -137,7 +137,7 @@ namespace UvpClient.ViewModels {
             (_openPeerWorkGroupEvaluationCommand =
                 new RelayCommand<PeerWorkGroupEvaluation>(
                     peerWorkGroupEvaluation => _rootNavigationService.Navigate(
-                        typeof(PeerWorkGroupEvaluation),
+                        typeof(PeerWorkGroupEvaluationPage),
                         peerWorkGroupEvaluation,
                         NavigationTransition.DrillInNavigationTransition)));
 

@@ -57,7 +57,7 @@ namespace UvpClient.Models {
         ///     未完成的投票。
         /// </summary>
         public List<Vote> IncompleteVotes =>
-            Votes.Where(m => string.IsNullOrEmpty(m.Answers)).ToList();
+            Votes.Where(m => m.AnswerCollection.Count == 0).ToList();
 
         /// <summary>
         ///     未完成的组内自评互评表。

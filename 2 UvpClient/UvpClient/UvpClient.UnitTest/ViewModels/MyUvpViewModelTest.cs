@@ -1,11 +1,147 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UvpClient.Models;
+using UvpClient.Pages;
 using UvpClient.Services;
 using UvpClient.ViewModels;
 
 namespace UvpClient.UnitTest.ViewModels {
     [TestClass]
     public class MyUvpViewModelTest {
+        [TestMethod]
+        public void TestOpenAnnouncementCommand() {
+            var announcementToNavigate = new Announcement();
+
+            var rootFrameNavigated = false;
+            var stubIRootNavigationService = new StubIRootNavigationService();
+            stubIRootNavigationService.Navigate((type, parameter, transition) =>
+                rootFrameNavigated = type == typeof(AnnouncementPage) &&
+                                     parameter == announcementToNavigate &&
+                                     transition == NavigationTransition
+                                         .DrillInNavigationTransition);
+
+            var myUvpViewModel =
+                new MyUvpViewModel(null, null, stubIRootNavigationService);
+            myUvpViewModel.OpenAnnouncementCommand.Execute(
+                announcementToNavigate);
+
+            Assert.IsTrue(rootFrameNavigated);
+        }
+
+        [TestMethod]
+        public void TestOpenMeCommand() {
+            var rootFrameNavigated = false;
+            var stubIRootNavigationService = new StubIRootNavigationService();
+            stubIRootNavigationService.Navigate((type, parameter, transition) =>
+                rootFrameNavigated = type == typeof(MePage) &&
+                                     parameter == null &&
+                                     transition == NavigationTransition
+                                         .DrillInNavigationTransition);
+
+            var myUvpViewModel =
+                new MyUvpViewModel(null, null, stubIRootNavigationService);
+            myUvpViewModel.OpenMeCommand.Execute(null);
+
+            Assert.IsTrue(rootFrameNavigated);
+        }
+
+        [TestMethod]
+        public void TestOpenPrivacyDataCommand() {
+            var rootFrameNavigated = false;
+            var stubIRootNavigationService = new StubIRootNavigationService();
+            stubIRootNavigationService.Navigate((type, parameter, transition) =>
+                rootFrameNavigated = type == typeof(PrivacyDataPage) &&
+                                     parameter == null &&
+                                     transition == NavigationTransition
+                                         .DrillInNavigationTransition);
+
+            var myUvpViewModel =
+                new MyUvpViewModel(null, null, stubIRootNavigationService);
+            myUvpViewModel.OpenPrivacyDataCommand.Execute(null);
+
+            Assert.IsTrue(rootFrameNavigated);
+        }
+
+        [TestMethod]
+        public void TestOpenVoteCommand() {
+            var voteToNavigate = new Vote();
+
+            var rootFrameNavigated = false;
+            var stubIRootNavigationService = new StubIRootNavigationService();
+            stubIRootNavigationService.Navigate((type, parameter, transition) =>
+                rootFrameNavigated = type == typeof(VotePage) &&
+                                     parameter == voteToNavigate &&
+                                     transition == NavigationTransition
+                                         .DrillInNavigationTransition);
+
+            var myUvpViewModel =
+                new MyUvpViewModel(null, null, stubIRootNavigationService);
+            myUvpViewModel.OpenVoteCommand.Execute(voteToNavigate);
+
+            Assert.IsTrue(rootFrameNavigated);
+        }
+
+        [TestMethod]
+        public void TestOpenPeerWorkGroupEvaluationCommand() {
+            var peerWorkGroupEvaluationToNavigate =
+                new PeerWorkGroupEvaluation();
+
+            var rootFrameNavigated = false;
+            var stubIRootNavigationService = new StubIRootNavigationService();
+            stubIRootNavigationService.Navigate((type, parameter, transition) =>
+                rootFrameNavigated =
+                    type == typeof(PeerWorkGroupEvaluationPage) &&
+                    parameter == peerWorkGroupEvaluationToNavigate &&
+                    transition == NavigationTransition
+                        .DrillInNavigationTransition);
+
+            var myUvpViewModel =
+                new MyUvpViewModel(null, null, stubIRootNavigationService);
+            myUvpViewModel.OpenPeerWorkGroupEvaluationCommand.Execute(
+                peerWorkGroupEvaluationToNavigate);
+
+            Assert.IsTrue(rootFrameNavigated);
+        }
+
+        [TestMethod]
+        public void TestOpenGroupAssignmentCommand() {
+            var groupAssignmentToNavigate = new GroupAssignment();
+
+            var rootFrameNavigated = false;
+            var stubIRootNavigationService = new StubIRootNavigationService();
+            stubIRootNavigationService.Navigate((type, parameter, transition) =>
+                rootFrameNavigated = type == typeof(GroupAssignmentPage) &&
+                                     parameter == groupAssignmentToNavigate &&
+                                     transition == NavigationTransition
+                                         .DrillInNavigationTransition);
+
+            var myUvpViewModel =
+                new MyUvpViewModel(null, null, stubIRootNavigationService);
+            myUvpViewModel.OpenGroupAssignmentCommand.Execute(
+                groupAssignmentToNavigate);
+
+            Assert.IsTrue(rootFrameNavigated);
+        }
+
+        [TestMethod]
+        public void TestOpenStudentAssignmentCommand() {
+            var studentAssignmentToNavigate = new StudentAssignment();
+
+            var rootFrameNavigated = false;
+            var stubIRootNavigationService = new StubIRootNavigationService();
+            stubIRootNavigationService.Navigate((type, parameter, transition) =>
+                rootFrameNavigated = type == typeof(StudentAssignmentPage) &&
+                                     parameter == studentAssignmentToNavigate &&
+                                     transition == NavigationTransition
+                                         .DrillInNavigationTransition);
+
+            var myUvpViewModel =
+                new MyUvpViewModel(null, null, stubIRootNavigationService);
+            myUvpViewModel.OpenStudentAssignmentCommand.Execute(
+                studentAssignmentToNavigate);
+
+            Assert.IsTrue(rootFrameNavigated);
+        }
+
         [TestMethod]
         public void TestRefreshCommandUnauthorized() {
             var rootFrameNavigated = false;
