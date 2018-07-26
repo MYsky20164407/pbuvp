@@ -14,7 +14,7 @@
                     DefaultLabelPosition="Right">
             <AppBarButton Icon="Save"
                           Label="Save"
-                          Command="{Binding SaveCommand}"
+                          Command="{Binding UpdateCommand}"
                           CommandParameter="{Binding SelectedContact}" />
             <!-- 点击AppBarButton不会导致TextBox失去焦点，所以就不会执行绑定。 -->
             <AppBarButton Label="Null AppBarButton" />
