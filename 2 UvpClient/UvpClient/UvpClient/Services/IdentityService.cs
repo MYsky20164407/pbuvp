@@ -44,12 +44,12 @@ namespace UvpClient.Services {
         /// <summary>
         ///     AccessToken。
         /// </summary>
-        private string _accessToken;
+        private string _accessToken = "";
 
         /// <summary>
         ///     RefreshToken。
         /// </summary>
-        private string _refreshToken;
+        private string _refreshToken = "";
 
         /// <summary>
         ///     构造函数。
@@ -94,10 +94,6 @@ namespace UvpClient.Services {
         /// </summary>
         /// <returns>带有身份的HttpMessageHandler</returns>
         public IdentifiedHttpMessageHandler GetIdentifiedHttpMessageHandler() {
-            if (string.IsNullOrEmpty(_refreshToken) ||
-                string.IsNullOrEmpty(_accessToken))
-                return null;
-
             var oidcClientOptions = CreateOidcClientOptions();
             var tokenClient =
                 new TokenClient(App.ServerEndpoint + "/connect/token",
