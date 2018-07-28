@@ -64,7 +64,7 @@
                       HorizontalAlignment="Stretch"
                       MinWidth="320"
                       MaxWidth="1204">
-            <Grid Padding="40,12,40,0"
+            <Grid Padding="40,12,40,40"
                   HorizontalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
