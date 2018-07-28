@@ -4,6 +4,7 @@
       xmlns:local="using:UvpClient.Pages"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:rtbx="using:SocialMediaDashboard.W8.Common"
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -35,7 +36,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <RelativePanel Grid.Row="0"
@@ -58,8 +59,12 @@
         </RelativePanel>
 
         <ScrollViewer Grid.Row="1"
-                      Padding="40,0,40,40">
-            <Grid>
+                      HorizontalScrollMode="Disabled"
+                      HorizontalAlignment="Stretch"
+                      MinWidth="320"
+                      MaxWidth="1204">
+            <Grid Padding="40,12,40,0"
+                  HorizontalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />

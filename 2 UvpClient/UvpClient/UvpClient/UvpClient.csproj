@@ -103,6 +103,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Helpers\RichTextBlockProperties.cs" />
     <Compile Include="Helpers\VisibleWhenZeroConverter.cs" />
     <Compile Include="Helpers\NullableObjectToVisibilityConverter.cs" />
     <Compile Include="Helpers\SystemBrowser.cs" />
@@ -244,6 +245,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack">
+      <Version>1.8.5</Version>
+    </PackageReference>
     <PackageReference Include="IdentityModel.OidcClient">
       <Version>2.8.1</Version>
     </PackageReference>
