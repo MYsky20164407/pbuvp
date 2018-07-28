@@ -3,17 +3,17 @@
       xmlns:local="using:UvpClient.Pages"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:Custom="using:Microsoft.Xaml.Interactivity"
-      xmlns:Custom1="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:i="using:Microsoft.Xaml.Interactivity"
+      xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
       x:Class="UvpClient.Pages.MePage"
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Custom:Interaction.Behaviors>
-        <Custom1:EventTriggerBehavior EventName="Loaded">
-            <Custom1:InvokeCommandAction Command="{Binding GetCommand}" />
-        </Custom1:EventTriggerBehavior>
-    </Custom:Interaction.Behaviors>
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{Binding GetCommand}" />
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
 
     <Grid>
         <VisualStateManager.VisualStateGroups>
@@ -43,7 +43,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <RelativePanel Grid.Row="0"
@@ -64,12 +64,16 @@
             </StackPanel>
         </RelativePanel>
 
-        <ScrollViewer Grid.Row="1">
-            <StackPanel Padding="12"
+
+        <ScrollViewer Grid.Row="1"
+                      HorizontalScrollMode="Disabled"
+                      HorizontalAlignment="Stretch"
+                      MinWidth="320"
+                      MaxWidth="480">
+            <StackPanel Padding="12,0,12,12"
                         MinWidth="320"
                         MaxWidth="480"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
+                        HorizontalAlignment="Stretch"
                         Margin="0,0,0,40">
                 <StackPanel Margin="0,0,0,24"
                             Orientation="Horizontal">
@@ -98,15 +102,50 @@
                                Style="{ThemeResource BodyTextBlockStyle}"
                                Margin="4,0,0,0" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,0,0,40">
                     <TextBlock Text="Team:"
                                Style="{ThemeResource BodyTextBlockStyle}" />
                     <TextBlock Text="{Binding Me.Group.Name}"
-                               Style="{ThemeResource BodyTextBlockStyle}"
-                               Margin="4,0,0,0" />
+                               Style="{ThemeResource BodyTextBlockStyle}" />
                 </StackPanel>
+
+                <StackPanel Margin="0,0,0,24"
+                            Orientation="Horizontal">
+                    <TextBlock Text="My Team"
+                               Style="{ThemeResource SubheaderTextBlockStyle}" />
+                    <ProgressRing Margin="8,0,0,0"
+                                  IsEnabled="{Binding Loading}"
+                                  IsActive="{Binding Loading}" />
+                </StackPanel>
+
+                <ListView ItemsSource="{Binding Me.Group.Students}"
+                          SelectionMode="None"
+                          IsItemClickEnabled="False">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Padding"
+                                    Value="0" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}"
+                                           Style="{ThemeResource BodyTextBlockStyle}"
+                                           Margin="4,0,0,0" />
+                                <TextBlock Text="{Binding StudentId}"
+                                           Style="{ThemeResource BodyTextBlockStyle}"
+                                           Margin="4,0,0,0" />
+                                <TextBlock Text="{Binding Clazz.Name}"
+                                           Style="{ThemeResource BodyTextBlockStyle}"
+                                           Margin="0,0,0,24" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackPanel>
         </ScrollViewer>
-
     </Grid>
 </Page>
