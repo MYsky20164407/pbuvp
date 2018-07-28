@@ -52,5 +52,10 @@ namespace UvpClient.Pages {
         private void BackButton_OnClick(object sender, RoutedEventArgs e) {
             Frame.GoBack();
         }
+
+        private void MarkdownTextBlock_OnLoaded(object sender,
+            RoutedEventArgs e) {
+            MarkdownTextBlock.UriPrefix = App.ServerEndpoint;
+        }
     }
 }
