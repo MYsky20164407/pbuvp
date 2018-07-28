@@ -165,6 +165,7 @@
     <Compile Include="Services\ServiceResult.cs" />
     <Compile Include="Services\RootNavigationService.cs" />
     <Compile Include="Services\StudentService.cs" />
+    <Compile Include="ViewModels\AnnouncementViewModel.cs" />
     <Compile Include="ViewModels\BindingViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MeViewModel.cs" />

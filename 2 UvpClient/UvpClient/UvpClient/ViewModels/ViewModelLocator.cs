@@ -26,6 +26,7 @@ namespace UvpClient.ViewModels {
             SimpleIoc.Default.Register<BindingViewModel>();
             SimpleIoc.Default.Register<MyUvpViewModel>();
             SimpleIoc.Default.Register<MeViewModel>();
+            SimpleIoc.Default.Register<AnnouncementViewModel>();
         }
 
         /// <summary>
@@ -51,5 +52,11 @@ namespace UvpClient.ViewModels {
         /// </summary>
         public MeViewModel MeViewModel =>
             SimpleIoc.Default.GetInstance<MeViewModel>();
+
+        /// <summary>
+        ///     通知ViewModel。
+        /// </summary>
+        public AnnouncementViewModel AnnouncementViewModel =>
+            SimpleIoc.Default.GetInstance<AnnouncementViewModel>();
     }
 }

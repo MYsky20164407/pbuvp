@@ -8,16 +8,76 @@
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="AnnouncementStackPanel.(RelativePanel.RightOf)"
+                                Value="BackButton" />
+                        <Setter Target="AnnouncementStackPanel.(RelativePanel.AlignHorizontalCenterWithPanel)"
+                                Value="False" />
+                        <Setter Target="AnnouncementStackPanel.(RelativePanel.AlignLeftWithPanel)"
+                                Value="False" />
+                        <Setter Target="AnnouncementStackPanel.(RelativePanel.AlignRightWithPanel)"
+                                Value="False" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1304" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <RelativePanel Grid.Row="0">
+        <RelativePanel Grid.Row="0"
+                       Margin="0,0,0,40">
             <Button Style="{ThemeResource NavigationBackButtonNormalStyle}"
                     RelativePanel.AlignTopWithPanel="True"
                     RelativePanel.AlignLeftWithPanel="True"
                     Name="BackButton"
                     Click="BackButton_OnClick" />
+            <StackPanel Padding="40,12,40,0"
+                        MaxWidth="1204"
+                        MinWidth="320"
+                        Name="AnnouncementStackPanel"
+                        RelativePanel.AlignHorizontalCenterWithPanel="True"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True">
+                <TextBlock Text="Announcement"
+                           Style="{ThemeResource SubheaderTextBlockStyle}" />
+            </StackPanel>
         </RelativePanel>
+
+        <ScrollViewer Grid.Row="1"
+                      Padding="40,0,40,40">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding Announcement.Title}"
+                           Style="{ThemeResource TitleTextBlockStyle}"
+                           HorizontalAlignment="Center"
+                           Grid.Row="0"
+                           Margin="0,0,0,24" />
+
+                <TextBlock Grid.Row="1"
+                           Text="{Binding Announcement.Time}"
+                           Style="{ThemeResource CaptionTextBlockStyle}"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,24" />
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>
