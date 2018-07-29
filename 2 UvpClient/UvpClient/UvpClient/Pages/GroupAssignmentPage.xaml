@@ -4,20 +4,142 @@
       xmlns:local="using:UvpClient.Pages"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:i="using:Microsoft.Xaml.Interactivity"
+      xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{Binding RefreshCommand}" />
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TeamHomeworkStackPanel.(RelativePanel.RightOf)"
+                                Value="BackButton" />
+                        <Setter Target="TeamHomeworkStackPanel.(RelativePanel.AlignHorizontalCenterWithPanel)"
+                                Value="False" />
+                        <Setter Target="TeamHomeworkStackPanel.(RelativePanel.AlignLeftWithPanel)"
+                                Value="False" />
+                        <Setter Target="TeamHomeworkStackPanel.(RelativePanel.AlignRightWithPanel)"
+                                Value="False" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1248" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <RelativePanel Grid.Row="0">
+        <RelativePanel Grid.Row="0"
+                       Margin="0,0,0,40">
             <Button Style="{ThemeResource NavigationBackButtonNormalStyle}"
                     RelativePanel.AlignTopWithPanel="True"
                     RelativePanel.AlignLeftWithPanel="True"
                     Name="BackButton"
                     Click="BackButton_OnClick" />
+            <StackPanel Padding="12,12,12,0"
+                        MaxWidth="1148"
+                        MinWidth="320"
+                        Name="TeamHomeworkStackPanel"
+                        RelativePanel.AlignHorizontalCenterWithPanel="True"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"
+                        Orientation="Horizontal">
+                <TextBlock Text="team homework"
+                           Style="{ThemeResource SubheaderTextBlockStyle}" />
+                <ProgressRing Margin="16,0,0,0"
+                              VerticalAlignment="Center"
+                              Width="32"
+                              Height="32"
+                              IsEnabled="{Binding Refreshing}"
+                              IsActive="{Binding Refreshing}" />
+            </StackPanel>
         </RelativePanel>
+
+        <ScrollViewer Grid.Row="1"
+                      HorizontalScrollMode="Disabled"
+                      HorizontalAlignment="Stretch"
+                      MinWidth="320"
+                      MaxWidth="1204">
+            <Grid Padding="40,12,40,40"
+                  HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding GroupAssignment.Homework.Subject}"
+                           Style="{ThemeResource TitleTextBlockStyle}"
+                           HorizontalAlignment="Center"
+                           Grid.Row="0"
+                           Margin="0,0,0,24" />
+
+                <StackPanel Grid.Row="1"
+                            HorizontalAlignment="Center"
+                            Margin="0,0,0,24"
+                            Orientation="Horizontal">
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                               Text="issued at:" />
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                               Text="{Binding GroupAssignment.Homework.CreationDate}"
+                               Margin="4,0,0,0" />
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                               Text="deadline:"
+                               Margin="16,0,0,0" />
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                               Text="{Binding GroupAssignment.Homework.Deadline}"
+                               Margin="4,0,0,0" />
+                </StackPanel>
+
+                <controls:MarkdownTextBlock Grid.Row="2"
+                                            Text="{Binding GroupAssignment.Homework.Description}"
+                                            Name="MarkdownTextBlock"
+                                            Loaded="MarkdownTextBlock_OnLoaded"
+                                            Margin="0,0,0,40" />
+
+                <TextBlock Text="your solution"
+                           Grid.Row="3"
+                           Style="{ThemeResource SubtitleTextBlockStyle}"
+                           Margin="0,0,0,24" />
+
+                <StackPanel Grid.Row="4"
+                            Margin="0,0,0,40">
+                    <TextBlock Text="paste the url of your solution:"
+                               Style="{ThemeResource CaptionTextBlockStyle}"
+                               Margin="0,0,0,4" />
+                    <TextBox PlaceholderText="http://my.homework/solution"
+                             Margin="0,0,0,4" />
+                    <Button Content="Submit"
+                            Command="{Binding SubmitCommand}" />
+                </StackPanel>
+
+                <TextBlock Text="solutions from the others"
+                           Grid.Row="5"
+                           Style="{ThemeResource SubtitleTextBlockStyle}"
+                           Margin="0,0,0,24" />
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>

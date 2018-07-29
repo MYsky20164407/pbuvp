@@ -4,7 +4,6 @@
       xmlns:local="using:UvpClient.Pages"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:rtbx="using:SocialMediaDashboard.W8.Common"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -54,7 +53,7 @@
                         RelativePanel.AlignHorizontalCenterWithPanel="True"
                         RelativePanel.AlignLeftWithPanel="True"
                         RelativePanel.AlignRightWithPanel="True">
-                <TextBlock Text="Announcement"
+                <TextBlock Text="announcement"
                            Style="{ThemeResource SubheaderTextBlockStyle}" />
             </StackPanel>
         </RelativePanel>

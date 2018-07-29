@@ -60,7 +60,7 @@
                         RelativePanel.AlignHorizontalCenterWithPanel="True"
                         RelativePanel.AlignLeftWithPanel="True"
                         RelativePanel.AlignRightWithPanel="True">
-                <TextBlock Text="Announcements"
+                <TextBlock Text="announcements"
                            Style="{ThemeResource SubheaderTextBlockStyle}" />
             </StackPanel>
         </RelativePanel>
