@@ -9,7 +9,7 @@ namespace UvpClient.UnitTest.ViewModels {
     [TestClass]
     public class AnnouncementViewModelTest {
         [TestMethod]
-        public void TestOpenAnnouncementCommand() {
+        public void TestOpenCommand() {
             var announcementToNavigate = new Announcement();
 
             var rootFrameNavigated = false;
@@ -23,20 +23,13 @@ namespace UvpClient.UnitTest.ViewModels {
             var announcementViewModel =
                 new AnnouncementViewModel(null, null,
                     stubIRootNavigationService);
-            announcementViewModel.OpenCommand.Execute(
-                announcementToNavigate);
+            announcementViewModel.OpenCommand.Execute(announcementToNavigate);
 
             Assert.IsTrue(rootFrameNavigated);
         }
 
         [TestMethod]
-        public void TestGetCommandUnauthorized() {
-            var rootFrameNavigated = false;
-            var stubIRootNavigationService = new StubIRootNavigationService();
-            stubIRootNavigationService.Navigate(
-                (sourcePageType, parameter, navigationTransition) =>
-                    rootFrameNavigated = true);
-
+        public void TestOpenCommandUnauthorized() {
             var dialogShown = false;
             var stubIDialogService = new StubIDialogService();
             stubIDialogService.ShowAsync(async message => dialogShown = true);
@@ -54,22 +47,14 @@ namespace UvpClient.UnitTest.ViewModels {
                     stubIAnnouncementService, null);
             announcementViewModel.GetCommand.Execute(null);
 
-            Assert.IsFalse(rootFrameNavigated);
             Assert.IsFalse(dialogShown);
             Assert.IsTrue(getRequested);
         }
 
         [TestMethod]
-        public void TestGetCommandSucceeded() {
+        public void TestOpenCommandSucceeded() {
             var announcementToReturn = new List<Announcement>
                 {new Announcement()};
-
-            var rootFrameNavigated = false;
-            var stubIRootNavigationService = new StubIRootNavigationService();
-            stubIRootNavigationService.Navigate(
-                (sourcePageType, parameter, navigationTransition) =>
-                    rootFrameNavigated = true);
-
             var dialogShown = false;
             var stubIDialogService = new StubIDialogService();
             stubIDialogService.ShowAsync(async message => dialogShown = true);
@@ -89,7 +74,6 @@ namespace UvpClient.UnitTest.ViewModels {
                     stubIAnnouncementService, null);
             announcementViewModel.GetCommand.Execute(null);
 
-            Assert.IsFalse(rootFrameNavigated);
             Assert.IsFalse(dialogShown);
             Assert.IsTrue(getRequested);
             Assert.AreSame(announcementToReturn,
@@ -97,14 +81,8 @@ namespace UvpClient.UnitTest.ViewModels {
         }
 
         [TestMethod]
-        public void TestCheckCommandOther() {
+        public void TestOpenCommandOther() {
             var messageToShow = "Error Message";
-
-            var rootFrameNavigated = false;
-            var stubIRootNavigationService = new StubIRootNavigationService();
-            stubIRootNavigationService.Navigate(
-                (sourcePageType, parameter, navigationTransition) =>
-                    rootFrameNavigated = true);
 
             var messageShown = "";
             var dialogShown = false;
@@ -115,8 +93,8 @@ namespace UvpClient.UnitTest.ViewModels {
             });
 
             var getRequested = false;
-            var announcementService = new StubIAnnouncementService();
-            announcementService.GetAsync(async () => {
+            var stubIAnnouncementService = new StubIAnnouncementService();
+            stubIAnnouncementService.GetAsync(async () => {
                 getRequested = true;
                 return new ServiceResult<IEnumerable<Announcement>> {
                     Status = ServiceResultStatus.Exception,
@@ -126,10 +104,9 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var announcementViewModel =
                 new AnnouncementViewModel(stubIDialogService,
-                    announcementService, null);
+                    stubIAnnouncementService, null);
             announcementViewModel.GetCommand.Execute(null);
 
-            Assert.IsFalse(rootFrameNavigated);
             Assert.IsTrue(dialogShown);
             Assert.AreEqual(
                 UvpClient.App.HttpClientErrorMessage + messageToShow,

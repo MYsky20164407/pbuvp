@@ -8,20 +8,14 @@ namespace UvpClient.UnitTest.ViewModels {
     public class MeViewModelTest {
         [TestMethod]
         public void TestGetCommandUnauthorized() {
-            var rootFrameNavigated = false;
-            var stubIRootNavigationService = new StubIRootNavigationService();
-            stubIRootNavigationService.Navigate(
-                (sourcePageType, parameter, navigationTransition) =>
-                    rootFrameNavigated = true);
-
             var dialogShown = false;
             var stubIDialogService = new StubIDialogService();
             stubIDialogService.ShowAsync(async message => dialogShown = true);
 
-            var checkRequested = false;
+            var getMeRequested = false;
             var stubIStudentService = new StubIStudentService();
             stubIStudentService.GetMeAsync(async () => {
-                checkRequested = true;
+                getMeRequested = true;
                 return new ServiceResult<Student>
                     {Status = ServiceResultStatus.Unauthorized};
             });
@@ -29,21 +23,14 @@ namespace UvpClient.UnitTest.ViewModels {
             var meViewModel =
                 new MeViewModel(stubIStudentService, stubIDialogService);
             meViewModel.GetCommand.Execute(null);
-
-            Assert.IsFalse(rootFrameNavigated);
+            
             Assert.IsFalse(dialogShown);
-            Assert.IsTrue(checkRequested);
+            Assert.IsTrue(getMeRequested);
         }
 
         [TestMethod]
         public void TestGetCommandSucceeded() {
             var studentToReturn = new Student();
-
-            var rootFrameNavigated = false;
-            var stubIRootNavigationService = new StubIRootNavigationService();
-            stubIRootNavigationService.Navigate(
-                (sourcePageType, parameter, navigationTransition) =>
-                    rootFrameNavigated = true);
 
             var dialogShown = false;
             var stubIDialogService = new StubIDialogService();
@@ -60,23 +47,16 @@ namespace UvpClient.UnitTest.ViewModels {
             var meViewModel =
                 new MeViewModel(stubIStudentService, stubIDialogService);
             meViewModel.GetCommand.Execute(null);
-
-            Assert.IsFalse(rootFrameNavigated);
+            
             Assert.IsFalse(dialogShown);
             Assert.IsTrue(getMeRequested);
             Assert.AreSame(studentToReturn, meViewModel.Me);
         }
 
         [TestMethod]
-        public void TestCheckCommandOther() {
+        public void TestGetCommandOther() {
             var messageToShow = "Error Message";
-
-            var rootFrameNavigated = false;
-            var stubIRootNavigationService = new StubIRootNavigationService();
-            stubIRootNavigationService.Navigate(
-                (sourcePageType, parameter, navigationTransition) =>
-                    rootFrameNavigated = true);
-
+            
             var messageShown = "";
             var dialogShown = false;
             var stubIDialogService = new StubIDialogService();
@@ -98,8 +78,7 @@ namespace UvpClient.UnitTest.ViewModels {
             var meViewModel =
                 new MeViewModel(stubIStudentService, stubIDialogService);
             meViewModel.GetCommand.Execute(null);
-
-            Assert.IsFalse(rootFrameNavigated);
+            
             Assert.IsTrue(dialogShown);
             Assert.AreEqual(
                 UvpClient.App.HttpClientErrorMessage + messageToShow,

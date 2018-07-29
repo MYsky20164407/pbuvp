@@ -19,10 +19,10 @@ namespace UvpClient.UnitTest.ViewModels {
             var stubIDialogService = new StubIDialogService();
             stubIDialogService.ShowAsync(async message => dialogShown = true);
 
-            var checkRequested = false;
+            var getRequested = false;
             var stubIStudentService = new StubIStudentService();
             stubIStudentService.GetStudentByStudentIdAsync(async studentId => {
-                checkRequested = true;
+                getRequested = true;
                 return new ServiceResult<Student>
                     {Status = ServiceResultStatus.Unauthorized};
             });
@@ -34,7 +34,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             Assert.IsFalse(rootFrameNavigated);
             Assert.IsFalse(dialogShown);
-            Assert.IsTrue(checkRequested);
+            Assert.IsTrue(getRequested);
         }
 
         [TestMethod]
@@ -52,10 +52,10 @@ namespace UvpClient.UnitTest.ViewModels {
             stubIDialogService.ShowAsync(async message => dialogShown = true);
 
             var studentIdRequested = "";
-            var checkRequested = false;
+            var getRequested = false;
             var stubIStudentService = new StubIStudentService();
             stubIStudentService.GetStudentByStudentIdAsync(async studentId => {
-                checkRequested = true;
+                getRequested = true;
                 studentIdRequested = studentId;
                 return new ServiceResult<Student> {
                     Status = ServiceResultStatus.OK,
@@ -71,7 +71,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             Assert.IsFalse(rootFrameNavigated);
             Assert.IsFalse(dialogShown);
-            Assert.IsTrue(checkRequested);
+            Assert.IsTrue(getRequested);
             Assert.AreEqual(studentIdToRequest, studentIdRequested);
             Assert.AreEqual(studentIdToRequest,
                 bindingViewModel.Student.StudentId);

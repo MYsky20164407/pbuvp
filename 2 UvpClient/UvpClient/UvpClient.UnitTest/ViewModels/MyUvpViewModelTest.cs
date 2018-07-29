@@ -184,10 +184,10 @@ namespace UvpClient.UnitTest.ViewModels {
             var stubDialogService = new StubIDialogService();
             stubDialogService.ShowAsync(async message => dialogShown = true);
 
-            var checkRequested = false;
+            var getRequested = false;
             var stubMyUvpService = new StubIMyUvpService();
             stubMyUvpService.GetAsync(async () => {
-                checkRequested = true;
+                getRequested = true;
                 return new ServiceResult<MyUvp>
                     {Status = ServiceResultStatus.Unauthorized};
             });
@@ -198,7 +198,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             Assert.IsFalse(rootFrameNavigated);
             Assert.IsFalse(dialogShown);
-            Assert.IsTrue(checkRequested);
+            Assert.IsTrue(getRequested);
         }
 
         [TestMethod]
@@ -215,10 +215,10 @@ namespace UvpClient.UnitTest.ViewModels {
             var stubDialogService = new StubIDialogService();
             stubDialogService.ShowAsync(async message => dialogShown = true);
 
-            var checkRequested = false;
+            var getRequested = false;
             var myUvpService = new StubIMyUvpService();
             myUvpService.GetAsync(async () => {
-                checkRequested = true;
+                getRequested = true;
                 return new ServiceResult<MyUvp>
                     {Status = ServiceResultStatus.OK, Result = myUvpToReturn};
             });
@@ -229,7 +229,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             Assert.IsFalse(rootFrameNavigated);
             Assert.IsFalse(dialogShown);
-            Assert.IsTrue(checkRequested);
+            Assert.IsTrue(getRequested);
             Assert.AreSame(myUvpToReturn, myUvpViewModel.MyUvp);
         }
 

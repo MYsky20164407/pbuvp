@@ -11,11 +11,6 @@ namespace UvpClient.ViewModels {
         private readonly IDialogService _dialogService;
 
         /// <summary>
-        ///     身份服务。
-        /// </summary>
-        private readonly IIdentityService _identityService;
-
-        /// <summary>
         ///     个人作业服务。
         /// </summary>
         private readonly IStudentAssignmentService _studentAssignmentService;
@@ -42,10 +37,8 @@ namespace UvpClient.ViewModels {
         /// <param name="identityService">身份服务。</param>
         /// <param name="studentAssignmentService">个人作业服务。</param>
         public StudentAssignmentViewModel(IDialogService dialogService,
-            IIdentityService identityService,
             IStudentAssignmentService studentAssignmentService) {
             _dialogService = dialogService;
-            _identityService = identityService;
             _studentAssignmentService = studentAssignmentService;
         }
 
