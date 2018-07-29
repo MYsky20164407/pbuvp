@@ -1,11 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UvpClient.Models;
 using UvpClient.Services;
 using UvpClient.ViewModels;
 
 namespace UvpClient.UnitTest.ViewModels {
     [TestClass]
-    public class MeViewModelTest {
+    public class AnnouncementViewModelTest {
         [TestMethod]
         public void TestGetCommandUnauthorized() {
             var rootFrameNavigated = false;
@@ -18,26 +19,28 @@ namespace UvpClient.UnitTest.ViewModels {
             var stubIDialogService = new StubIDialogService();
             stubIDialogService.ShowAsync(async message => dialogShown = true);
 
-            var checkRequested = false;
-            var stubIStudentService = new StubIStudentService();
-            stubIStudentService.GetMeAsync(async () => {
-                checkRequested = true;
-                return new ServiceResult<Student>
+            var getRequested = false;
+            var stubIAnnouncementService = new StubIAnnouncementService();
+            stubIAnnouncementService.GetAsync(async () => {
+                getRequested = true;
+                return new ServiceResult<IEnumerable<Announcement>>
                     {Status = ServiceResultStatus.Unauthorized};
             });
 
-            var meViewModel =
-                new MeViewModel(stubIStudentService, stubIDialogService);
-            meViewModel.GetCommand.Execute(null);
+            var announcementViewModel =
+                new AnnouncementViewModel(stubIDialogService,
+                    stubIAnnouncementService);
+            announcementViewModel.GetCommand.Execute(null);
 
             Assert.IsFalse(rootFrameNavigated);
             Assert.IsFalse(dialogShown);
-            Assert.IsTrue(checkRequested);
+            Assert.IsTrue(getRequested);
         }
 
         [TestMethod]
         public void TestGetCommandSucceeded() {
-            var studentToReturn = new Student();
+            var announcementToReturn = new List<Announcement>
+                {new Announcement()};
 
             var rootFrameNavigated = false;
             var stubIRootNavigationService = new StubIRootNavigationService();
@@ -49,22 +52,26 @@ namespace UvpClient.UnitTest.ViewModels {
             var stubIDialogService = new StubIDialogService();
             stubIDialogService.ShowAsync(async message => dialogShown = true);
 
-            var getMeRequested = false;
-            var stubIStudentService = new StubIStudentService();
-            stubIStudentService.GetMeAsync(async () => {
-                getMeRequested = true;
-                return new ServiceResult<Student>
-                    {Status = ServiceResultStatus.OK, Result = studentToReturn};
+            var getRequested = false;
+            var stubIAnnouncementService = new StubIAnnouncementService();
+            stubIAnnouncementService.GetAsync(async () => {
+                getRequested = true;
+                return new ServiceResult<IEnumerable<Announcement>> {
+                    Status = ServiceResultStatus.OK,
+                    Result = announcementToReturn
+                };
             });
 
-            var meViewModel =
-                new MeViewModel(stubIStudentService, stubIDialogService);
-            meViewModel.GetCommand.Execute(null);
+            var announcementViewModel =
+                new AnnouncementViewModel(stubIDialogService,
+                    stubIAnnouncementService);
+            announcementViewModel.GetCommand.Execute(null);
 
             Assert.IsFalse(rootFrameNavigated);
             Assert.IsFalse(dialogShown);
-            Assert.IsTrue(getMeRequested);
-            Assert.AreSame(studentToReturn, meViewModel.Me);
+            Assert.IsTrue(getRequested);
+            Assert.AreSame(announcementToReturn,
+                announcementViewModel.Announcements);
         }
 
         [TestMethod]
@@ -85,26 +92,27 @@ namespace UvpClient.UnitTest.ViewModels {
                 messageShown = message;
             });
 
-            var getMeRequested = false;
-            var stubIStudentService = new StubIStudentService();
-            stubIStudentService.GetMeAsync(async () => {
-                getMeRequested = true;
-                return new ServiceResult<Student> {
+            var getRequested = false;
+            var announcementService = new StubIAnnouncementService();
+            announcementService.GetAsync(async () => {
+                getRequested = true;
+                return new ServiceResult<IEnumerable<Announcement>> {
                     Status = ServiceResultStatus.Exception,
                     Message = messageToShow
                 };
             });
 
-            var meViewModel =
-                new MeViewModel(stubIStudentService, stubIDialogService);
-            meViewModel.GetCommand.Execute(null);
+            var announcementViewModel =
+                new AnnouncementViewModel(stubIDialogService,
+                    announcementService);
+            announcementViewModel.GetCommand.Execute(null);
 
             Assert.IsFalse(rootFrameNavigated);
             Assert.IsTrue(dialogShown);
             Assert.AreEqual(
                 UvpClient.App.HttpClientErrorMessage + messageToShow,
                 messageShown);
-            Assert.IsTrue(getMeRequested);
+            Assert.IsTrue(getRequested);
         }
     }
 }
