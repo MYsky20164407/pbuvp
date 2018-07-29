@@ -1,12 +1,34 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UvpClient.Models;
+using UvpClient.Pages;
 using UvpClient.Services;
 using UvpClient.ViewModels;
 
 namespace UvpClient.UnitTest.ViewModels {
     [TestClass]
     public class AnnouncementViewModelTest {
+        [TestMethod]
+        public void TestOpenAnnouncementCommand() {
+            var announcementToNavigate = new Announcement();
+
+            var rootFrameNavigated = false;
+            var stubIRootNavigationService = new StubIRootNavigationService();
+            stubIRootNavigationService.Navigate((type, parameter, transition) =>
+                rootFrameNavigated = type == typeof(AnnouncementPage) &&
+                                     parameter == announcementToNavigate &&
+                                     transition == NavigationTransition
+                                         .DrillInNavigationTransition);
+
+            var announcementViewModel =
+                new AnnouncementViewModel(null, null,
+                    stubIRootNavigationService);
+            announcementViewModel.OpenCommand.Execute(
+                announcementToNavigate);
+
+            Assert.IsTrue(rootFrameNavigated);
+        }
+
         [TestMethod]
         public void TestGetCommandUnauthorized() {
             var rootFrameNavigated = false;
@@ -29,7 +51,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var announcementViewModel =
                 new AnnouncementViewModel(stubIDialogService,
-                    stubIAnnouncementService);
+                    stubIAnnouncementService, null);
             announcementViewModel.GetCommand.Execute(null);
 
             Assert.IsFalse(rootFrameNavigated);
@@ -64,7 +86,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var announcementViewModel =
                 new AnnouncementViewModel(stubIDialogService,
-                    stubIAnnouncementService);
+                    stubIAnnouncementService, null);
             announcementViewModel.GetCommand.Execute(null);
 
             Assert.IsFalse(rootFrameNavigated);
@@ -104,7 +126,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var announcementViewModel =
                 new AnnouncementViewModel(stubIDialogService,
-                    announcementService);
+                    announcementService, null);
             announcementViewModel.GetCommand.Execute(null);
 
             Assert.IsFalse(rootFrameNavigated);

@@ -22,6 +22,8 @@ namespace UvpClient.ViewModels {
             SimpleIoc.Default.Register<IDialogService, DialogService>();
             SimpleIoc.Default.Register<IStudentService, StudentService>();
             SimpleIoc.Default.Register<IMyUvpService, MyUvpService>();
+            SimpleIoc.Default.Register<IAnnouncementService, AnnouncementService>();
+
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<BindingViewModel>();
             SimpleIoc.Default.Register<MyUvpViewModel>();

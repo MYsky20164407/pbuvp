@@ -8,16 +8,74 @@
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HomeworkStackPanel.(RelativePanel.RightOf)"
+                                Value="BackButton" />
+                        <Setter Target="HomeworkStackPanel.(RelativePanel.AlignHorizontalCenterWithPanel)"
+                                Value="False" />
+                        <Setter Target="HomeworkStackPanel.(RelativePanel.AlignLeftWithPanel)"
+                                Value="False" />
+                        <Setter Target="HomeworkStackPanel.(RelativePanel.AlignRightWithPanel)"
+                                Value="False" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1248" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <RelativePanel Grid.Row="0">
+        <RelativePanel Grid.Row="0"
+                       Margin="0,0,0,40">
             <Button Style="{ThemeResource NavigationBackButtonNormalStyle}"
                     RelativePanel.AlignTopWithPanel="True"
                     RelativePanel.AlignLeftWithPanel="True"
                     Name="BackButton"
                     Click="BackButton_OnClick" />
+            <StackPanel Padding="12,12,12,0"
+                        MaxWidth="1148"
+                        MinWidth="320"
+                        Name="HomeworkStackPanel"
+                        RelativePanel.AlignHorizontalCenterWithPanel="True"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True">
+                <TextBlock Text="Announcement"
+                           Style="{ThemeResource SubheaderTextBlockStyle}" />
+            </StackPanel>
         </RelativePanel>
+
+        <ScrollViewer Grid.Row="1"
+                      HorizontalScrollMode="Disabled"
+                      HorizontalAlignment="Stretch"
+                      MinWidth="320"
+                      MaxWidth="1204">
+            <Grid Padding="40,12,40,40"
+                  HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding StudentAssignment.Homework.Subject}"
+                           Style="{ThemeResource TitleTextBlockStyle}"
+                           HorizontalAlignment="Center"
+                           Grid.Row="0"
+                           Margin="0,0,0,24" />
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>

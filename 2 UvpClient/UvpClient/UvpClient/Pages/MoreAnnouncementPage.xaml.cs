@@ -2,6 +2,8 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using UvpClient.Models;
+using UvpClient.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -12,6 +14,7 @@ namespace UvpClient.Pages {
     public sealed partial class MoreAnnouncementPage : Page {
         public MoreAnnouncementPage() {
             InitializeComponent();
+            DataContext = ViewModelLocator.Instance.AnnouncementViewModel;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
@@ -40,6 +43,13 @@ namespace UvpClient.Pages {
 
         private void BackButton_OnClick(object sender, RoutedEventArgs e) {
             Frame.GoBack();
+        }
+
+        private void ListViewBase_OnItemClick(object sender,
+            ItemClickEventArgs e) {
+            var announcement = (Announcement) e.ClickedItem;
+            ((AnnouncementViewModel) DataContext).OpenCommand.Execute(
+                announcement);
         }
     }
 }

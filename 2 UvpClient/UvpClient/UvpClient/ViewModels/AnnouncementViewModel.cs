@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using UvpClient.Models;
+using UvpClient.Pages;
 using UvpClient.Services;
 
 namespace UvpClient.ViewModels {
@@ -18,6 +19,12 @@ namespace UvpClient.ViewModels {
         ///     对话框服务。
         /// </summary>
         private readonly IDialogService _dialogService;
+
+
+        /// <summary>
+        ///     根导航服务。
+        /// </summary>
+        private readonly IRootNavigationService _rootNavigationService;
 
         /// <summary>
         ///     通知。
@@ -40,15 +47,23 @@ namespace UvpClient.ViewModels {
         /// </summary>
         private bool _loading;
 
+
+        /// <summary>
+        ///     查看通知命令。
+        /// </summary>
+        private RelayCommand<Announcement> _openCommand;
+
         /// <summary>
         ///     构造函数。
         /// </summary>
         /// <param name="dialogService">对话框服务。</param>
         /// <param name="announcementService">通知服务。</param>
         public AnnouncementViewModel(IDialogService dialogService,
-            IAnnouncementService announcementService) {
+            IAnnouncementService announcementService,
+            IRootNavigationService rootNavigationService) {
             _dialogService = dialogService;
             _announcementService = announcementService;
+            _rootNavigationService = rootNavigationService;
         }
 
         /// <summary>
@@ -66,6 +81,15 @@ namespace UvpClient.ViewModels {
             get => _announcements;
             set => Set(nameof(Announcements), ref _announcements, value);
         }
+
+        /// <summary>
+        ///     查看通知命令。
+        /// </summary>
+        public RelayCommand<Announcement> OpenCommand =>
+            _openCommand ?? (_openCommand = new RelayCommand<Announcement>(
+                announcement => _rootNavigationService.Navigate(
+                    typeof(AnnouncementPage), announcement,
+                    NavigationTransition.DrillInNavigationTransition)));
 
         /// <summary>
         ///     获取命令。
