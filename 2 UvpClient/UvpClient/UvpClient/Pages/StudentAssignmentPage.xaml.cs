@@ -14,6 +14,7 @@ namespace UvpClient.Pages {
     public sealed partial class StudentAssignmentPage : Page {
         public StudentAssignmentPage() {
             InitializeComponent();
+            DataContext = ViewModelLocator.Instance.StudentAssignmentViewModel;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {

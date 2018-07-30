@@ -1,8 +1,10 @@
-﻿namespace UvpClient.Models {
+﻿using GalaSoft.MvvmLight;
+
+namespace UvpClient.Models {
     /// <summary>
     ///     小组作业。
     /// </summary>
-    public class GroupAssignment {
+    public class GroupAssignment : ObservableObject {
         /// <summary>
         ///     作业。
         /// </summary>
@@ -23,10 +25,16 @@
         /// </summary>
         public Group Group { get; set; }
 
+        private string _solution;
+
         /// <summary>
         ///     答案。
         /// </summary>
-        public string Solution { get; set; }
+        public string Solution {
+            get => _solution;
+            set => Set(nameof(Solution), ref _solution, value);
+        }
+
         /// <summary>
         ///     成绩。
         /// </summary>

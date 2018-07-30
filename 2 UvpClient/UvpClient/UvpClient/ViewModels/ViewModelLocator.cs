@@ -25,6 +25,9 @@ namespace UvpClient.ViewModels {
             SimpleIoc.Default
                 .Register<IAnnouncementService, AnnouncementService>();
             SimpleIoc.Default
+                .Register<IStudentAssignmentService, StudentAssignmentService
+                >();
+            SimpleIoc.Default
                 .Register<IGroupAssignmentService, GroupAssignmentService>();
 
             SimpleIoc.Default.Register<LoginViewModel>();
@@ -32,6 +35,7 @@ namespace UvpClient.ViewModels {
             SimpleIoc.Default.Register<MyUvpViewModel>();
             SimpleIoc.Default.Register<MeViewModel>();
             SimpleIoc.Default.Register<AnnouncementViewModel>();
+            SimpleIoc.Default.Register<StudentAssignmentViewModel>();
             SimpleIoc.Default.Register<GroupAssignmentViewModel>();
         }
 
@@ -66,7 +70,13 @@ namespace UvpClient.ViewModels {
             SimpleIoc.Default.GetInstance<AnnouncementViewModel>();
 
         /// <summary>
-        /// 小组作业ViewModel。
+        ///     个人作业ViewModel。
+        /// </summary>
+        public StudentAssignmentViewModel StudentAssignmentViewModel =>
+            SimpleIoc.Default.GetInstance<StudentAssignmentViewModel>();
+
+        /// <summary>
+        ///     小组作业ViewModel。
         /// </summary>
         public GroupAssignmentViewModel GroupAssignmentViewModel =>
             SimpleIoc.Default.GetInstance<GroupAssignmentViewModel>();

@@ -119,10 +119,16 @@
                                             Loaded="MarkdownTextBlock_OnLoaded"
                                             Margin="0,0,0,40" />
 
-                <TextBlock Text="your solution"
-                           Grid.Row="3"
-                           Style="{ThemeResource SubtitleTextBlockStyle}"
-                           Margin="0,0,0,24" />
+                <StackPanel Orientation="Horizontal"
+                            Grid.Row="3"
+                            Margin="0,0,0,24">
+                    <TextBlock Text="your solution"
+                               Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <ProgressRing Margin="8,0,0,0"
+                                  VerticalAlignment="Center"
+                                  IsEnabled="{Binding Refreshing}"
+                                  IsActive="{Binding Refreshing}" />
+                </StackPanel>
 
                 <StackPanel Grid.Row="4"
                             Margin="0,0,0,40">
@@ -130,15 +136,78 @@
                                Style="{ThemeResource CaptionTextBlockStyle}"
                                Margin="0,0,0,4" />
                     <TextBox PlaceholderText="http://my.homework/solution"
-                             Margin="0,0,0,4" />
-                    <Button Content="Submit"
-                            Command="{Binding SubmitCommand}" />
+                             Margin="0,0,0,4"
+                             Name="SolutionTextBox"
+                             Text="{Binding GroupAssignment.Solution, Mode=TwoWay}" />
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Submit"
+                                Command="{Binding SubmitCommand}" />
+                        <ProgressRing Margin="8,0,0,0"
+                                      RelativePanel.AlignVerticalCenterWithPanel="True"
+                                      IsEnabled="{Binding Submitting}"
+                                      IsActive="{Binding Submitting}" />
+                    </StackPanel>
                 </StackPanel>
 
-                <TextBlock Text="solutions from the others"
-                           Grid.Row="5"
-                           Style="{ThemeResource SubtitleTextBlockStyle}"
-                           Margin="0,0,0,24" />
+                <RelativePanel Grid.Row="5"
+                               Margin="0,0,0,24">
+                    <TextBlock Text="solutions from the others"
+                               Style="{ThemeResource SubtitleTextBlockStyle}"
+                               RelativePanel.AlignVerticalCenterWithPanel="True"
+                               Name="SolutionsTextBlock"/>
+                    <ProgressRing Margin="8,0,0,0"
+                                  RelativePanel.AlignVerticalCenterWithPanel="True"
+                                  RelativePanel.RightOf="SolutionsTextBlock"
+                                  IsEnabled="{Binding Refreshing}"
+                                  IsActive="{Binding Refreshing}" />
+                    <CommandBar RelativePanel.AlignRightWithPanel="True"
+                                RelativePanel.AlignTopWithPanel="True"
+                                OverflowButtonVisibility="Collapsed"
+                                Background="Transparent">
+                        <AppBarButton Content="refresh"
+                                      Command="{Binding RefreshCommand}" />
+                    </CommandBar>
+                </RelativePanel>
+
+                <ListView Grid.Row="6"
+                          ItemsSource="{Binding GroupAssignment.Homework.CompletedGroupAssignments}"
+                          SelectionMode="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <HyperlinkButton NavigateUri="{Binding Solution}"
+                                                 Content="{Binding Solution}"
+                                                 VerticalAlignment="Center" />
+                                <TextBlock Text="by"
+                                           Margin="16,0,0,0"
+                                           Style="{ThemeResource CaptionTextBlockStyle}"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Group.Name}"
+                                           Style="{ThemeResource CaptionTextBlockStyle}"
+                                           Margin="4,0,0,0"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Text="from"
+                                           Margin="4,0,0,0"
+                                           Style="{ThemeResource CaptionTextBlockStyle}"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Group.TeachingClazz.Name}"
+                                           Style="{ThemeResource CaptionTextBlockStyle}"
+                                           Margin="4,0,0,0"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Text=","
+                                           VerticalAlignment="Center" />
+                                <TextBlock Text="scored"
+                                           Margin="4,0,0,0"
+                                           Style="{ThemeResource CaptionTextBlockStyle}"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Score, TargetNullValue=na}"
+                                           Style="{ThemeResource CaptionTextBlockStyle}"
+                                           Margin="4,0,0,0"
+                                           VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Grid>
         </ScrollViewer>
     </Grid>

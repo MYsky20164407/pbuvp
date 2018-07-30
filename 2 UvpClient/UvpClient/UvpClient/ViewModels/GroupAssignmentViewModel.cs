@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using UvpClient.Models;
 using UvpClient.Services;
@@ -32,6 +33,16 @@ namespace UvpClient.ViewModels {
         ///     正在刷新。
         /// </summary>
         private bool _refreshing;
+
+        /// <summary>
+        ///     提交命令。
+        /// </summary>
+        private RelayCommand _submitCommand;
+
+        /// <summary>
+        ///     正在提交。
+        /// </summary>
+        private bool _submitting;
 
         /// <summary>
         ///     构造函数。
@@ -90,5 +101,50 @@ namespace UvpClient.ViewModels {
                         break;
                 }
             }));
+
+        /// <summary>
+        ///     提交命令。
+        /// </summary>
+        public RelayCommand SubmitCommand =>
+            _submitCommand ?? (_submitCommand = new RelayCommand(async () => {
+                if (!Uri.TryCreate(GroupAssignment.Solution, UriKind.Absolute,
+                    out var myUri)) {
+                    await _dialogService.ShowAsync(App.SolutionUrlErrorMessage);
+                    return;
+                }
+
+                Submitting = true;
+                _submitCommand.RaiseCanExecuteChanged();
+                var servideResult =
+                    await _groupAssignmentService.SubmitAsync(GroupAssignmentId,
+                        GroupAssignment);
+                Submitting = false;
+                _submitCommand.RaiseCanExecuteChanged();
+
+                switch (servideResult.Status) {
+                    case ServiceResultStatus.Unauthorized:
+                    case ServiceResultStatus.Forbidden:
+                        break;
+                    case ServiceResultStatus.NoContent:
+                        await _dialogService.ShowAsync(
+                            App.SolutionSubmittedMessage);
+                        break;
+                    case ServiceResultStatus.BadRequest:
+                        await _dialogService.ShowAsync(servideResult.Message);
+                        break;
+                    default:
+                        await _dialogService.ShowAsync(
+                            App.HttpClientErrorMessage + servideResult.Message);
+                        break;
+                }
+            }, () => !Submitting));
+
+        /// <summary>
+        ///     正在提交。
+        /// </summary>
+        public bool Submitting {
+            get => _submitting;
+            set => Set(nameof(Submitting), ref _submitting, value);
+        }
     }
 }

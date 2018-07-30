@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace UvpClient.Models {
     /// <summary>
@@ -45,6 +46,20 @@ namespace UvpClient.Models {
         ///     作业类型。
         /// </summary>
         public HomeworkType Type { get; set; }
+
+        /// <summary>
+        ///     已完成学生作业。
+        /// </summary>
+        public IList<StudentAssignment> CompletedStudentAssignments =>
+            StudentAssignments.Where(m => !string.IsNullOrEmpty(m.Solution))
+                .ToList();
+
+        /// <summary>
+        ///     已完成小组作业。
+        /// </summary>
+        public IList<GroupAssignment> CompletedGroupAssignments =>
+            GroupAssignments.Where(m => !string.IsNullOrEmpty(m.Solution))
+                .ToList();
     }
 
     /// <summary>

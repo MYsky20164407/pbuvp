@@ -7,10 +7,19 @@ namespace UvpClient.Services {
     /// </summary>
     public interface IGroupAssignmentService {
         /// <summary>
-        ///     获得个人作业。
+        ///     获得小组作业。
         /// </summary>
         /// <param name="id">小组作业id。</param>
-        /// <returns>小组作业。</returns>
+        /// <returns>服务结果。</returns>
         Task<ServiceResult<GroupAssignment>> GetAsync(int id);
+
+        /// <summary>
+        ///     提交小组作业。
+        /// </summary>
+        /// <param name="id">小组作业id。</param>
+        /// <param name="groupAssignment">小组作业。</param>
+        /// <returns>服务结果。</returns>
+        Task<ServiceResult>
+            SubmitAsync(int id, GroupAssignment groupAssignment);
     }
 }
