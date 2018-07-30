@@ -53,7 +53,7 @@ namespace UvpClient.ViewModels {
         /// <summary>
         ///     个人作业id。
         /// </summary>
-        public int StudentAssignmentId { get; set; }
+        public int HomeworkId { get; set; }
 
         /// <summary>
         ///     个人作业。
@@ -73,7 +73,7 @@ namespace UvpClient.ViewModels {
                 _refreshCommand.RaiseCanExecuteChanged();
                 var serviceResult =
                     await _studentAssignmentService.GetAsync(
-                        StudentAssignmentId);
+                        HomeworkId);
                 Refreshing = false;
                 _refreshCommand.RaiseCanExecuteChanged();
 

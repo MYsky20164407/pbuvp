@@ -59,9 +59,15 @@
                         Name="AnnouncementsStackPanel"
                         RelativePanel.AlignHorizontalCenterWithPanel="True"
                         RelativePanel.AlignLeftWithPanel="True"
-                        RelativePanel.AlignRightWithPanel="True">
+                        RelativePanel.AlignRightWithPanel="True"
+                        Orientation="Horizontal">
                 <TextBlock Text="Announcements"
                            Style="{ThemeResource SubheaderTextBlockStyle}" />
+                <ProgressRing IsEnabled="{Binding Loading}"
+                              IsActive="{Binding Loading}"
+                              Margin="16,0,0,0"
+                              Width="32"
+                              Height="32" VerticalAlignment="Center" />
             </StackPanel>
         </RelativePanel>
 

@@ -2,6 +2,8 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using UvpClient.Models;
+using UvpClient.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -16,6 +18,18 @@ namespace UvpClient.Pages {
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
+
+            var studentAssignment = e.Parameter as StudentAssignment;
+            if (studentAssignment == null) {
+                Frame.GoBack();
+                return;
+            }
+
+            var studentAssignmentViewModel =
+                (StudentAssignmentViewModel) DataContext;
+            studentAssignmentViewModel.HomeworkId =
+                studentAssignment.HomeworkID;
+            studentAssignmentViewModel.RefreshCommand.Execute(null);
 
             var systemNavigationManager =
                 SystemNavigationManager.GetForCurrentView();

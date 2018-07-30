@@ -54,6 +54,11 @@
                         RelativePanel.AlignRightWithPanel="True">
                 <TextBlock Text="Announcement"
                            Style="{ThemeResource SubheaderTextBlockStyle}" />
+                <ProgressRing IsEnabled="{Binding Refreshing}"
+                              IsActive="{Binding Refreshing}"
+                              Margin="16,0,0,0"
+                              Width="32"
+                              Height="32" VerticalAlignment="Center" />
             </StackPanel>
         </RelativePanel>
 
