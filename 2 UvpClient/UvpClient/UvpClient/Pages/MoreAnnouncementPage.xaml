@@ -61,7 +61,7 @@
                         RelativePanel.AlignLeftWithPanel="True"
                         RelativePanel.AlignRightWithPanel="True"
                         Orientation="Horizontal">
-                <TextBlock Text="Announcements"
+                <TextBlock Text="announcements"
                            Style="{ThemeResource SubheaderTextBlockStyle}" />
                 <ProgressRing IsEnabled="{Binding Loading}"
                               IsActive="{Binding Loading}"

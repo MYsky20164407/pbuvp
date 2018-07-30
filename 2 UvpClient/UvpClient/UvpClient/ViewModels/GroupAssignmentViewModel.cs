@@ -4,16 +4,24 @@ using UvpClient.Models;
 using UvpClient.Services;
 
 namespace UvpClient.ViewModels {
-    public class StudentAssignmentViewModel : ViewModelBase {
+    /// <summary>
+    ///     小组作业ViewModel。
+    /// </summary>
+    public class GroupAssignmentViewModel : ViewModelBase {
         /// <summary>
         ///     对话框服务。
         /// </summary>
         private readonly IDialogService _dialogService;
 
         /// <summary>
-        ///     个人作业服务。
+        ///     小组作业服务。
         /// </summary>
-        private readonly IStudentAssignmentService _studentAssignmentService;
+        private readonly IGroupAssignmentService _groupAssignmentService;
+
+        /// <summary>
+        ///     小组作业。
+        /// </summary>
+        private GroupAssignment _groupAssignment;
 
         /// <summary>
         ///     刷新命令。
@@ -26,19 +34,14 @@ namespace UvpClient.ViewModels {
         private bool _refreshing;
 
         /// <summary>
-        ///     个人作业。
-        /// </summary>
-        private StudentAssignment _studentAssignment;
-
-        /// <summary>
         ///     构造函数。
         /// </summary>
         /// <param name="dialogService">对话框服务。</param>
-        /// <param name="studentAssignmentService">个人作业服务。</param>
-        public StudentAssignmentViewModel(IDialogService dialogService,
-            IStudentAssignmentService studentAssignmentService) {
+        /// <param name="groupAssignmentService">小组作业服务。</param>
+        public GroupAssignmentViewModel(IDialogService dialogService,
+            IGroupAssignmentService groupAssignmentService) {
             _dialogService = dialogService;
-            _studentAssignmentService = studentAssignmentService;
+            _groupAssignmentService = groupAssignmentService;
         }
 
         /// <summary>
@@ -50,17 +53,16 @@ namespace UvpClient.ViewModels {
         }
 
         /// <summary>
-        ///     个人作业id。
+        ///     小组作业id。
         /// </summary>
-        public int HomeworkId { get; set; }
+        public int GroupAssignmentId { get; set; }
 
         /// <summary>
-        ///     个人作业。
+        ///     小组作业。
         /// </summary>
-        public StudentAssignment StudentAssignment {
-            get => _studentAssignment;
-            set =>
-                Set(nameof(StudentAssignment), ref _studentAssignment, value);
+        public GroupAssignment GroupAssignment {
+            get => _groupAssignment;
+            set => Set(nameof(GroupAssignment), ref _groupAssignment, value);
         }
 
         /// <summary>
@@ -71,8 +73,7 @@ namespace UvpClient.ViewModels {
                 Refreshing = true;
                 _refreshCommand.RaiseCanExecuteChanged();
                 var serviceResult =
-                    await _studentAssignmentService.GetAsync(
-                        HomeworkId);
+                    await _groupAssignmentService.GetAsync(GroupAssignmentId);
                 Refreshing = false;
                 _refreshCommand.RaiseCanExecuteChanged();
 
@@ -81,7 +82,7 @@ namespace UvpClient.ViewModels {
                     case ServiceResultStatus.Forbidden:
                         break;
                     case ServiceResultStatus.OK:
-                        StudentAssignment = serviceResult.Result;
+                        GroupAssignment = serviceResult.Result;
                         break;
                     default:
                         await _dialogService.ShowAsync(

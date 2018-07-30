@@ -101,6 +101,7 @@
     </Compile>
     <Compile Include="ViewModels\AnnouncementViewModelTest.cs" />
     <Compile Include="ViewModels\BindingViewModelTest.cs" />
+    <Compile Include="ViewModels\GroupAssignmentViewModelTest.cs" />
     <Compile Include="ViewModels\LoginViewModelTest.cs" />
     <Compile Include="ViewModels\MeViewModelTest.cs" />
     <Compile Include="ViewModels\MyUvpViewModelTest.cs" />
