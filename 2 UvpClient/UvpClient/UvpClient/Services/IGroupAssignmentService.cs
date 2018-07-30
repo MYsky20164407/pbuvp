@@ -16,10 +16,8 @@ namespace UvpClient.Services {
         /// <summary>
         ///     提交小组作业。
         /// </summary>
-        /// <param name="id">小组作业id。</param>
         /// <param name="groupAssignment">小组作业。</param>
         /// <returns>服务结果。</returns>
-        Task<ServiceResult>
-            SubmitAsync(int id, GroupAssignment groupAssignment);
+        Task<ServiceResult> SubmitAsync(GroupAssignment groupAssignment);
     }
 }

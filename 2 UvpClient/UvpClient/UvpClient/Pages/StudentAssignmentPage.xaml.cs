@@ -28,7 +28,7 @@ namespace UvpClient.Pages {
 
             var studentAssignmentViewModel =
                 (StudentAssignmentViewModel) DataContext;
-            studentAssignmentViewModel.HomeworkId =
+            studentAssignmentViewModel.StudentAssignmentId =
                 studentAssignment.HomeworkID;
             studentAssignmentViewModel.RefreshCommand.Execute(null);
 

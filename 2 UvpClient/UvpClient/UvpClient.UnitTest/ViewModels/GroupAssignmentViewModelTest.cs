@@ -23,14 +23,13 @@ namespace UvpClient.UnitTest.ViewModels {
             GroupAssignment groupAssignmentSubmitted = null;
             var submitRequested = false;
             var stubIGroupAssignmentService = new StubIGroupAssignmentService();
-            stubIGroupAssignmentService.SubmitAsync(
-                async (id, groupAssignment) => {
-                    submitRequested = true;
-                    return new ServiceResult {
-                        Status = ServiceResultStatus.NotFound,
-                        Message = messageToShow
-                    };
-                });
+            stubIGroupAssignmentService.SubmitAsync(async groupAssignment => {
+                submitRequested = true;
+                return new ServiceResult {
+                    Status = ServiceResultStatus.NotFound,
+                    Message = messageToShow
+                };
+            });
 
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,
@@ -64,14 +63,13 @@ namespace UvpClient.UnitTest.ViewModels {
             GroupAssignment groupAssignmentSubmitted = null;
             var submitRequested = false;
             var stubIGroupAssignmentService = new StubIGroupAssignmentService();
-            stubIGroupAssignmentService.SubmitAsync(
-                async (id, groupAssignment) => {
-                    submitRequested = true;
-                    return new ServiceResult {
-                        Status = ServiceResultStatus.BadRequest,
-                        Message = messageToShow
-                    };
-                });
+            stubIGroupAssignmentService.SubmitAsync(async groupAssignment => {
+                submitRequested = true;
+                return new ServiceResult {
+                    Status = ServiceResultStatus.BadRequest,
+                    Message = messageToShow
+                };
+            });
 
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,
@@ -97,12 +95,11 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var submitRequested = false;
             var stubIGroupAssignmentService = new StubIGroupAssignmentService();
-            stubIGroupAssignmentService.SubmitAsync(
-                async (id, groupAssignment) => {
-                    submitRequested = true;
-                    return new ServiceResult
-                        {Status = ServiceResultStatus.Unauthorized};
-                });
+            stubIGroupAssignmentService.SubmitAsync(async groupAssignment => {
+                submitRequested = true;
+                return new ServiceResult
+                    {Status = ServiceResultStatus.Unauthorized};
+            });
 
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,
@@ -132,13 +129,12 @@ namespace UvpClient.UnitTest.ViewModels {
             GroupAssignment groupAssignmentSubmitted = null;
             var submitRequested = false;
             var stubIGroupAssignmentService = new StubIGroupAssignmentService();
-            stubIGroupAssignmentService.SubmitAsync(
-                async (id, groupAssignment) => {
-                    submitRequested = true;
-                    groupAssignmentSubmitted = groupAssignment;
-                    return new ServiceResult
-                        {Status = ServiceResultStatus.NoContent};
-                });
+            stubIGroupAssignmentService.SubmitAsync(async groupAssignment => {
+                submitRequested = true;
+                groupAssignmentSubmitted = groupAssignment;
+                return new ServiceResult
+                    {Status = ServiceResultStatus.NoContent};
+            });
 
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,

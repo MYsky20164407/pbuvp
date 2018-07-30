@@ -115,13 +115,12 @@ namespace UvpClient.ViewModels {
 
                 Submitting = true;
                 _submitCommand.RaiseCanExecuteChanged();
-                var servideResult =
-                    await _groupAssignmentService.SubmitAsync(GroupAssignmentId,
-                        GroupAssignment);
+                var serviceResult =
+                    await _groupAssignmentService.SubmitAsync(GroupAssignment);
                 Submitting = false;
                 _submitCommand.RaiseCanExecuteChanged();
 
-                switch (servideResult.Status) {
+                switch (serviceResult.Status) {
                     case ServiceResultStatus.Unauthorized:
                     case ServiceResultStatus.Forbidden:
                         break;
@@ -130,11 +129,11 @@ namespace UvpClient.ViewModels {
                             App.SolutionSubmittedMessage);
                         break;
                     case ServiceResultStatus.BadRequest:
-                        await _dialogService.ShowAsync(servideResult.Message);
+                        await _dialogService.ShowAsync(serviceResult.Message);
                         break;
                     default:
                         await _dialogService.ShowAsync(
-                            App.HttpClientErrorMessage + servideResult.Message);
+                            App.HttpClientErrorMessage + serviceResult.Message);
                         break;
                 }
             }, () => !Submitting));

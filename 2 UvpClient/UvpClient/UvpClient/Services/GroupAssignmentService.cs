@@ -24,10 +24,9 @@ namespace UvpClient.Services {
         /// <summary>
         ///     提交小组作业。
         /// </summary>
-        /// <param name="id">小组作业id。</param>
         /// <param name="groupAssignment">小组作业。</param>
         /// <returns>服务结果。</returns>
-        public async Task<ServiceResult> SubmitAsync(int id,
+        public async Task<ServiceResult> SubmitAsync(
             GroupAssignment groupAssignment) {
             var groupAssignmentToSubmit = new GroupAssignment {
                 GroupID = groupAssignment.GroupID,
@@ -44,7 +43,8 @@ namespace UvpClient.Services {
                 HttpResponseMessage response;
                 try {
                     response = await httpClient.PutAsync(
-                        App.ServerEndpoint + "/api/GroupAssignment/" + id,
+                        App.ServerEndpoint + "/api/GroupAssignment/" +
+                        groupAssignment.HomeworkID,
                         new StringContent(json, Encoding.UTF8,
                             "application/json"));
                 } catch (Exception e) {
