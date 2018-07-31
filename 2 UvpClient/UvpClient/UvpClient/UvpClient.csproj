@@ -166,11 +166,13 @@
     <Compile Include="Services\IRootNavigationService.cs" />
     <Compile Include="Services\IStudentAssignmentService.cs" />
     <Compile Include="Services\IStudentService.cs" />
+    <Compile Include="Services\IVoteService.cs" />
     <Compile Include="Services\MyUvpService.cs" />
     <Compile Include="Services\ServiceResult.cs" />
     <Compile Include="Services\RootNavigationService.cs" />
     <Compile Include="Services\StudentAssignmentService.cs" />
     <Compile Include="Services\StudentService.cs" />
+    <Compile Include="Services\VoteService.cs" />
     <Compile Include="ViewModels\AnnouncementViewModel.cs" />
     <Compile Include="ViewModels\BindingViewModel.cs" />
     <Compile Include="ViewModels\GroupAssignmentViewModel.cs" />
@@ -179,6 +181,7 @@
     <Compile Include="ViewModels\MyUvpViewModel.cs" />
     <Compile Include="ViewModels\StudentAssignmentViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="ViewModels\VoteViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

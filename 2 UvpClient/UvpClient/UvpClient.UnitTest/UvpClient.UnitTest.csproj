@@ -106,6 +106,7 @@
     <Compile Include="ViewModels\MeViewModelTest.cs" />
     <Compile Include="ViewModels\MyUvpViewModelTest.cs" />
     <Compile Include="ViewModels\StudentAssignmentViewModelTest.cs" />
+    <Compile Include="ViewModels\VoteViewModelTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="UnitTestApp.xaml">

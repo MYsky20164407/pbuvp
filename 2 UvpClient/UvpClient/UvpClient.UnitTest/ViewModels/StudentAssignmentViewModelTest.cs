@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UvpClient.Models;
 using UvpClient.Services;
 using UvpClient.ViewModels;
@@ -8,8 +9,10 @@ namespace UvpClient.UnitTest.ViewModels {
     public class StudentAssignmentViewModelTest {
         [TestMethod]
         public void TestSubmitCommandOther() {
-            var studentAssignmentToSubmit = new StudentAssignment
-                {HomeworkID = -1, Solution = "http://www.bing.com/"};
+            var studentAssignmentToSubmit = new StudentAssignment {
+                HomeworkID = -1, Solution = "http://www.bing.com/",
+                Homework = new Homework {Deadline = DateTime.MaxValue}
+            };
             var messageToShow = "Error Message";
 
             var dialogShown = false;
@@ -50,8 +53,10 @@ namespace UvpClient.UnitTest.ViewModels {
 
         [TestMethod]
         public void TestSubmitCommandError() {
-            var studentAssignmentToSubmit = new StudentAssignment
-                {HomeworkID = -1, Solution = "http://www.bing.com/"};
+            var studentAssignmentToSubmit = new StudentAssignment {
+                HomeworkID = -1, Solution = "http://www.bing.com/",
+                Homework = new Homework {Deadline = DateTime.MaxValue}
+            };
             var messageToShow = "Error Message";
 
             var dialogShown = false;
@@ -91,8 +96,10 @@ namespace UvpClient.UnitTest.ViewModels {
 
         [TestMethod]
         public void TestSubmitCommandUnauthorized() {
-            var studentAssignmentToSubmit = new StudentAssignment
-                {HomeworkID = -1, Solution = "http://www.bing.com/"};
+            var studentAssignmentToSubmit = new StudentAssignment {
+                HomeworkID = -1, Solution = "http://www.bing.com/",
+                Homework = new Homework {Deadline = DateTime.MaxValue}
+            };
 
             var dialogShown = false;
             var stubIDialogService = new StubIDialogService();
@@ -122,8 +129,10 @@ namespace UvpClient.UnitTest.ViewModels {
 
         [TestMethod]
         public void TestSubmitCommand() {
-            var studentAssignmentToSubmit = new StudentAssignment
-                {HomeworkID = -1, Solution = "http://www.bing.com/"};
+            var studentAssignmentToSubmit = new StudentAssignment {
+                HomeworkID = -1, Solution = "http://www.bing.com/",
+                Homework = new Homework {Deadline = DateTime.MaxValue}
+            };
 
             var dialogShown = false;
             var messageShown = "";
@@ -173,8 +182,10 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var studentAssignmentViewModel =
                 new StudentAssignmentViewModel(stubIDialogService, null);
-            studentAssignmentViewModel.StudentAssignment = new StudentAssignment
-                {Solution = "not a url"};
+            studentAssignmentViewModel.StudentAssignment = new StudentAssignment {
+                Solution = "not a url",
+                Homework = new Homework {Deadline = DateTime.MaxValue}
+            };
             studentAssignmentViewModel.SubmitCommand.Execute(null);
 
             Assert.IsTrue(dialogShown);

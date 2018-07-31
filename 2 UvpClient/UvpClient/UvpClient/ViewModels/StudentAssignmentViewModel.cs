@@ -79,6 +79,8 @@ namespace UvpClient.ViewModels {
         /// </summary>
         public RelayCommand RefreshCommand =>
             _refreshCommand ?? (_refreshCommand = new RelayCommand(async () => {
+                SubmitCommand.RaiseCanExecuteChanged();
+
                 Refreshing = true;
                 _refreshCommand.RaiseCanExecuteChanged();
                 var serviceResult =
@@ -99,39 +101,52 @@ namespace UvpClient.ViewModels {
                             App.HttpClientErrorMessage + serviceResult.Message);
                         break;
                 }
+
+                SubmitCommand.RaiseCanExecuteChanged();
             }));
 
+        /// <summary>
+        ///     提交命令。
+        /// </summary>
         public RelayCommand SubmitCommand =>
             _submitCommand ?? (_submitCommand = new RelayCommand(async () => {
-                if (!Uri.TryCreate(StudentAssignment.Solution, UriKind.Absolute,
-                    out var myUri))
-                    await _dialogService.ShowAsync(App.SolutionUrlErrorMessage);
-
-                Submitting = true;
-                _submitCommand.RaiseCanExecuteChanged();
-                var serviceResult =
-                    await _studentAssignmentService.SubmitAsync(
-                        StudentAssignment);
-                Submitting = false;
-                _submitCommand.RaiseCanExecuteChanged();
-
-                switch (serviceResult.Status) {
-                    case ServiceResultStatus.Unauthorized:
-                    case ServiceResultStatus.Forbidden:
-                        break;
-                    case ServiceResultStatus.NoContent:
+                    if (!Uri.TryCreate(StudentAssignment.Solution,
+                        UriKind.Absolute,
+                        out var myUri)) {
                         await _dialogService.ShowAsync(
-                            App.SolutionSubmittedMessage);
-                        break;
-                    case ServiceResultStatus.BadRequest:
-                        await _dialogService.ShowAsync(serviceResult.Message);
-                        break;
-                    default:
-                        await _dialogService.ShowAsync(
-                            App.HttpClientErrorMessage + serviceResult.Message);
-                        break;
-                }
-            }, () => !Submitting));
+                            App.SolutionUrlErrorMessage);
+                        return;
+                    }
+
+                    Submitting = true;
+                    _submitCommand.RaiseCanExecuteChanged();
+                    var serviceResult =
+                        await _studentAssignmentService.SubmitAsync(
+                            StudentAssignment);
+                    Submitting = false;
+                    _submitCommand.RaiseCanExecuteChanged();
+
+                    switch (serviceResult.Status) {
+                        case ServiceResultStatus.Unauthorized:
+                        case ServiceResultStatus.Forbidden:
+                            break;
+                        case ServiceResultStatus.NoContent:
+                            await _dialogService.ShowAsync(
+                                App.SolutionSubmittedMessage);
+                            break;
+                        case ServiceResultStatus.BadRequest:
+                            await _dialogService.ShowAsync(
+                                serviceResult.Message);
+                            break;
+                        default:
+                            await _dialogService.ShowAsync(
+                                App.HttpClientErrorMessage +
+                                serviceResult.Message);
+                            break;
+                    }
+                },
+                () => !Refreshing && !Submitting && StudentAssignment != null &&
+                      StudentAssignment.Homework.Deadline > DateTime.Now));
 
         /// <summary>
         ///     正在提交。

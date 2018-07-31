@@ -138,10 +138,12 @@
                     <TextBox PlaceholderText="http://my.homework/solution"
                              Margin="0,0,0,4"
                              Name="SolutionTextBox"
+                             IsEnabled="{Binding IsEnabled, ElementName=SubmitButton, Mode=OneWay}"
                              Text="{Binding GroupAssignment.Solution, Mode=TwoWay}" />
                     <StackPanel Orientation="Horizontal">
                         <Button Content="Submit"
-                                Command="{Binding SubmitCommand}" />
+                                Command="{Binding SubmitCommand}"
+                                Name="SubmitButton"/>
                         <ProgressRing Margin="8,0,0,0"
                                       RelativePanel.AlignVerticalCenterWithPanel="True"
                                       IsEnabled="{Binding Submitting}"

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UvpClient.Models;
 using UvpClient.Services;
 using UvpClient.ViewModels;
@@ -8,8 +9,10 @@ namespace UvpClient.UnitTest.ViewModels {
     public class GroupAssignmentViewModelTest {
         [TestMethod]
         public void TestSubmitCommandOther() {
-            var groupAssignmentToSubmit = new GroupAssignment
-                {HomeworkID = -1, Solution = "http://www.bing.com/"};
+            var groupAssignmentToSubmit = new GroupAssignment {
+                HomeworkID = -1, Solution = "http://www.bing.com/",
+                Homework = new Homework {Deadline = DateTime.MaxValue}
+            };
             var messageToShow = "Error Message";
 
             var dialogShown = false;
@@ -48,8 +51,10 @@ namespace UvpClient.UnitTest.ViewModels {
 
         [TestMethod]
         public void TestSubmitCommandError() {
-            var groupAssignmentToSubmit = new GroupAssignment
-                {HomeworkID = -1, Solution = "http://www.bing.com/"};
+            var groupAssignmentToSubmit = new GroupAssignment {
+                HomeworkID = -1, Solution = "http://www.bing.com/",
+                Homework = new Homework {Deadline = DateTime.MaxValue}
+            };
             var messageToShow = "Error Message";
 
             var dialogShown = false;
@@ -86,8 +91,10 @@ namespace UvpClient.UnitTest.ViewModels {
 
         [TestMethod]
         public void TestSubmitCommandUnauthorized() {
-            var groupAssignmentToSubmit = new GroupAssignment
-                {HomeworkID = -1, Solution = "http://www.bing.com/"};
+            var groupAssignmentToSubmit = new GroupAssignment {
+                HomeworkID = -1, Solution = "http://www.bing.com/",
+                Homework = new Homework {Deadline = DateTime.MaxValue}
+            };
 
             var dialogShown = false;
             var stubIDialogService = new StubIDialogService();
@@ -115,8 +122,10 @@ namespace UvpClient.UnitTest.ViewModels {
 
         [TestMethod]
         public void TestSubmitCommand() {
-            var groupAssignmentToSubmit = new GroupAssignment
-                {HomeworkID = -1, Solution = "http://www.bing.com/"};
+            var groupAssignmentToSubmit = new GroupAssignment {
+                HomeworkID = -1, Solution = "http://www.bing.com/",
+                Homework = new Homework {Deadline = DateTime.MaxValue}
+            };
 
             var dialogShown = false;
             var messageShown = "";
@@ -163,8 +172,10 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService, null);
-            groupAssignmentViewModel.GroupAssignment = new GroupAssignment
-                {Solution = "not a url"};
+            groupAssignmentViewModel.GroupAssignment = new GroupAssignment {
+                Solution = "not a url",
+                Homework = new Homework {Deadline = DateTime.MaxValue}
+            };
             groupAssignmentViewModel.SubmitCommand.Execute(null);
 
             Assert.IsTrue(dialogShown);

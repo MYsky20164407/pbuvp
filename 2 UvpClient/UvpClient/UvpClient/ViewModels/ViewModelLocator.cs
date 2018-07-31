@@ -37,6 +37,7 @@ namespace UvpClient.ViewModels {
             SimpleIoc.Default.Register<AnnouncementViewModel>();
             SimpleIoc.Default.Register<StudentAssignmentViewModel>();
             SimpleIoc.Default.Register<GroupAssignmentViewModel>();
+            SimpleIoc.Default.Register<VoteViewModel>();
         }
 
         /// <summary>
@@ -80,5 +81,11 @@ namespace UvpClient.ViewModels {
         /// </summary>
         public GroupAssignmentViewModel GroupAssignmentViewModel =>
             SimpleIoc.Default.GetInstance<GroupAssignmentViewModel>();
+
+        /// <summary>
+        ///     投票ViewModel。
+        /// </summary>
+        public VoteViewModel VoteViewModel =>
+            SimpleIoc.Default.GetInstance<VoteViewModel>();
     }
 }

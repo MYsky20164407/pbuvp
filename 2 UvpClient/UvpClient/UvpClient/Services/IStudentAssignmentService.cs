@@ -10,7 +10,7 @@ namespace UvpClient.Services {
         ///     获得个人作业。
         /// </summary>
         /// <param name="id">个人作业id。</param>
-        /// <returns>个人作业。</returns>
+        /// <returns>服务结果。</returns>
         Task<ServiceResult<StudentAssignment>> GetAsync(int id);
 
         /// <summary>
