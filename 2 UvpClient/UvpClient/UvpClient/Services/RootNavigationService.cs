@@ -9,6 +9,12 @@ namespace UvpClient.Services {
     ///     根导航服务接口。
     /// </summary>
     public class RootNavigationService : IRootNavigationService {
+        public void GoBack() {
+            DispatcherHelper.CheckBeginInvokeOnUI(() => {
+                ((Frame) Window.Current.Content).GoBack();
+            });
+        }
+
         /// <summary>
         ///     导航。
         /// </summary>

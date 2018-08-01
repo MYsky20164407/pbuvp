@@ -36,7 +36,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,
-                    stubIGroupAssignmentService);
+                    stubIGroupAssignmentService, null);
             groupAssignmentViewModel.GroupAssignment = groupAssignmentToSubmit;
             groupAssignmentViewModel.GroupAssignmentId =
                 groupAssignmentToSubmit.HomeworkID;
@@ -78,7 +78,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,
-                    stubIGroupAssignmentService);
+                    stubIGroupAssignmentService, null);
             groupAssignmentViewModel.GroupAssignment = groupAssignmentToSubmit;
             groupAssignmentViewModel.GroupAssignmentId =
                 groupAssignmentToSubmit.HomeworkID;
@@ -110,7 +110,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,
-                    stubIGroupAssignmentService);
+                    stubIGroupAssignmentService, null);
             groupAssignmentViewModel.GroupAssignment = groupAssignmentToSubmit;
             groupAssignmentViewModel.GroupAssignmentId =
                 groupAssignmentToSubmit.HomeworkID;
@@ -145,9 +145,13 @@ namespace UvpClient.UnitTest.ViewModels {
                     {Status = ServiceResultStatus.NoContent};
             });
 
+            var stubIRootNavigationService = new StubIRootNavigationService();
+            var backNavigated = false;
+            stubIRootNavigationService.GoBack(() => backNavigated = true);
+
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,
-                    stubIGroupAssignmentService);
+                    stubIGroupAssignmentService, stubIRootNavigationService);
             groupAssignmentViewModel.GroupAssignment = groupAssignmentToSubmit;
             groupAssignmentViewModel.GroupAssignmentId =
                 groupAssignmentToSubmit.HomeworkID;
@@ -158,6 +162,7 @@ namespace UvpClient.UnitTest.ViewModels {
                 messageShown);
             Assert.IsTrue(submitRequested);
             Assert.AreSame(groupAssignmentToSubmit, groupAssignmentSubmitted);
+            Assert.IsTrue(backNavigated);
         }
 
         [TestMethod]
@@ -171,7 +176,7 @@ namespace UvpClient.UnitTest.ViewModels {
             });
 
             var groupAssignmentViewModel =
-                new GroupAssignmentViewModel(stubIDialogService, null);
+                new GroupAssignmentViewModel(stubIDialogService, null, null);
             groupAssignmentViewModel.GroupAssignment = new GroupAssignment {
                 Solution = "not a url",
                 Homework = new Homework {Deadline = DateTime.MaxValue}
@@ -199,7 +204,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,
-                    stubIGroupAssignmentService);
+                    stubIGroupAssignmentService, null);
             groupAssignmentViewModel.RefreshCommand.Execute(null);
 
             Assert.IsFalse(dialogShown);
@@ -227,7 +232,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,
-                    stubIGroupAssignmentService);
+                    stubIGroupAssignmentService, null);
             groupAssignmentViewModel.RefreshCommand.Execute(null);
 
             Assert.IsFalse(dialogShown);
@@ -260,7 +265,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,
-                    stubIGroupAssignmentService);
+                    stubIGroupAssignmentService, null);
             groupAssignmentViewModel.RefreshCommand.Execute(null);
 
             Assert.IsTrue(dialogShown);

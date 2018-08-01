@@ -29,6 +29,7 @@ namespace UvpClient.ViewModels {
                 >();
             SimpleIoc.Default
                 .Register<IGroupAssignmentService, GroupAssignmentService>();
+            SimpleIoc.Default.Register<IVoteService, VoteService>();
 
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<BindingViewModel>();

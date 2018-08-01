@@ -4,12 +4,47 @@
       xmlns:local="using:UvpClient.Pages"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <interactivity:Interaction.Behaviors>
+        <core:EventTriggerBehavior EventName="Loaded">
+            <core:InvokeCommandAction Command="{Binding LoadCommand}" />
+        </core:EventTriggerBehavior>
+    </interactivity:Interaction.Behaviors>
+
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="VoteStackPanel.(RelativePanel.RightOf)"
+                                Value="BackButton" />
+                        <Setter Target="VoteStackPanel.(RelativePanel.AlignHorizontalCenterWithPanel)"
+                                Value="False" />
+                        <Setter Target="VoteStackPanel.(RelativePanel.AlignLeftWithPanel)"
+                                Value="False" />
+                        <Setter Target="VoteStackPanel.(RelativePanel.AlignRightWithPanel)"
+                                Value="False" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1248" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <RelativePanel Grid.Row="0">
@@ -18,6 +53,105 @@
                     RelativePanel.AlignLeftWithPanel="True"
                     Name="BackButton"
                     Click="BackButton_OnClick" />
+            <StackPanel Padding="12,12,12,0"
+                        MaxWidth="1148"
+                        MinWidth="320"
+                        Name="VoteStackPanel"
+                        RelativePanel.AlignHorizontalCenterWithPanel="True"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"
+                        Orientation="Horizontal">
+                <TextBlock Text="vote"
+                           Style="{ThemeResource SubheaderTextBlockStyle}" />
+                <ProgressRing IsEnabled="{Binding Loading}"
+                              IsActive="{Binding Loading}"
+                              Margin="16,0,0,0"
+                              Width="32"
+                              Height="32"
+                              VerticalAlignment="Center" />
+            </StackPanel>
         </RelativePanel>
+
+        <ScrollViewer Grid.Row="1"
+                      HorizontalScrollMode="Disabled"
+                      HorizontalAlignment="Stretch"
+                      MinWidth="320"
+                      MaxWidth="1204">
+            <Grid Padding="40,12,40,40"
+                  HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding Vote.Questionnaire.Title}"
+                           Style="{ThemeResource TitleTextBlockStyle}"
+                           HorizontalAlignment="Center"
+                           Grid.Row="0"
+                           Margin="0,0,0,24" />
+
+                <StackPanel Grid.Row="1"
+                            HorizontalAlignment="Center"
+                            Margin="0,0,0,24"
+                            Orientation="Horizontal">
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                               Text="issued at:" />
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                               Text="{Binding Vote.Questionnaire.CreationDate}"
+                               Margin="4,0,0,0" />
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                               Text="deadline:"
+                               Margin="16,0,0,0" />
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                               Text="{Binding Vote.Questionnaire.Deadline}"
+                               Margin="4,0,0,0" />
+                </StackPanel>
+
+                <controls:MarkdownTextBlock Grid.Row="2"
+                                            Text="{Binding Vote.Questionnaire.Question}"
+                                            Name="MarkdownTextBlock"
+                                            Loaded="MarkdownTextBlock_OnLoaded"
+                                            Margin="0,0,0,40" />
+
+                <TextBlock Text="your answer"
+                           Style="{ThemeResource SubtitleTextBlockStyle}"
+                           Grid.Row="3"
+                           Margin="0,0,0,24" />
+                
+                <TextBlock Text="{Binding Vote, Converter={StaticResource VoteToAnswerConverter}}"
+                           Grid.Row="4"
+                           Margin="0,0,0,24"></TextBlock>
+
+                <TextBlock Text="give an answer"
+                           Style="{ThemeResource SubtitleTextBlockStyle}"
+                           Grid.Row="5"
+                           Margin="0,0,0,24" />
+
+                <ListView ItemsSource="{Binding Vote.Questionnaire.OptionCollection}"
+                          Grid.Row="6"
+                          Margin="0,0,0,24"
+                          SelectionMode="{Binding Vote.Questionnaire.Type, Converter={StaticResource QuestionnaireTypeToSelectionModelConverter}}"
+                          Name="ListView"
+                          IsEnabled="{Binding CanSubmit}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Option}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Button Name="SubmitButton"
+                        Click="SubmitButton_OnClick"
+                        Content="Submit"
+                        Grid.Row="7"
+                        IsEnabled="{Binding CanSubmit}" />
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>

@@ -25,52 +25,6 @@ namespace UvpClient.Services {
         }
 
         /// <summary>
-        ///     获得投票。
-        /// </summary>
-        /// <param name="id">投票id。</param>
-        /// <returns>服务结果。</returns>
-        public async Task<ServiceResult<Vote>> GetAsync(int id) {
-            var identifiedHttpMessageHandler =
-                _identityService.GetIdentifiedHttpMessageHandler();
-            using (var httpClient =
-                new HttpClient(identifiedHttpMessageHandler)) {
-                HttpResponseMessage response;
-                try {
-                    response =
-                        await httpClient.GetAsync(
-                            App.ServerEndpoint + "/api/Vote/" + id);
-                } catch (Exception e) {
-                    return new ServiceResult<Vote> {
-                        Status = ServiceResultStatus.Exception,
-                        Message = e.Message
-                    };
-                }
-
-                var serviceResult = new ServiceResult<Vote> {
-                    Status =
-                        ServiceResultStatusHelper.FromHttpStatusCode(
-                            response.StatusCode)
-                };
-
-                switch (response.StatusCode) {
-                    case HttpStatusCode.Unauthorized:
-                    case HttpStatusCode.Forbidden:
-                        break;
-                    case HttpStatusCode.OK:
-                        var json = await response.Content.ReadAsStringAsync();
-                        serviceResult.Result =
-                            JsonConvert.DeserializeObject<Vote>(json);
-                        break;
-                    default:
-                        serviceResult.Message = response.ReasonPhrase;
-                        break;
-                }
-
-                return serviceResult;
-            }
-        }
-
-        /// <summary>
         ///     提交投票。
         /// </summary>
         /// <param name="vote">投票。</param>
@@ -78,7 +32,8 @@ namespace UvpClient.Services {
         public async Task<ServiceResult> SubmitAsync(Vote vote) {
             var voteToSubmit = new Vote {
                 QuestionnaireID = vote.QuestionnaireID,
-                StudentID = vote.StudentID, Answers = vote.Answers
+                StudentID = vote.StudentID,
+                AnswerCollection = vote.AnswerCollection
             };
 
             var identifiedHttpMessageHandler =

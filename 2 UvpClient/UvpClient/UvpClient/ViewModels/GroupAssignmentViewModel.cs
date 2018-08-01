@@ -20,6 +20,11 @@ namespace UvpClient.ViewModels {
         private readonly IGroupAssignmentService _groupAssignmentService;
 
         /// <summary>
+        ///     根导航服务。
+        /// </summary>
+        private readonly IRootNavigationService _navigationService;
+
+        /// <summary>
         ///     小组作业。
         /// </summary>
         private GroupAssignment _groupAssignment;
@@ -49,10 +54,13 @@ namespace UvpClient.ViewModels {
         /// </summary>
         /// <param name="dialogService">对话框服务。</param>
         /// <param name="groupAssignmentService">小组作业服务。</param>
+        /// <param name="navigationService">根导航服务。</param>
         public GroupAssignmentViewModel(IDialogService dialogService,
-            IGroupAssignmentService groupAssignmentService) {
+            IGroupAssignmentService groupAssignmentService,
+            IRootNavigationService navigationService) {
             _dialogService = dialogService;
             _groupAssignmentService = groupAssignmentService;
+            _navigationService = navigationService;
         }
 
         /// <summary>
@@ -134,6 +142,7 @@ namespace UvpClient.ViewModels {
                         case ServiceResultStatus.NoContent:
                             await _dialogService.ShowAsync(
                                 App.SolutionSubmittedMessage);
+                            _navigationService.GoBack();
                             break;
                         case ServiceResultStatus.BadRequest:
                             await _dialogService.ShowAsync(

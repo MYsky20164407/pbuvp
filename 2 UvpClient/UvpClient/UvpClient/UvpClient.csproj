@@ -103,10 +103,12 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Helpers\QuestionnaireTypeToSelectionModelConverter.cs" />
     <Compile Include="Helpers\VisibleWhenZeroConverter.cs" />
     <Compile Include="Helpers\NullableObjectToVisibilityConverter.cs" />
     <Compile Include="Helpers\SystemBrowser.cs" />
     <Compile Include="Helpers\InvisibleWhenZeroConverter.cs" />
+    <Compile Include="Helpers\VoteToAnswerConverter.cs" />
     <Compile Include="Models\Announcement.cs" />
     <Compile Include="Models\Clazz.cs" />
     <Compile Include="Models\Group.cs" />

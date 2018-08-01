@@ -9,6 +9,8 @@
             <helpers:NullableObjectToVisibilityConverter x:Key="NullableObjectToVisibilityConverter" />
             <helpers:InvisibleWhenZeroConverter x:Key="InvisibleWhenZeroConverter" />
             <helpers:VisibleWhenZeroConverter x:Key="VisibleWhenZeroConverter" />
+            <helpers:QuestionnaireTypeToSelectionModelConverter x:Key="QuestionnaireTypeToSelectionModelConverter" />
+            <helpers:VoteToAnswerConverter x:Key="VoteToAnswerConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>

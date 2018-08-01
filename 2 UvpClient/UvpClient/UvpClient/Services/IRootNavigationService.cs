@@ -20,6 +20,11 @@ namespace UvpClient.Services {
         /// </summary>
         void Navigate(Type sourcePageType, object parameter,
             NavigationTransition navigationTransition);
+
+        /// <summary>
+        ///     返回。
+        /// </summary>
+        void GoBack();
     }
 
     /// <summary>

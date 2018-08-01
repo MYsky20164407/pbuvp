@@ -7,9 +7,26 @@ using UvpClient.Services;
 namespace UvpClient.ViewModels {
     public class VoteViewModel : ViewModelBase {
         /// <summary>
+        ///     答案已提交信息。
+        /// </summary>
+        public const string AnswerSubmittedMessage =
+            "Your answer has been submitted.";
+
+        /// <summary>
+        ///     答案为空错误信息。
+        /// </summary>
+        public const string AnswerCollectionEmptyErrorMessage =
+            "Please choose at least on answer.";
+
+        /// <summary>
         ///     对话框服务。
         /// </summary>
         private readonly IDialogService _dialogService;
+
+        /// <summary>
+        ///     根导航服务。
+        /// </summary>
+        private readonly IRootNavigationService _navigationService;
 
         /// <summary>
         ///     投票服务。
@@ -17,24 +34,14 @@ namespace UvpClient.ViewModels {
         private readonly IVoteService _voteService;
 
         /// <summary>
-        ///     载入命令。
+        ///     是否可以提交。
         /// </summary>
-        private RelayCommand _loadCommand;
-
-        /// <summary>
-        ///     正在载入。
-        /// </summary>
-        private bool _loading;
+        private bool _canSubmit;
 
         /// <summary>
         ///     提交命令。
         /// </summary>
         private RelayCommand _submitCommand;
-
-        /// <summary>
-        ///     正在提交。
-        /// </summary>
-        private bool _submitting;
 
         /// <summary>
         ///     投票。
@@ -46,52 +53,52 @@ namespace UvpClient.ViewModels {
         /// </summary>
         /// <param name="dialogService">对话框服务。</param>
         /// <param name="voteService">投票服务。</param>
+        /// <param name="navigationService">导航服务。</param>
         public VoteViewModel(IDialogService dialogService,
-            IVoteService voteService) {
+            IVoteService voteService,
+            IRootNavigationService navigationService) {
             _dialogService = dialogService;
             _voteService = voteService;
+            _navigationService = navigationService;
         }
-
-        /// <summary>
-        ///     正在载入。
-        /// </summary>
-        public bool Loading {
-            get => _loading;
-            set => Set(nameof(Loading), ref _loading, value);
-        }
-
-        /// <summary>
-        ///     投票id。
-        /// </summary>
-        public int VoteId { get; set; }
 
         /// <summary>
         ///     投票。
         /// </summary>
         public Vote Vote {
             get => _vote;
-            set => Set(nameof(Vote), ref _vote, value);
+            set {
+                CanSubmit = value != null &&
+                            value.Questionnaire.Deadline > DateTime.Now;
+                Set(nameof(Vote), ref _vote, value);
+            }
         }
 
         /// <summary>
-        ///     载入命令。
+        ///     提交命令。
         /// </summary>
-        public RelayCommand LoadCommand =>
-            _loadCommand ?? (_loadCommand = new RelayCommand(async () => {
-                SubmitCommand.RaiseCanExecuteChanged();
+        public RelayCommand SubmitCommand =>
+            _submitCommand ?? (_submitCommand = new RelayCommand(async () => {
+                if (Vote.AnswerCollection.Count == 0) {
+                    await _dialogService.ShowAsync(
+                        AnswerCollectionEmptyErrorMessage);
+                    return;
+                }
 
-                Loading = true;
-                _loadCommand.RaiseCanExecuteChanged();
-                var serviceResult = await _voteService.GetAsync(VoteId);
-                Loading = false;
-                _loadCommand.RaiseCanExecuteChanged();
+                CanSubmit = false;
+
+                var serviceResult = await _voteService.SubmitAsync(Vote);
 
                 switch (serviceResult.Status) {
                     case ServiceResultStatus.Unauthorized:
                     case ServiceResultStatus.Forbidden:
                         break;
-                    case ServiceResultStatus.OK:
-                        Vote = serviceResult.Result;
+                    case ServiceResultStatus.NoContent:
+                        await _dialogService.ShowAsync(AnswerSubmittedMessage);
+                        _navigationService.GoBack();
+                        break;
+                    case ServiceResultStatus.BadRequest:
+                        await _dialogService.ShowAsync(serviceResult.Message);
                         break;
                     default:
                         await _dialogService.ShowAsync(
@@ -99,24 +106,16 @@ namespace UvpClient.ViewModels {
                         break;
                 }
 
-                SubmitCommand.RaiseCanExecuteChanged();
+                CanSubmit = Vote != null &&
+                            Vote.Questionnaire.Deadline > DateTime.Now;
             }));
 
         /// <summary>
-        ///     提交命令。
+        ///     是否可以提交。
         /// </summary>
-        public RelayCommand SubmitCommand =>
-            _submitCommand ?? (_submitCommand =
-                new RelayCommand(async () => { },
-                    () => !Loading && !Submitting && Vote != null &&
-                          Vote.Questionnaire.Deadline > DateTime.Now));
-
-        /// <summary>
-        ///     正在提交。
-        /// </summary>
-        public bool Submitting {
-            get => _submitting;
-            set => Set(nameof(Submitting), ref _submitting, value);
+        public bool CanSubmit {
+            get => _canSubmit;
+            set => Set(nameof(CanSubmit), ref _canSubmit, value);
         }
     }
 }

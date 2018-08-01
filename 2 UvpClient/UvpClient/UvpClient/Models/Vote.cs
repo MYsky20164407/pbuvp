@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace UvpClient.Models {
@@ -7,6 +9,12 @@ namespace UvpClient.Models {
     /// </summary>
     public class Vote {
         /// <summary>
+        ///     答案。
+        /// </summary>
+        private ObservableCollection<QuestionnaireOption> _answerCollection =
+            new ObservableCollection<QuestionnaireOption>();
+
+        /// <summary>
         ///     问卷。
         /// </summary>
         public int QuestionnaireID { get; set; }
@@ -14,6 +22,7 @@ namespace UvpClient.Models {
         /// <summary>
         ///     问卷。
         /// </summary>
+        [JsonProperty(Order = 1)]
         public Questionnaire Questionnaire { get; set; }
 
         /// <summary>
@@ -29,22 +38,25 @@ namespace UvpClient.Models {
         /// <summary>
         ///     答案。
         /// </summary>
-        public string Answers { get; set; }
-
-        /// <summary>
-        ///     答案。
-        /// </summary>
-        public ReadOnlyCollection<int> AnswerCollection {
+        [JsonProperty(Order = 2)]
+        public string Answers {
             get =>
-                JsonConvert.DeserializeObject<ReadOnlyCollection<int>>(
-                    Answers ?? "[]");
-            set => Answers = JsonConvert.SerializeObject(value);
+                JsonConvert.SerializeObject(AnswerCollection.Select(m => m.Id));
+            set {
+                AnswerCollection.Clear();
+                if (value != null)
+                    JsonConvert.DeserializeObject<List<int>>(value).ForEach(m =>
+                        AnswerCollection.Add(
+                            Questionnaire.OptionCollection[m]));
+            }
         }
 
         /// <summary>
         ///     答案。
         /// </summary>
-        public string AnswerCollectionString =>
-            string.Join(",", AnswerCollection);
+        public List<QuestionnaireOption> AnswerCollection {
+            get;
+            set;
+        } = new List<QuestionnaireOption>();
     }
 }

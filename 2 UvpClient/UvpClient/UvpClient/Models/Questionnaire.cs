@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace UvpClient.Models {
@@ -26,17 +26,24 @@ namespace UvpClient.Models {
         /// <summary>
         ///     选项。
         /// </summary>
-        public string Options { get; set; }
+        public string Options {
+            get =>
+                JsonConvert.SerializeObject(OptionCollection
+                    .Select(m => m.Option).ToArray());
+            set {
+                var optionStringList =
+                    JsonConvert.DeserializeObject<List<string>>(value);
+                for (var i = 0; i < optionStringList.Count; i++)
+                    OptionCollection.Add(new QuestionnaireOption
+                        {Id = i, Option = optionStringList[i]});
+            }
+        }
 
         /// <summary>
         ///     选项。
         /// </summary>
-        public ReadOnlyCollection<string> OptionCollection {
-            get =>
-                JsonConvert.DeserializeObject<ReadOnlyCollection<string>>(
-                    Options ?? "[]");
-            set => Options = JsonConvert.SerializeObject(value);
-        }
+        public List<QuestionnaireOption> OptionCollection { get; set; } =
+            new List<QuestionnaireOption>();
 
         /// <summary>
         ///     创建日期。
@@ -66,5 +73,20 @@ namespace UvpClient.Models {
         ExclusiveChoice,
 
         MultipleChoice
+    }
+
+    /// <summary>
+    ///     问卷选项。
+    /// </summary>
+    public class QuestionnaireOption {
+        /// <summary>
+        ///     选项id。
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
+        ///     选项内容。
+        /// </summary>
+        public string Option { get; set; }
     }
 }
