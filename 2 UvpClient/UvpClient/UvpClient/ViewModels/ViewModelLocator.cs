@@ -30,6 +30,9 @@ namespace UvpClient.ViewModels {
             SimpleIoc.Default
                 .Register<IGroupAssignmentService, GroupAssignmentService>();
             SimpleIoc.Default.Register<IVoteService, VoteService>();
+            SimpleIoc.Default
+                .Register<IPeerWorkGroupEvaluationService,
+                    PeerWorkGroupEvaluationService>();
 
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<BindingViewModel>();
@@ -39,6 +42,7 @@ namespace UvpClient.ViewModels {
             SimpleIoc.Default.Register<StudentAssignmentViewModel>();
             SimpleIoc.Default.Register<GroupAssignmentViewModel>();
             SimpleIoc.Default.Register<VoteViewModel>();
+            SimpleIoc.Default.Register<PeerWorkGroupEvaluationViewModel>();
         }
 
         /// <summary>
@@ -88,5 +92,12 @@ namespace UvpClient.ViewModels {
         /// </summary>
         public VoteViewModel VoteViewModel =>
             SimpleIoc.Default.GetInstance<VoteViewModel>();
+
+        /// <summary>
+        ///     组内自评/互评表ViewModel。
+        /// </summary>
+        public PeerWorkGroupEvaluationViewModel
+            PeerWorkGroupEvaluationViewModel =>
+            SimpleIoc.Default.GetInstance<PeerWorkGroupEvaluationViewModel>();
     }
 }

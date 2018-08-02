@@ -2,6 +2,8 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using UvpClient.Models;
+using UvpClient.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -12,10 +14,24 @@ namespace UvpClient.Pages {
     public sealed partial class PeerWorkGroupEvaluationPage : Page {
         public PeerWorkGroupEvaluationPage() {
             InitializeComponent();
+            DataContext = ViewModelLocator.Instance
+                .PeerWorkGroupEvaluationViewModel;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
+
+            var peerWorkGroupEvaluation =
+                e.Parameter as PeerWorkGroupEvaluation;
+            if (peerWorkGroupEvaluation == null) {
+                Frame.GoBack();
+                return;
+            }
+
+            var peerWorkGroupEvaluationViewModel =
+                (PeerWorkGroupEvaluationViewModel) DataContext;
+            peerWorkGroupEvaluationViewModel.PeerWorkGroupEvaluation =
+                peerWorkGroupEvaluation;
 
             var systemNavigationManager =
                 SystemNavigationManager.GetForCurrentView();
