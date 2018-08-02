@@ -165,11 +165,13 @@
     <Compile Include="Services\IGroupAssignmentService.cs" />
     <Compile Include="Services\IIdentityService.cs" />
     <Compile Include="Services\IMyUvpService.cs" />
+    <Compile Include="Services\IPeerWorkGroupEvaluationService.cs" />
     <Compile Include="Services\IRootNavigationService.cs" />
     <Compile Include="Services\IStudentAssignmentService.cs" />
     <Compile Include="Services\IStudentService.cs" />
     <Compile Include="Services\IVoteService.cs" />
     <Compile Include="Services\MyUvpService.cs" />
+    <Compile Include="Services\PeerWorkGroupEvaluationService.cs" />
     <Compile Include="Services\ServiceResult.cs" />
     <Compile Include="Services\RootNavigationService.cs" />
     <Compile Include="Services\StudentAssignmentService.cs" />
@@ -181,6 +183,7 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MeViewModel.cs" />
     <Compile Include="ViewModels\MyUvpViewModel.cs" />
+    <Compile Include="ViewModels\PeerWorkGroupEvaluationViewModel.cs" />
     <Compile Include="ViewModels\StudentAssignmentViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="ViewModels\VoteViewModel.cs" />

@@ -1,8 +1,29 @@
-﻿namespace UvpClient.Models {
+﻿using GalaSoft.MvvmLight;
+using Newtonsoft.Json;
+
+namespace UvpClient.Models {
     /// <summary>
     ///     组内自评互评表。
     /// </summary>
-    public class PeerWorkGroupEvaluation {
+    public class PeerWorkGroupEvaluation : ObservableObject {
+        private bool _q1;
+
+        private int _q2;
+
+        private int _q3;
+
+        private int _q4;
+
+        private int _q5;
+
+        private int _q6;
+
+        private int _q7;
+
+        private bool _q8;
+
+        private string _q9;
+
         /// <summary>
         ///     主键。
         /// </summary>
@@ -30,22 +51,57 @@
 
         public bool Finished { get; set; }
 
-        public bool? Q1 { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public bool Q1 {
+            get => _q1;
+            set => Set(nameof(Q1), ref _q1, value);
+        }
 
-        public int? Q2 { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int Q2 {
+            get => _q2;
+            set => Set(nameof(Q2), ref _q2, value);
+        }
 
-        public int? Q3 { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int Q3 {
+            get => _q3;
+            set => Set(nameof(Q3), ref _q3, value);
+        }
 
-        public int? Q4 { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int Q4 {
+            get => _q4;
+            set => Set(nameof(Q4), ref _q4, value);
+        }
 
-        public int? Q5 { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int Q5 {
+            get => _q5;
+            set => Set(nameof(Q5), ref _q5, value);
+        }
 
-        public int? Q6 { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int Q6 {
+            get => _q6;
+            set => Set(nameof(Q6), ref _q6, value);
+        }
 
-        public int? Q7 { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int Q7 {
+            get => _q7;
+            set => Set(nameof(Q7), ref _q7, value);
+        }
 
-        public bool? Q8 { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public bool Q8 {
+            get => _q8;
+            set => Set(nameof(Q8), ref _q8, value);
+        }
 
-        public string Q9 { get; set; }
+        public string Q9 {
+            get => _q9;
+            set => Set(nameof(Q9), ref _q9, value);
+        }
     }
 }
