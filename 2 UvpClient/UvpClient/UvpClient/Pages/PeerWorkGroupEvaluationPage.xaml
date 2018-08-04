@@ -76,7 +76,30 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0"
-                            Margin="0,0,0,24" />
+                            Margin="0,0,0,24">
+                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
+                               Text="you are evaluating"
+                               Margin="0,0,0,8" />
+                    <TextBlock Style="{ThemeResource TitleTextBlockStyle}"
+                               Text="{Binding PeerWorkGroupEvaluation.Target.Name}" />
+                </StackPanel>
+
+                <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                           Grid.Row="1"
+                           Margin="0,0,0,24"
+                           TextWrapping="Wrap">
+                    Please honestly evaluate the work of you or your teammate  in your team.
+                </TextBlock>
+                <StackPanel Grid.Row="2">
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                               Margin="0,0,0,4"
+                               TextWrapping="Wrap">
+                        Did you/your teammate complete your/his/her assigned tasks for the team?
+                    </TextBlock>
+                    <ToggleSwitch OffContent="No"
+                                  OnContent="Yes"
+                                  IsOn="{Binding PeerWorkGroupEvaluation.Q1}" />
+                </StackPanel>
             </Grid>
 
         </ScrollViewer>
