@@ -73,6 +73,10 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0"
@@ -90,16 +94,146 @@
                            TextWrapping="Wrap">
                     Please honestly evaluate the work of you or your teammate  in your team.
                 </TextBlock>
-                <StackPanel Grid.Row="2">
+
+                <StackPanel Grid.Row="2"
+                            Margin="0,0,0,24">
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
                                Margin="0,0,0,4"
                                TextWrapping="Wrap">
-                        Did you/your teammate complete your/his/her assigned tasks for the team?
+                        Did you/he/she complete your/his/her assigned tasks for the team?
                     </TextBlock>
                     <ToggleSwitch OffContent="No"
                                   OnContent="Yes"
-                                  IsOn="{Binding PeerWorkGroupEvaluation.Q1}" />
+                                  IsOn="{Binding PeerWorkGroupEvaluation.Q1, Mode=TwoWay}" />
                 </StackPanel>
+
+                <StackPanel Grid.Row="3"
+                            Margin="0,0,0,24">
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                               Margin="0,0,0,4"
+                               TextWrapping="Wrap">
+                        How do you rate the quality of your/his/her work?
+                    </TextBlock>
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                               Margin="0,0,0,4"
+                               Text="1 being poor, 2 being average, 3 being above average" />
+                    <Slider Minimum="1"
+                            Maximum="3"
+                            Value="{Binding PeerWorkGroupEvaluation.Q2, Mode=TwoWay}"
+                            Width="320"
+                            HorizontalAlignment="Left" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="4"
+                            Margin="0,0,0,24">
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                               Margin="0,0,0,4"
+                               TextWrapping="Wrap">
+                        How do you rate the timeliness of the completion of your/his/her work?
+                    </TextBlock>
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                               Margin="0,0,0,4"
+                               Text="1 being poor, 2 being average, 3 being above average" />
+                    <Slider Minimum="1"
+                            Maximum="3"
+                            Value="{Binding PeerWorkGroupEvaluation.Q3, Mode=TwoWay}"
+                            Width="320"
+                            HorizontalAlignment="Left" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="5"
+                            Margin="0,0,0,24">
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                               Margin="0,0,0,4"
+                               TextWrapping="Wrap">
+                        How do you rate the accuracy of your/his/her work?
+                    </TextBlock>
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                               Margin="0,0,0,4"
+                               Text="1 being poor, 2 being average, 3 being above average" />
+                    <Slider Minimum="1"
+                            Maximum="3"
+                            Value="{Binding PeerWorkGroupEvaluation.Q4, Mode=TwoWay}"
+                            Width="320"
+                            HorizontalAlignment="Left" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="6"
+                            Margin="0,0,0,24">
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                               Margin="0,0,0,4"
+                               TextWrapping="Wrap">
+                        Overall, how do you rank your/his/her performance in your group?
+                    </TextBlock>
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                               Margin="0,0,0,4"
+                               Text="1 being poor, 2 being average, 3 being above average" />
+                    <Slider Minimum="1"
+                            Maximum="3"
+                            Value="{Binding PeerWorkGroupEvaluation.Q5, Mode=TwoWay}"
+                            Width="320"
+                            HorizontalAlignment="Left" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="7"
+                            Margin="0,0,0,24">
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                               Margin="0,0,0,4"
+                               TextWrapping="Wrap">
+                        How much research work did you/he/she contribute to your group?
+                    </TextBlock>
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                               Margin="0,0,0,4"
+                               Text="0-100%" />
+                    <Slider Minimum="0"
+                            Maximum="100"
+                            Value="{Binding PeerWorkGroupEvaluation.Q6, Mode=TwoWay}"
+                            Width="320"
+                            HorizontalAlignment="Left" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="8"
+                            Margin="0,0,0,24">
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                               Margin="0,0,0,4"
+                               TextWrapping="Wrap">
+                        How much development work did you/he/she contribute to your group?
+                    </TextBlock>
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}"
+                               Margin="0,0,0,4"
+                               Text="0-100%" />
+                    <Slider Minimum="0"
+                            Maximum="100"
+                            Value="{Binding PeerWorkGroupEvaluation.Q7, Mode=TwoWay}"
+                            Width="320"
+                            HorizontalAlignment="Left" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="9"
+                            Margin="0,0,0,24">
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                               Margin="0,0,0,4"
+                               TextWrapping="Wrap">
+                        Would your teammates want to work with you again?/Would you want to work with this member again?
+                    </TextBlock>
+                    <ToggleSwitch OffContent="No"
+                                  OnContent="Yes"
+                                  IsOn="{Binding PeerWorkGroupEvaluation.Q8, Mode=TwoWay}"
+                                  Margin="0,0,0,4" />
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                               Margin="0,0,0,4"
+                               TextWrapping="Wrap">
+                        Explain why in the space below:
+                    </TextBlock>
+                    <TextBox Text="{Binding PeerWorkGroupEvaluation.Q9, Mode=TwoWay}"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             MinHeight="120" />
+                </StackPanel>
+
+                <Button Grid.Row="10"
+                        Command="{Binding SubmitCommand}"
+                        Content="Submit" />
             </Grid>
 
         </ScrollViewer>
