@@ -155,13 +155,45 @@ namespace UvpClient.Services {
         /// <summary>
         ///     注销。
         /// </summary>
-        public void SignOut() {
+        public async Task<ServiceResult> SignOutAsync() {
+            ServiceResult serviceResult;
+
+            using (var httpClient = new HttpClient()) {
+                HttpResponseMessage response;
+                try {
+                    response =
+                        await httpClient.GetAsync(
+                            App.ServerEndpoint + "/Account/Logout");
+                } catch (Exception e) {
+                    return new ServiceResult {
+                        Status = ServiceResultStatus.Exception,
+                        Message = e.Message
+                    };
+                }
+
+                serviceResult = new ServiceResult {
+                    Status =
+                        ServiceResultStatusHelper.FromHttpStatusCode(
+                            response.StatusCode)
+                };
+
+                switch (response.StatusCode) {
+                    case HttpStatusCode.NoContent:
+                        break;
+                    default:
+                        serviceResult.Message = response.ReasonPhrase;
+                        break;
+                }
+            }
+
             _refreshToken = "empty";
             _accessToken = "empty";
             Save();
 
             _rootNavigationService.Navigate(typeof(LoginPage), null,
                 NavigationTransition.EntranceNavigationTransition);
+
+            return serviceResult;
         }
 
 

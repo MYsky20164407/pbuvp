@@ -9,6 +9,9 @@ namespace UvpClient.ViewModels {
     ///     我的uvp ViewModel。
     /// </summary>
     public class MyUvpViewModel : ViewModelBase {
+        public const string SignOutErrorMessage =
+            "Error signing you out.\n\nError:\n";
+
         /// <summary>
         ///     对话框服务。
         /// </summary>
@@ -86,6 +89,11 @@ namespace UvpClient.ViewModels {
         private bool _refreshing;
 
         /// <summary>
+        ///     正在注销。
+        /// </summary>
+        private bool _signingOut;
+
+        /// <summary>
         ///     注销命令。
         /// </summary>
         private RelayCommand _signOutCommand;
@@ -111,8 +119,30 @@ namespace UvpClient.ViewModels {
         ///     注销命令。
         /// </summary>
         public RelayCommand SignOutCommand =>
-            _signOutCommand ?? (_signOutCommand =
-                new RelayCommand(() => _identityService.SignOut()));
+            _signOutCommand ?? (_signOutCommand = new RelayCommand(async () => {
+                SigningOut = true;
+                _signOutCommand.RaiseCanExecuteChanged();
+                var serviceResult = await _identityService.SignOutAsync();
+                SigningOut = false;
+                _signOutCommand.RaiseCanExecuteChanged();
+
+                switch (serviceResult.Status) {
+                    case ServiceResultStatus.NoContent:
+                        break;
+                    default:
+                        await _dialogService.ShowAsync(
+                            SignOutErrorMessage + serviceResult.Message);
+                        break;
+                }
+            }, () => !SigningOut));
+
+        /// <summary>
+        ///     正在注销。
+        /// </summary>
+        public bool SigningOut {
+            get => _signingOut;
+            set => Set(nameof(SigningOut), ref _signingOut, value);
+        }
 
         /// <summary>
         ///     查看更多通知命令。

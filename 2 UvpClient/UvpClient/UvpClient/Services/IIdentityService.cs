@@ -31,7 +31,7 @@ namespace UvpClient.Services {
         /// <summary>
         /// 注销。
         /// </summary>
-        void SignOut();
+        Task<ServiceResult> SignOutAsync();
     }
 
     /// <summary>
