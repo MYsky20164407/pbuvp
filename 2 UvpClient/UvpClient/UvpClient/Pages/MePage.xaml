@@ -107,7 +107,8 @@
                     <TextBlock Text="Team:"
                                Style="{ThemeResource BodyTextBlockStyle}" />
                     <TextBlock Text="{Binding Me.Group.Name}"
-                               Style="{ThemeResource BodyTextBlockStyle}" />
+                               Style="{ThemeResource BodyTextBlockStyle}"
+                               Margin="4,0,0,0"/>
                 </StackPanel>
 
                 <StackPanel Margin="0,0,0,24"
@@ -140,7 +141,7 @@
                                            Margin="4,0,0,0" />
                                 <TextBlock Text="{Binding Clazz.Name}"
                                            Style="{ThemeResource BodyTextBlockStyle}"
-                                           Margin="0,0,0,24" />
+                                           Margin="4,0,0,24" />
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
