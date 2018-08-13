@@ -5,16 +5,20 @@ using UvpClient.Services;
 using UvpClient.ViewModels;
 
 namespace UvpClient.UnitTest.ViewModels {
-
     [TestClass]
     public class MyUvpViewModelTest {
         [TestMethod]
         public void TestSignOutCommand() {
             var logoutRequest = false;
             var stubIIdentityService = new StubIIdentityService();
-            stubIIdentityService.SignOut(() => logoutRequest = true);
+            stubIIdentityService.SignOutAsync(async () => {
+                logoutRequest = true;
+                return new ServiceResult
+                    {Status = ServiceResultStatus.NoContent};
+            });
 
-            var myUvpViewModel = new MyUvpViewModel(null, null, null, stubIIdentityService);
+            var myUvpViewModel =
+                new MyUvpViewModel(null, null, null, stubIIdentityService);
             myUvpViewModel.SignOutCommand.Execute(null);
 
             Assert.IsTrue(logoutRequest);
