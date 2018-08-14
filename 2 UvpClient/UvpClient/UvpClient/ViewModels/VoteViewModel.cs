@@ -7,6 +7,11 @@ using UvpClient.Services;
 namespace UvpClient.ViewModels {
     public class VoteViewModel : ViewModelBase {
         /// <summary>
+        /// 磁贴服务。
+        /// </summary>
+        private readonly ITileService _tileService;
+
+        /// <summary>
         ///     答案已提交信息。
         /// </summary>
         public const string AnswerSubmittedMessage =
@@ -54,12 +59,14 @@ namespace UvpClient.ViewModels {
         /// <param name="dialogService">对话框服务。</param>
         /// <param name="voteService">投票服务。</param>
         /// <param name="navigationService">导航服务。</param>
+        /// <param name="tileService">磁贴服务。</param>
         public VoteViewModel(IDialogService dialogService,
             IVoteService voteService,
-            IRootNavigationService navigationService) {
+            IRootNavigationService navigationService, ITileService tileService) {
             _dialogService = dialogService;
             _voteService = voteService;
             _navigationService = navigationService;
+            _tileService = tileService;
         }
 
         /// <summary>
@@ -95,6 +102,7 @@ namespace UvpClient.ViewModels {
                         break;
                     case ServiceResultStatus.NoContent:
                         await _dialogService.ShowAsync(AnswerSubmittedMessage);
+                        _tileService.ForceUpdate();
                         _navigationService.GoBack();
                         break;
                     case ServiceResultStatus.BadRequest:

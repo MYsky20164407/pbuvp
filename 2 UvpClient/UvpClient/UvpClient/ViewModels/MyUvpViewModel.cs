@@ -9,6 +9,9 @@ namespace UvpClient.ViewModels {
     ///     我的uvp ViewModel。
     /// </summary>
     public class MyUvpViewModel : ViewModelBase {
+        /// <summary>
+        /// 注销错误信息。
+        /// </summary>
         public const string SignOutErrorMessage =
             "Error signing you out.\n\nError:\n";
 
@@ -16,6 +19,11 @@ namespace UvpClient.ViewModels {
         ///     对话框服务。
         /// </summary>
         private readonly IDialogService _dialogService;
+
+        /// <summary>
+        /// 磁贴服务。
+        /// </summary>
+        private readonly ITileService _tileService;
 
         /// <summary>
         ///     身份服务。
@@ -105,14 +113,16 @@ namespace UvpClient.ViewModels {
         /// <param name="dialogService">对话框服务。</param>
         /// <param name="rootNavigationService">根导航服务。</param>
         /// <param name="identityService">身份服务。</param>
+        /// <param name="tileService">磁贴服务。</param>
         public MyUvpViewModel(IMyUvpService myUvpService,
             IDialogService dialogService,
             IRootNavigationService rootNavigationService,
-            IIdentityService identityService) {
+            IIdentityService identityService, ITileService tileService) {
             _myUvpService = myUvpService;
             _dialogService = dialogService;
             _rootNavigationService = rootNavigationService;
             _identityService = identityService;
+            _tileService = tileService;
         }
 
         /// <summary>
@@ -249,6 +259,7 @@ namespace UvpClient.ViewModels {
                         break;
                     case ServiceResultStatus.OK:
                         MyUvp = serviceResult.Result;
+                        _tileService.SetUpdate(MyUvp.Me.StudentId);
                         break;
                     default:
                         await _dialogService.ShowAsync(

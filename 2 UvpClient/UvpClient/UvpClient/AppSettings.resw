@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="InsecureUvpServerEndpoint" xml:space="preserve">
+    <value>http://localhost:5080</value>
+    <comment>Do not end with "/"</comment>
+  </data>
   <data name="UvpServerEndpoint" xml:space="preserve">
     <value>https://localhost:5090</value>
     <comment>Do not end with "/"</comment>

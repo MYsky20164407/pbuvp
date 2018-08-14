@@ -25,6 +25,11 @@ namespace UvpClient.ViewModels {
         private readonly IRootNavigationService _navigationService;
 
         /// <summary>
+        ///     磁贴服务。
+        /// </summary>
+        private readonly ITileService _tileService;
+
+        /// <summary>
         ///     小组作业。
         /// </summary>
         private GroupAssignment _groupAssignment;
@@ -55,12 +60,15 @@ namespace UvpClient.ViewModels {
         /// <param name="dialogService">对话框服务。</param>
         /// <param name="groupAssignmentService">小组作业服务。</param>
         /// <param name="navigationService">根导航服务。</param>
+        /// <param name="tileService">磁贴服务。</param>
         public GroupAssignmentViewModel(IDialogService dialogService,
             IGroupAssignmentService groupAssignmentService,
-            IRootNavigationService navigationService) {
+            IRootNavigationService navigationService,
+            ITileService tileService) {
             _dialogService = dialogService;
             _groupAssignmentService = groupAssignmentService;
             _navigationService = navigationService;
+            _tileService = tileService;
         }
 
         /// <summary>
@@ -142,6 +150,7 @@ namespace UvpClient.ViewModels {
                         case ServiceResultStatus.NoContent:
                             await _dialogService.ShowAsync(
                                 App.SolutionSubmittedMessage);
+                            _tileService.ForceUpdate();
                             _navigationService.GoBack();
                             break;
                         case ServiceResultStatus.BadRequest:

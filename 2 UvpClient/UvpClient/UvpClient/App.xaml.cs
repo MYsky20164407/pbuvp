@@ -48,6 +48,12 @@ namespace UvpClient {
             .GetForCurrentView("AppSettings").GetString("UvpServerEndpoint");
 
         /// <summary>
+        /// 不安全服务端点。
+        /// </summary>
+        public static readonly string InsecureServerEndpoint = ResourceLoader
+            .GetForCurrentView("AppSettings").GetString("InsecureUvpServerEndpoint");
+
+        /// <summary>
         ///     Initializes the singleton application object.  This is the first line of authored code
         ///     executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>

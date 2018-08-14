@@ -25,6 +25,11 @@ namespace UvpClient.ViewModels {
             _peerWorkGroupEvaluationService;
 
         /// <summary>
+        ///     磁贴服务。
+        /// </summary>
+        private readonly ITileService _tileService;
+
+        /// <summary>
         ///     组内自评/互评表。
         /// </summary>
         private PeerWorkGroupEvaluation _peerWorkGroupEvaluation;
@@ -44,13 +49,16 @@ namespace UvpClient.ViewModels {
         /// </summary>
         /// <param name="dialogService">对话框服务。</param>
         /// <param name="navigationService">导航服务。</param>
-        /// <param name="peerWorkGroupEvaluationService">组内自评/互评表。</param>
+        /// <param name="peerWorkGroupEvaluationService">组内自评/互评表服务。</param>
+        /// <param name="tileService">磁贴服务。</param>
         public PeerWorkGroupEvaluationViewModel(IDialogService dialogService,
             IRootNavigationService navigationService,
-            IPeerWorkGroupEvaluationService peerWorkGroupEvaluationService) {
+            IPeerWorkGroupEvaluationService peerWorkGroupEvaluationService,
+            ITileService tileService) {
             _dialogService = dialogService;
             _navigationService = navigationService;
             _peerWorkGroupEvaluationService = peerWorkGroupEvaluationService;
+            _tileService = tileService;
         }
 
         /// <summary>
@@ -67,7 +75,7 @@ namespace UvpClient.ViewModels {
         public RelayCommand SubmitCommand =>
             _submitCommand ??
             (_submitCommand = new RelayCommand(async () => {
-                
+                // TODO
             }));
     }
 }

@@ -17,8 +17,8 @@ namespace UvpClient.UnitTest.ViewModels {
                     {Status = ServiceResultStatus.NoContent};
             });
 
-            var myUvpViewModel =
-                new MyUvpViewModel(null, null, null, stubIIdentityService);
+            var myUvpViewModel = new MyUvpViewModel(null, null, null,
+                stubIIdentityService, null);
             myUvpViewModel.SignOutCommand.Execute(null);
 
             Assert.IsTrue(logoutRequest);
@@ -37,7 +37,7 @@ namespace UvpClient.UnitTest.ViewModels {
                                          .DrillInNavigationTransition);
 
             var myUvpViewModel = new MyUvpViewModel(null, null,
-                stubIRootNavigationService, null);
+                stubIRootNavigationService, null, null);
             myUvpViewModel.OpenAnnouncementCommand.Execute(
                 announcementToNavigate);
 
@@ -55,7 +55,7 @@ namespace UvpClient.UnitTest.ViewModels {
                                          .DrillInNavigationTransition);
 
             var myUvpViewModel = new MyUvpViewModel(null, null,
-                stubIRootNavigationService, null);
+                stubIRootNavigationService, null, null);
             myUvpViewModel.OpenMeCommand.Execute(null);
 
             Assert.IsTrue(rootFrameNavigated);
@@ -72,7 +72,7 @@ namespace UvpClient.UnitTest.ViewModels {
                                          .DrillInNavigationTransition);
 
             var myUvpViewModel = new MyUvpViewModel(null, null,
-                stubIRootNavigationService, null);
+                stubIRootNavigationService, null, null);
             myUvpViewModel.OpenMoreAnnouncementCommand.Execute(null);
 
             Assert.IsTrue(rootFrameNavigated);
@@ -89,7 +89,7 @@ namespace UvpClient.UnitTest.ViewModels {
                                          .DrillInNavigationTransition);
 
             var myUvpViewModel = new MyUvpViewModel(null, null,
-                stubIRootNavigationService, null);
+                stubIRootNavigationService, null, null);
             myUvpViewModel.OpenPrivacyDataCommand.Execute(null);
 
             Assert.IsTrue(rootFrameNavigated);
@@ -108,7 +108,7 @@ namespace UvpClient.UnitTest.ViewModels {
                                          .DrillInNavigationTransition);
 
             var myUvpViewModel = new MyUvpViewModel(null, null,
-                stubIRootNavigationService, null);
+                stubIRootNavigationService, null, null);
             myUvpViewModel.OpenVoteCommand.Execute(voteToNavigate);
 
             Assert.IsTrue(rootFrameNavigated);
@@ -129,7 +129,7 @@ namespace UvpClient.UnitTest.ViewModels {
                         .DrillInNavigationTransition);
 
             var myUvpViewModel = new MyUvpViewModel(null, null,
-                stubIRootNavigationService, null);
+                stubIRootNavigationService, null, null);
             myUvpViewModel.OpenPeerWorkGroupEvaluationCommand.Execute(
                 peerWorkGroupEvaluationToNavigate);
 
@@ -149,7 +149,7 @@ namespace UvpClient.UnitTest.ViewModels {
                                          .DrillInNavigationTransition);
 
             var myUvpViewModel = new MyUvpViewModel(null, null,
-                stubIRootNavigationService, null);
+                stubIRootNavigationService, null, null);
             myUvpViewModel.OpenGroupAssignmentCommand.Execute(
                 groupAssignmentToNavigate);
 
@@ -169,7 +169,7 @@ namespace UvpClient.UnitTest.ViewModels {
                                          .DrillInNavigationTransition);
 
             var myUvpViewModel = new MyUvpViewModel(null, null,
-                stubIRootNavigationService, null);
+                stubIRootNavigationService, null, null);
             myUvpViewModel.OpenStudentAssignmentCommand.Execute(
                 studentAssignmentToNavigate);
 
@@ -197,7 +197,7 @@ namespace UvpClient.UnitTest.ViewModels {
             });
 
             var myUvpViewModel = new MyUvpViewModel(stubMyUvpService,
-                stubDialogService, stubRootNavigationService, null);
+                stubDialogService, stubRootNavigationService, null, null);
             myUvpViewModel.RefreshCommand.Execute(null);
 
             Assert.IsFalse(rootFrameNavigated);
@@ -228,7 +228,7 @@ namespace UvpClient.UnitTest.ViewModels {
             });
 
             var myUvpViewModel = new MyUvpViewModel(myUvpService,
-                stubDialogService, stubRootNavigationService, null);
+                stubDialogService, stubRootNavigationService, null, null);
             myUvpViewModel.RefreshCommand.Execute(null);
 
             Assert.IsFalse(rootFrameNavigated);
@@ -266,7 +266,7 @@ namespace UvpClient.UnitTest.ViewModels {
             });
 
             var myUvpViewModel = new MyUvpViewModel(myUvpService,
-                stubDialogService, stubRootNavigationService, null);
+                stubDialogService, stubRootNavigationService, null, null);
             myUvpViewModel.RefreshCommand.Execute(null);
 
             Assert.IsFalse(rootFrameNavigated);

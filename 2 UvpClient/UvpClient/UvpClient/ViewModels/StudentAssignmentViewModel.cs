@@ -22,6 +22,11 @@ namespace UvpClient.ViewModels {
         private readonly IStudentAssignmentService _studentAssignmentService;
 
         /// <summary>
+        ///     磁贴服务。
+        /// </summary>
+        private readonly ITileService _tileService;
+
+        /// <summary>
         ///     刷新命令。
         /// </summary>
         private RelayCommand _refreshCommand;
@@ -52,12 +57,15 @@ namespace UvpClient.ViewModels {
         /// <param name="dialogService">对话框服务。</param>
         /// <param name="studentAssignmentService">个人作业服务。</param>
         /// <param name="navigationService">根导航服务。</param>
+        /// <param name="tileService">磁贴服务。</param>
         public StudentAssignmentViewModel(IDialogService dialogService,
             IStudentAssignmentService studentAssignmentService,
-            IRootNavigationService navigationService) {
+            IRootNavigationService navigationService,
+            ITileService tileService) {
             _dialogService = dialogService;
             _studentAssignmentService = studentAssignmentService;
             _navigationService = navigationService;
+            _tileService = tileService;
         }
 
         /// <summary>
@@ -141,6 +149,7 @@ namespace UvpClient.ViewModels {
                         case ServiceResultStatus.NoContent:
                             await _dialogService.ShowAsync(
                                 App.SolutionSubmittedMessage);
+                            _tileService.ForceUpdate();
                             _navigationService.GoBack();
                             break;
                         case ServiceResultStatus.BadRequest:

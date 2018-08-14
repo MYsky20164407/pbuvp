@@ -169,6 +169,7 @@
     <Compile Include="Services\IRootNavigationService.cs" />
     <Compile Include="Services\IStudentAssignmentService.cs" />
     <Compile Include="Services\IStudentService.cs" />
+    <Compile Include="Services\ITileService.cs" />
     <Compile Include="Services\IVoteService.cs" />
     <Compile Include="Services\MyUvpService.cs" />
     <Compile Include="Services\PeerWorkGroupEvaluationService.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="Services\RootNavigationService.cs" />
     <Compile Include="Services\StudentAssignmentService.cs" />
     <Compile Include="Services\StudentService.cs" />
+    <Compile Include="Services\TileService.cs" />
     <Compile Include="Services\VoteService.cs" />
     <Compile Include="ViewModels\AnnouncementViewModel.cs" />
     <Compile Include="ViewModels\BindingViewModel.cs" />
@@ -196,6 +198,7 @@
     <None Include="UvpClient_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Square310x310Logo.scale-200.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
