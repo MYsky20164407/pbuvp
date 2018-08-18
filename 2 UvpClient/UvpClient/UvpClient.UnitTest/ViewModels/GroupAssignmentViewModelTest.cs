@@ -36,7 +36,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,
-                    stubIGroupAssignmentService, null);
+                    stubIGroupAssignmentService, null, null);
             groupAssignmentViewModel.GroupAssignment = groupAssignmentToSubmit;
             groupAssignmentViewModel.GroupAssignmentId =
                 groupAssignmentToSubmit.HomeworkID;
@@ -78,7 +78,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,
-                    stubIGroupAssignmentService, null);
+                    stubIGroupAssignmentService, null, null);
             groupAssignmentViewModel.GroupAssignment = groupAssignmentToSubmit;
             groupAssignmentViewModel.GroupAssignmentId =
                 groupAssignmentToSubmit.HomeworkID;
@@ -110,7 +110,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,
-                    stubIGroupAssignmentService, null);
+                    stubIGroupAssignmentService, null, null);
             groupAssignmentViewModel.GroupAssignment = groupAssignmentToSubmit;
             groupAssignmentViewModel.GroupAssignmentId =
                 groupAssignmentToSubmit.HomeworkID;
@@ -149,9 +149,13 @@ namespace UvpClient.UnitTest.ViewModels {
             var backNavigated = false;
             stubIRootNavigationService.GoBack(() => backNavigated = true);
 
+            var stubITileService = new StubITileService();
+            var updateRequested = false;
+            stubITileService.ForceUpdate(() => updateRequested = true);
+
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,
-                    stubIGroupAssignmentService, stubIRootNavigationService);
+                    stubIGroupAssignmentService, stubIRootNavigationService, stubITileService);
             groupAssignmentViewModel.GroupAssignment = groupAssignmentToSubmit;
             groupAssignmentViewModel.GroupAssignmentId =
                 groupAssignmentToSubmit.HomeworkID;
@@ -163,6 +167,7 @@ namespace UvpClient.UnitTest.ViewModels {
             Assert.IsTrue(submitRequested);
             Assert.AreSame(groupAssignmentToSubmit, groupAssignmentSubmitted);
             Assert.IsTrue(backNavigated);
+            Assert.IsTrue(updateRequested);
         }
 
         [TestMethod]
@@ -176,7 +181,7 @@ namespace UvpClient.UnitTest.ViewModels {
             });
 
             var groupAssignmentViewModel =
-                new GroupAssignmentViewModel(stubIDialogService, null, null);
+                new GroupAssignmentViewModel(stubIDialogService, null, null, null);
             groupAssignmentViewModel.GroupAssignment = new GroupAssignment {
                 Solution = "not a url",
                 Homework = new Homework {Deadline = DateTime.MaxValue}
@@ -204,7 +209,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,
-                    stubIGroupAssignmentService, null);
+                    stubIGroupAssignmentService, null, null);
             groupAssignmentViewModel.RefreshCommand.Execute(null);
 
             Assert.IsFalse(dialogShown);
@@ -232,7 +237,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,
-                    stubIGroupAssignmentService, null);
+                    stubIGroupAssignmentService, null, null);
             groupAssignmentViewModel.RefreshCommand.Execute(null);
 
             Assert.IsFalse(dialogShown);
@@ -265,7 +270,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var groupAssignmentViewModel =
                 new GroupAssignmentViewModel(stubIDialogService,
-                    stubIGroupAssignmentService, null);
+                    stubIGroupAssignmentService, null, null);
             groupAssignmentViewModel.RefreshCommand.Execute(null);
 
             Assert.IsTrue(dialogShown);

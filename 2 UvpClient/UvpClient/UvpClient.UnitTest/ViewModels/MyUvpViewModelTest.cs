@@ -17,11 +17,16 @@ namespace UvpClient.UnitTest.ViewModels {
                     {Status = ServiceResultStatus.NoContent};
             });
 
+            var resetRequest = false;
+            var stubITileService = new StubITileService();
+            stubITileService.Reset(() => resetRequest = true);
+
             var myUvpViewModel = new MyUvpViewModel(null, null, null,
                 stubIIdentityService, null);
             myUvpViewModel.SignOutCommand.Execute(null);
 
             Assert.IsTrue(logoutRequest);
+            Assert.IsTrue(resetRequest);
         }
 
         [TestMethod]
@@ -207,7 +212,8 @@ namespace UvpClient.UnitTest.ViewModels {
 
         [TestMethod]
         public void TestRefreshCommandSucceeded() {
-            var myUvpToReturn = new MyUvp();
+            var myUvpToReturn = new MyUvp
+                {Me = new Student {StudentId = "stuid"}};
 
             var rootFrameNavigated = false;
             var stubRootNavigationService = new StubIRootNavigationService();
@@ -227,6 +233,10 @@ namespace UvpClient.UnitTest.ViewModels {
                     {Status = ServiceResultStatus.OK, Result = myUvpToReturn};
             });
 
+            var stubITileService = new StubITileService();
+            var studentIdSet = "";
+            stubITileService.SetUpdate(studentId => studentIdSet = studentId);
+
             var myUvpViewModel = new MyUvpViewModel(myUvpService,
                 stubDialogService, stubRootNavigationService, null, null);
             myUvpViewModel.RefreshCommand.Execute(null);
@@ -235,6 +245,7 @@ namespace UvpClient.UnitTest.ViewModels {
             Assert.IsFalse(dialogShown);
             Assert.IsTrue(getRequested);
             Assert.AreSame(myUvpToReturn, myUvpViewModel.MyUvp);
+            Assert.AreEqual(myUvpToReturn.Me.StudentId, studentIdSet);
         }
 
         [TestMethod]

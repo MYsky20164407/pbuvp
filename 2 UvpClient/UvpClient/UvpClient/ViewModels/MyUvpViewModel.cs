@@ -138,6 +138,7 @@ namespace UvpClient.ViewModels {
 
                 switch (serviceResult.Status) {
                     case ServiceResultStatus.NoContent:
+                        _tileService.Reset();
                         break;
                     default:
                         await _dialogService.ShowAsync(

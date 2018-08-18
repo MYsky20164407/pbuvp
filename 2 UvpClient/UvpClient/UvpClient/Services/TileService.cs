@@ -27,7 +27,7 @@ namespace UvpClient.Services {
                     .StartPeriodicUpdate(
                         new Uri(App.InsecureServerEndpoint +
                                 "/api/tile?studentId=" + studentId),
-                        PeriodicUpdateRecurrence.HalfHour);
+                        PeriodicUpdateRecurrence.SixHours);
                 _updateSet = true;
             }
         }
@@ -42,6 +42,16 @@ namespace UvpClient.Services {
                         new Uri(App.InsecureServerEndpoint +
                                 "/api/tile?studentId=" + _studentId),
                         PeriodicUpdateRecurrence.HalfHour);
+        }
+
+        /// <summary>
+        ///     重置更新。
+        /// </summary>
+        public void Reset() {
+            if (_updateSet) {
+                TileUpdateManager.CreateTileUpdaterForApplication().Clear();
+                _updateSet = false;
+            }
         }
     }
 }

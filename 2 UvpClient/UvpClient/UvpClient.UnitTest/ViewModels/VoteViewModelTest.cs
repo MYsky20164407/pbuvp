@@ -23,7 +23,7 @@ namespace UvpClient.UnitTest.ViewModels {
             });
 
             var voteViewModel =
-                new VoteViewModel(stubIDialogService, null, null);
+                new VoteViewModel(stubIDialogService, null, null, null);
             voteViewModel.Vote = voteToSubmit;
             voteViewModel.SubmitCommand.Execute(null);
 
@@ -62,7 +62,7 @@ namespace UvpClient.UnitTest.ViewModels {
             });
 
             var voteViewModel =
-                new VoteViewModel(stubIDialogService, stubIVoteService, null);
+                new VoteViewModel(stubIDialogService, stubIVoteService, null, null);
             voteViewModel.Vote = voteToSubmit;
             voteViewModel.SubmitCommand.Execute(null);
 
@@ -103,7 +103,7 @@ namespace UvpClient.UnitTest.ViewModels {
             });
 
             var voteViewModel =
-                new VoteViewModel(stubIDialogService, stubIVoteService, null);
+                new VoteViewModel(stubIDialogService, stubIVoteService, null, null);
             voteViewModel.Vote = voteToSubmit;
             voteViewModel.SubmitCommand.Execute(null);
 
@@ -134,7 +134,7 @@ namespace UvpClient.UnitTest.ViewModels {
             });
 
             var voteViewModel =
-                new VoteViewModel(stubIDialogService, stubIVoteService, null);
+                new VoteViewModel(stubIDialogService, stubIVoteService, null, null);
             voteViewModel.Vote = voteToSubmit;
             voteViewModel.SubmitCommand.Execute(null);
 
@@ -173,8 +173,12 @@ namespace UvpClient.UnitTest.ViewModels {
             var backNavigated = false;
             stubIRootNavigationService.GoBack(() => backNavigated = true);
 
+            var stubITileService = new StubITileService();
+            var updateRequested = false;
+            stubITileService.ForceUpdate(() => updateRequested = true);
+
             var voteViewModel = new VoteViewModel(stubIDialogService,
-                stubIVoteService, stubIRootNavigationService);
+                stubIVoteService, stubIRootNavigationService, stubITileService);
             voteViewModel.Vote = voteToSubmit;
             voteViewModel.SubmitCommand.Execute(null);
 
@@ -183,6 +187,7 @@ namespace UvpClient.UnitTest.ViewModels {
             Assert.IsTrue(submitRequested);
             Assert.AreSame(voteToSubmit, voteSubmitted);
             Assert.IsTrue(backNavigated);
+            Assert.IsTrue(updateRequested);
         }
     }
 }

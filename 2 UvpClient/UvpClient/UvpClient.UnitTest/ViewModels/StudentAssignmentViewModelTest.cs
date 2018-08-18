@@ -37,7 +37,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var studentAssignmentViewModel =
                 new StudentAssignmentViewModel(stubIDialogService,
-                    stubIStudentAssignmentService, null);
+                    stubIStudentAssignmentService, null, null);
             studentAssignmentViewModel.StudentAssignment =
                 studentAssignmentToSubmit;
             studentAssignmentViewModel.StudentAssignmentId =
@@ -82,7 +82,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var studentAssignmentViewModel =
                 new StudentAssignmentViewModel(stubIDialogService,
-                    stubIStudentAssignmentService, null);
+                    stubIStudentAssignmentService, null, null);
             studentAssignmentViewModel.StudentAssignment =
                 studentAssignmentToSubmit;
             studentAssignmentViewModel.StudentAssignmentId =
@@ -116,7 +116,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var studentAssignmentViewModel =
                 new StudentAssignmentViewModel(stubIDialogService,
-                    stubIStudentAssignmentService, null);
+                    stubIStudentAssignmentService, null, null);
             studentAssignmentViewModel.StudentAssignment =
                 studentAssignmentToSubmit;
             studentAssignmentViewModel.StudentAssignmentId =
@@ -158,9 +158,13 @@ namespace UvpClient.UnitTest.ViewModels {
             var backNavigated = false;
             stubIRootNavigationService.GoBack(() => backNavigated = true);
 
+            var stubITileService = new StubITileService();
+            var updateRequested = false;
+            stubITileService.ForceUpdate(() => updateRequested = true);
+
             var studentAssignmentViewModel = new StudentAssignmentViewModel(
                 stubIDialogService, stubIStudentAssignmentService,
-                stubIRootNavigationService);
+                stubIRootNavigationService, stubITileService);
             studentAssignmentViewModel.StudentAssignment =
                 studentAssignmentToSubmit;
             studentAssignmentViewModel.StudentAssignmentId =
@@ -174,6 +178,7 @@ namespace UvpClient.UnitTest.ViewModels {
             Assert.AreSame(studentAssignmentToSubmit,
                 studentAssignmentSubmitted);
             Assert.IsTrue(backNavigated);
+            Assert.IsTrue(updateRequested);
         }
 
         [TestMethod]
@@ -187,7 +192,7 @@ namespace UvpClient.UnitTest.ViewModels {
             });
 
             var studentAssignmentViewModel =
-                new StudentAssignmentViewModel(stubIDialogService, null, null);
+                new StudentAssignmentViewModel(stubIDialogService, null, null, null);
             studentAssignmentViewModel.StudentAssignment = new StudentAssignment {
                 Solution = "not a url",
                 Homework = new Homework {Deadline = DateTime.MaxValue}
@@ -216,7 +221,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var studentAssignmentViewModel =
                 new StudentAssignmentViewModel(stubIDialogService,
-                    stubIStudentAssignmentService, null);
+                    stubIStudentAssignmentService, null, null);
             studentAssignmentViewModel.RefreshCommand.Execute(null);
 
             Assert.IsFalse(dialogShown);
@@ -243,7 +248,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var studentAssignmentViewModel =
                 new StudentAssignmentViewModel(stubIDialogService,
-                    stubIStudentService, null);
+                    stubIStudentService, null, null);
             studentAssignmentViewModel.RefreshCommand.Execute(null);
 
             Assert.IsFalse(dialogShown);
@@ -278,7 +283,7 @@ namespace UvpClient.UnitTest.ViewModels {
 
             var studentAssignmentViewModel =
                 new StudentAssignmentViewModel(stubIDialogService,
-                    stubIStudentAssignmentService, null);
+                    stubIStudentAssignmentService, null, null);
             studentAssignmentViewModel.RefreshCommand.Execute(null);
 
             Assert.IsTrue(dialogShown);

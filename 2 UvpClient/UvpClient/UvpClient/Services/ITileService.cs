@@ -13,5 +13,10 @@
         ///     强制更新。
         /// </summary>
         void ForceUpdate();
+
+        /// <summary>
+        ///     重置更新。
+        /// </summary>
+        void Reset();
     }
 }
