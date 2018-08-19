@@ -105,6 +105,7 @@
     <Compile Include="ViewModels\LoginViewModelTest.cs" />
     <Compile Include="ViewModels\MeViewModelTest.cs" />
     <Compile Include="ViewModels\MyUvpViewModelTest.cs" />
+    <Compile Include="ViewModels\PeerWorkGroupEvaluationViewModelTest.cs" />
     <Compile Include="ViewModels\StudentAssignmentViewModelTest.cs" />
     <Compile Include="ViewModels\VoteViewModelTest.cs" />
   </ItemGroup>

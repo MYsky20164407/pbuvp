@@ -9,6 +9,11 @@ namespace UvpClient.ViewModels {
     /// </summary>
     public class PeerWorkGroupEvaluationViewModel : ViewModelBase {
         /// <summary>
+        /// 组内自评/互评表已提交信息。
+        /// </summary>
+        public static string PeerWorkGroupEvaluationSubmittedMessage = "";
+
+        /// <summary>
         ///     对话框服务。
         /// </summary>
         private readonly IDialogService _dialogService;
@@ -73,9 +78,41 @@ namespace UvpClient.ViewModels {
         ///     提交命令。
         /// </summary>
         public RelayCommand SubmitCommand =>
-            _submitCommand ??
-            (_submitCommand = new RelayCommand(async () => {
-                // TODO
-            }));
+            _submitCommand ?? (_submitCommand = new RelayCommand(async () => {
+                Submitting = true;
+                _submitCommand.RaiseCanExecuteChanged();
+                var serviceResult =
+                    await _peerWorkGroupEvaluationService.SubmitAsync(
+                        PeerWorkGroupEvaluation);
+                Submitting = false;
+                _submitCommand.RaiseCanExecuteChanged();
+
+                switch (serviceResult.Status) {
+                    case ServiceResultStatus.Unauthorized:
+                    case ServiceResultStatus.Forbidden:
+                        break;
+                    case ServiceResultStatus.NoContent:
+                        await _dialogService.ShowAsync(
+                            PeerWorkGroupEvaluationSubmittedMessage);
+                        _tileService.ForceUpdate();
+                        _navigationService.GoBack();
+                        break;
+                    case ServiceResultStatus.BadRequest:
+                        await _dialogService.ShowAsync(serviceResult.Message);
+                        break;
+                    default:
+                        await _dialogService.ShowAsync(
+                            App.HttpClientErrorMessage + serviceResult.Message);
+                        break;
+                }
+            }, () => !Submitting));
+
+        /// <summary>
+        /// 正在提交。
+        /// </summary>
+        public bool Submitting {
+            get => _submitting;
+            set => Set(nameof(Submitting), ref _submitting, value);
+        }
     }
 }

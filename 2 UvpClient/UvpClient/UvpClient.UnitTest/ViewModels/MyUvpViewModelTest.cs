@@ -22,7 +22,7 @@ namespace UvpClient.UnitTest.ViewModels {
             stubITileService.Reset(() => resetRequest = true);
 
             var myUvpViewModel = new MyUvpViewModel(null, null, null,
-                stubIIdentityService, null);
+                stubIIdentityService, stubITileService);
             myUvpViewModel.SignOutCommand.Execute(null);
 
             Assert.IsTrue(logoutRequest);
@@ -238,7 +238,8 @@ namespace UvpClient.UnitTest.ViewModels {
             stubITileService.SetUpdate(studentId => studentIdSet = studentId);
 
             var myUvpViewModel = new MyUvpViewModel(myUvpService,
-                stubDialogService, stubRootNavigationService, null, null);
+                stubDialogService, stubRootNavigationService, null,
+                stubITileService);
             myUvpViewModel.RefreshCommand.Execute(null);
 
             Assert.IsFalse(rootFrameNavigated);

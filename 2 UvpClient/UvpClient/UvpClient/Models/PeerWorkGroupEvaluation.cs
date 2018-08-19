@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.Text;
+using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
 
 namespace UvpClient.Models {
