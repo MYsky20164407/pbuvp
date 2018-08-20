@@ -11,7 +11,8 @@ namespace UvpClient.ViewModels {
         /// <summary>
         /// 组内自评/互评表已提交信息。
         /// </summary>
-        public static string PeerWorkGroupEvaluationSubmittedMessage = "";
+        public static string PeerWorkGroupEvaluationSubmittedMessage =
+            "Your evaluation has been submitted.";
 
         /// <summary>
         ///     对话框服务。

@@ -2,7 +2,9 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using GalaSoft.MvvmLight.Ioc;
 using UvpClient.Models;
+using UvpClient.Services;
 using UvpClient.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -36,6 +38,9 @@ namespace UvpClient.Pages {
                 SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested +=
                 SystemNavigationManagerOnBackRequested;
+
+            SimpleIoc.Default.GetInstance<ILogService>()
+                .Log(nameof(StudentAssignmentPage));
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e) {
@@ -57,7 +62,8 @@ namespace UvpClient.Pages {
             Frame.GoBack();
         }
 
-        private void MarkdownTextBlock_OnLoaded(object sender, RoutedEventArgs e) {
+        private void MarkdownTextBlock_OnLoaded(object sender,
+            RoutedEventArgs e) {
             MarkdownTextBlock.UriPrefix = App.ServerEndpoint;
         }
     }

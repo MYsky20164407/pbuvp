@@ -9,11 +9,11 @@ namespace UvpClient.Models {
     public class PeerWorkGroupEvaluation : ObservableObject {
         private bool _q1;
 
-        private int _q2;
+        private int _q2 = 1;
 
-        private int _q3;
+        private int _q3 = 1;
 
-        private int _q4;
+        private int _q4 = 1;
 
         private int _q5;
 

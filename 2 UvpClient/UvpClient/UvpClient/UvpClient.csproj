@@ -164,6 +164,7 @@
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\IGroupAssignmentService.cs" />
     <Compile Include="Services\IIdentityService.cs" />
+    <Compile Include="Services\ILogService.cs" />
     <Compile Include="Services\IMyUvpService.cs" />
     <Compile Include="Services\IPeerWorkGroupEvaluationService.cs" />
     <Compile Include="Services\IRootNavigationService.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Services\IStudentService.cs" />
     <Compile Include="Services\ITileService.cs" />
     <Compile Include="Services\IVoteService.cs" />
+    <Compile Include="Services\LogService.cs" />
     <Compile Include="Services\MyUvpService.cs" />
     <Compile Include="Services\PeerWorkGroupEvaluationService.cs" />
     <Compile Include="Services\ServiceResult.cs" />
@@ -278,6 +280,9 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.5</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Services.Store.Engagement">
+      <Version>10.1711.28001</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
       <Version>3.0.0</Version>
     </PackageReference>
@@ -296,6 +301,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Design\" />
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="Microsoft.Services.Store.Engagement, Version=10.0">
+      <Name>Microsoft Engagement Framework</Name>
+    </SDKReference>
+    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
+      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

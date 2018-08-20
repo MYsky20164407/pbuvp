@@ -3,7 +3,9 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using GalaSoft.MvvmLight.Ioc;
 using UvpClient.Models;
+using UvpClient.Services;
 using UvpClient.ViewModels;
 
 namespace UvpClient.Pages {
@@ -22,6 +24,8 @@ namespace UvpClient.Pages {
             var myUvpViewModel = (MyUvpViewModel) DataContext;
             if (myUvpViewModel.MyUvp == null)
                 myUvpViewModel.RefreshCommand.Execute(null);
+
+            SimpleIoc.Default.GetInstance<ILogService>().Log(nameof(MyUvpPage));
         }
 
         private void StudentAssignmentListView_OnItemClick(object sender,

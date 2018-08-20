@@ -119,7 +119,7 @@
                                Text="1 being poor, 2 being average, 3 being above average" />
                     <Slider Minimum="1"
                             Maximum="3"
-                            Value="{Binding PeerWorkGroupEvaluation.Q2, Mode=TwoWay}"
+                            Value="{Binding PeerWorkGroupEvaluation.Q2, Mode=TwoWay, FallbackValue=1}"
                             Width="320"
                             HorizontalAlignment="Left" />
                 </StackPanel>

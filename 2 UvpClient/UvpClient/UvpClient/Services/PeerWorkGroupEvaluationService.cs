@@ -33,11 +33,27 @@ namespace UvpClient.Services {
         /// <returns>服务结果。</returns>
         public async Task<ServiceResult> SubmitAsync(
             PeerWorkGroupEvaluation peerWorkGroupEvaluation) {
+            var workGroupEvaluationToSubmit = new PeerWorkGroupEvaluation {
+                ID = peerWorkGroupEvaluation.ID,
+                StudentID = peerWorkGroupEvaluation.StudentID,
+                TargetID = peerWorkGroupEvaluation.TargetID,
+                Finished = peerWorkGroupEvaluation.Finished,
+                Q1 = peerWorkGroupEvaluation.Q1,
+                Q2 = peerWorkGroupEvaluation.Q2,
+                Q3 = peerWorkGroupEvaluation.Q3,
+                Q4 = peerWorkGroupEvaluation.Q4,
+                Q5 = peerWorkGroupEvaluation.Q5,
+                Q6 = peerWorkGroupEvaluation.Q6,
+                Q7 = peerWorkGroupEvaluation.Q7,
+                Q8 = peerWorkGroupEvaluation.Q8, Q9 = peerWorkGroupEvaluation.Q9
+            };
+
             var identifiedHttpMessageHandler =
                 _identityService.GetIdentifiedHttpMessageHandler();
             using (var httpClient =
                 new HttpClient(identifiedHttpMessageHandler)) {
-                var json = JsonConvert.SerializeObject(peerWorkGroupEvaluation);
+                var json =
+                    JsonConvert.SerializeObject(workGroupEvaluationToSubmit);
                 HttpResponseMessage response;
                 try {
                     response = await httpClient.PutAsync(

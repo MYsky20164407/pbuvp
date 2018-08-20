@@ -34,6 +34,7 @@ namespace UvpClient.ViewModels {
                 .Register<IPeerWorkGroupEvaluationService,
                     PeerWorkGroupEvaluationService>();
             SimpleIoc.Default.Register<ITileService, TileService>();
+            SimpleIoc.Default.Register<ILogService, LogService>();
 
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<BindingViewModel>();
