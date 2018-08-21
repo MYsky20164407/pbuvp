@@ -8,8 +8,34 @@
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PrivacyDataStackPanel.(RelativePanel.RightOf)"
+                                Value="BackButton" />
+                        <Setter Target="PrivacyDataStackPanel.(RelativePanel.AlignHorizontalCenterWithPanel)"
+                                Value="False" />
+                        <Setter Target="PrivacyDataStackPanel.(RelativePanel.AlignLeftWithPanel)"
+                                Value="False" />
+                        <Setter Target="PrivacyDataStackPanel.(RelativePanel.AlignRightWithPanel)"
+                                Value="False" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1248" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <RelativePanel Grid.Row="0">
@@ -18,6 +44,45 @@
                     RelativePanel.AlignLeftWithPanel="True"
                     Name="BackButton"
                     Click="BackButton_OnClick" />
+            <StackPanel Padding="12,12,12,0"
+                        MaxWidth="1148"
+                        MinWidth="320"
+                        Name="PrivacyDataStackPanel"
+                        RelativePanel.AlignHorizontalCenterWithPanel="True"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"
+                        Orientation="Horizontal">
+                <TextBlock Text="privacy data"
+                           Style="{ThemeResource SubheaderTextBlockStyle}" />
+            </StackPanel>
         </RelativePanel>
+
+        <ScrollViewer Grid.Row="1"
+                      HorizontalScrollMode="Disabled"
+                      HorizontalAlignment="Stretch"
+                      MinWidth="320"
+                      MaxWidth="1204">
+            <Grid Padding="40,12,40,40"
+                  HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0"
+                            Margin="0,0,0,24"
+                            Orientation="Horizontal">
+                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
+                               Text="These are the privacy data we have collected:" />
+                    <ProgressRing Margin="8,0,0,0"
+                                  IsEnabled="{Binding Loading}"
+                                  IsActive="{Binding Loading}" />
+                </StackPanel>
+
+                <TextBlock Grid.Row="1"
+                           Text="{Binding PrivacyData.Data}"
+                           Style="{ThemeResource BodyTextBlockStyle}" />
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>

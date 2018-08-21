@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using UvpClient.Models;
 
 namespace UvpClient.Services {
@@ -42,9 +44,27 @@ namespace UvpClient.Services {
                     };
                 }
 
-                // TODO
+                var serviceResult = new ServiceResult<PrivacyData> {
+                    Status =
+                        ServiceResultStatusHelper.FromHttpStatusCode(
+                            response.StatusCode)
+                };
 
-                throw new NotImplementedException();
+                switch (response.StatusCode) {
+                    case HttpStatusCode.Unauthorized:
+                    case HttpStatusCode.Forbidden:
+                        break;
+                    case HttpStatusCode.OK:
+                        var json = await response.Content.ReadAsStringAsync();
+                        serviceResult.Result =
+                            JsonConvert.DeserializeObject<PrivacyData>(json);
+                        break;
+                    default:
+                        serviceResult.Message = response.ReasonPhrase;
+                        break;
+                }
+
+                return serviceResult;
             }
         }
     }

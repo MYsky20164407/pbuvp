@@ -45,6 +45,7 @@ namespace UvpClient.ViewModels {
             SimpleIoc.Default.Register<GroupAssignmentViewModel>();
             SimpleIoc.Default.Register<VoteViewModel>();
             SimpleIoc.Default.Register<PeerWorkGroupEvaluationViewModel>();
+            SimpleIoc.Default.Register<PrivacyDataViewModel>();
         }
 
         /// <summary>
@@ -101,5 +102,11 @@ namespace UvpClient.ViewModels {
         public PeerWorkGroupEvaluationViewModel
             PeerWorkGroupEvaluationViewModel =>
             SimpleIoc.Default.GetInstance<PeerWorkGroupEvaluationViewModel>();
+
+        /// <summary>
+        ///     隐私数据ViewModel。
+        /// </summary>
+        public PrivacyDataViewModel PrivacyDataViewModel =>
+            SimpleIoc.Default.GetInstance<PrivacyDataViewModel>();
     }
 }

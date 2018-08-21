@@ -190,6 +190,7 @@
     <Compile Include="ViewModels\MeViewModel.cs" />
     <Compile Include="ViewModels\MyUvpViewModel.cs" />
     <Compile Include="ViewModels\PeerWorkGroupEvaluationViewModel.cs" />
+    <Compile Include="ViewModels\PrivacyDataViewModel.cs" />
     <Compile Include="ViewModels\StudentAssignmentViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="ViewModels\VoteViewModel.cs" />
