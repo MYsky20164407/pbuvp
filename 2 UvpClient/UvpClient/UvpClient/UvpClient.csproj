@@ -167,6 +167,7 @@
     <Compile Include="Services\ILogService.cs" />
     <Compile Include="Services\IMyUvpService.cs" />
     <Compile Include="Services\IPeerWorkGroupEvaluationService.cs" />
+    <Compile Include="Services\IPrivacyDataService.cs" />
     <Compile Include="Services\IRootNavigationService.cs" />
     <Compile Include="Services\IStudentAssignmentService.cs" />
     <Compile Include="Services\IStudentService.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Services\LogService.cs" />
     <Compile Include="Services\MyUvpService.cs" />
     <Compile Include="Services\PeerWorkGroupEvaluationService.cs" />
+    <Compile Include="Services\PrivacyDataService.cs" />
     <Compile Include="Services\ServiceResult.cs" />
     <Compile Include="Services\RootNavigationService.cs" />
     <Compile Include="Services\StudentAssignmentService.cs" />
