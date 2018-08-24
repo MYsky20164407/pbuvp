@@ -527,6 +527,33 @@
                         </ListView>
                     </Grid>
                 </Grid>
+
+                <Grid Grid.Row="4">
+                    <StackPanel>
+                        <TextBlock Text="universal visual programming"
+                                   Style="{ThemeResource BaseTextBlockStyle}"
+                                   Margin="0,0,0,8" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="visit us (including privacy notes) at"
+                                       Style="{ThemeResource BodyTextBlockStyle}"
+                                       VerticalAlignment="Center" />
+                            <HyperlinkButton Content="http://uvp.neu.edu.cn"
+                                             NavigateUri="http://uvp.neu.edu.cn"
+                                             Margin="4,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                                       VerticalAlignment="Center">
+                                <Run Text="source code" /><Run Text="s" /><Run Text=" available at" />
+                            </TextBlock>
+                            <HyperlinkButton Content="https://github.com/zhangyin-github/pbuvp"
+                                             NavigateUri="https://github.com/zhangyin-github/pbuvp"
+                                             Margin="4,0,0,0" />
+                        </StackPanel>
+                        <HyperlinkButton Content="what data you have collected?"
+                                         Command="{Binding OpenPrivacyDataCommand}" />
+                    </StackPanel>
+                </Grid>
             </Grid>
         </Grid>
     </ScrollViewer>
